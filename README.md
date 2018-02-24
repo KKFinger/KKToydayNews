@@ -5,10 +5,7 @@
 
 
 
-![image](https://github.com/KKFinger/KKToydayNews/blob/master/截图/1.gif)
-
-
-![image](https://github.com/KKFinger/KKToydayNews/blob/master/截图/2.gif)
+![image](https://github.com/KKFinger/KKToydayNews/blob/master/截图/1.gif)       ![image](https://github.com/KKFinger/KKToydayNews/blob/master/截图/2.gif)
 
 
 ![image](https://github.com/KKFinger/KKToydayNews/blob/master/截图/3.gif)
