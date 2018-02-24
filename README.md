@@ -20,3 +20,33 @@
 ![image](https://github.com/KKFinger/KKToydayNews/blob/master/截图/5.gif)  
 
 
+![image](https://github.com/KKFinger/KKToydayNews/blob/master/截图/6.gif)  
+
+
+![image](https://github.com/KKFinger/KKToydayNews/blob/master/截图/7.gif)  
+
+
+![image](https://github.com/KKFinger/KKToydayNews/blob/master/截图/8.gif)  
+
+
+![image](https://github.com/KKFinger/KKToydayNews/blob/master/截图/9.gif)  
+
+
+![image](https://github.com/KKFinger/KKToydayNews/blob/master/截图/10.gif)  
+
+
+![image](https://github.com/KKFinger/KKToydayNews/blob/master/截图/11.gif)  
+
+
+![image](https://github.com/KKFinger/KKToydayNews/blob/master/截图/12.gif)  
+
+
+![image](https://github.com/KKFinger/KKToydayNews/blob/master/截图/13.gif)  
+
+
+![image](https://github.com/KKFinger/KKToydayNews/blob/master/截图/14.gif) 
+
+
+
+
+
