@@ -1,14 +1,15 @@
 # KKToydayNews
 模仿今日头条，界面上展示的所有数据都捉包自今日头条的服务器，捉包工具使用的Charles<br />
 
-#实现的功能模块:
+#实现的功能模块:<br />
 <br />首页<br />
 <br />西瓜视频<br />
 <br />小视频<br />
 <br />微头条<br />
 <br />个人中心等模块<br />
-
-#具体实现的功能:
+<br />
+<br />
+#具体实现的功能:<br />
 <br />播放视频<br />
 <br />浏览新闻详情<br />
 <br />图片新闻详情<br />
@@ -19,7 +20,9 @@
 <br />主页界面<br />
 <br />发布图片、录制视频、编辑视频封面等<br />
 
-
+<br />
+<br />
+<br />
 
 ![image](https://github.com/KKFinger/KKToydayNews/blob/master/截图/1.PNG)   ![image](https://github.com/KKFinger/KKToydayNews/blob/master/截图/2.PNG)
 
