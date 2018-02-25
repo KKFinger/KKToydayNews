@@ -2627,7 +2627,7 @@
 					"-framework",
 					"\"WebP\"",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.ios.fortest;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kkfinger.kktodaynews;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -2717,7 +2717,7 @@
 					"-framework",
 					"\"WebP\"",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.ios.fortest;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kkfinger.kktodaynews;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
