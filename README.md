@@ -5,46 +5,34 @@
 
 
 
-![image](https://github.com/KKFinger/KKToydayNews/blob/master/截图/1.gif) 
+![image](https://github.com/KKFinger/KKToydayNews/blob/master/截图/1.PNG)![image](https://github.com/KKFinger/KKToydayNews/blob/master/截图/2.PNG)
 
 
-![image](https://github.com/KKFinger/KKToydayNews/blob/master/截图/2.gif)
+![image](https://github.com/KKFinger/KKToydayNews/blob/master/截图/3.PNG)![image](https://github.com/KKFinger/KKToydayNews/blob/master/截图/4.PNG)
 
 
-![image](https://github.com/KKFinger/KKToydayNews/blob/master/截图/3.gif)
+![image](https://github.com/KKFinger/KKToydayNews/blob/master/截图/5.PNG)![image](https://github.com/KKFinger/KKToydayNews/blob/master/截图/6.PNG)  
 
 
-![image](https://github.com/KKFinger/KKToydayNews/blob/master/截图/4.gif)
+![image](https://github.com/KKFinger/KKToydayNews/blob/master/截图/7.PNG)![image](https://github.com/KKFinger/KKToydayNews/blob/master/截图/8.PNG)  
 
 
-![image](https://github.com/KKFinger/KKToydayNews/blob/master/截图/5.gif)  
+![image](https://github.com/KKFinger/KKToydayNews/blob/master/截图/9.PNG)![image](https://github.com/KKFinger/KKToydayNews/blob/master/截图/10.PNG)  
 
 
-![image](https://github.com/KKFinger/KKToydayNews/blob/master/截图/6.gif)  
+![image](https://github.com/KKFinger/KKToydayNews/blob/master/截图/11.PNG)![image](https://github.com/KKFinger/KKToydayNews/blob/master/截图/12.PNG)  
 
 
-![image](https://github.com/KKFinger/KKToydayNews/blob/master/截图/7.gif)  
+![image](https://github.com/KKFinger/KKToydayNews/blob/master/截图/13.PNG)![image](https://github.com/KKFinger/KKToydayNews/blob/master/截图/14.PNG) 
 
 
-![image](https://github.com/KKFinger/KKToydayNews/blob/master/截图/8.gif)  
+![image](https://github.com/KKFinger/KKToydayNews/blob/master/截图/15.PNG)![image](https://github.com/KKFinger/KKToydayNews/blob/master/截图/16.PNG) 
 
 
-![image](https://github.com/KKFinger/KKToydayNews/blob/master/截图/9.gif)  
+![image](https://github.com/KKFinger/KKToydayNews/blob/master/截图/17.PNG)![image](https://github.com/KKFinger/KKToydayNews/blob/master/截图/18.PNG) 
 
 
-![image](https://github.com/KKFinger/KKToydayNews/blob/master/截图/10.gif)  
-
-
-![image](https://github.com/KKFinger/KKToydayNews/blob/master/截图/11.gif)  
-
-
-![image](https://github.com/KKFinger/KKToydayNews/blob/master/截图/12.gif)  
-
-
-![image](https://github.com/KKFinger/KKToydayNews/blob/master/截图/13.gif)  
-
-
-![image](https://github.com/KKFinger/KKToydayNews/blob/master/截图/14.gif) 
+![image](https://github.com/KKFinger/KKToydayNews/blob/master/截图/19.PNG)![image](https://github.com/KKFinger/KKToydayNews/blob/master/截图/20.PNG) 
 
 
 
