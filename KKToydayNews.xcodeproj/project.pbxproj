@@ -2159,7 +2159,7 @@
 				TargetAttributes = {
 					51DFEE581F370E3700339C7B = {
 						CreatedOnToolsVersion = 8.3;
-						DevelopmentTeam = MDQZTEYSXR;
+						DevelopmentTeam = 69U78V53ZN;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.ApplePay = {
@@ -2553,7 +2553,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = MDQZTEYSXR;
+				DEVELOPMENT_TEAM = 69U78V53ZN;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/KKToydayNews/Class/Utils/KKThirdTools/KKThirdLibrary/TencentOpenApi",
@@ -2643,7 +2643,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = MDQZTEYSXR;
+				DEVELOPMENT_TEAM = 69U78V53ZN;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/KKToydayNews/Class/Utils/KKThirdTools/KKThirdLibrary/TencentOpenApi",
