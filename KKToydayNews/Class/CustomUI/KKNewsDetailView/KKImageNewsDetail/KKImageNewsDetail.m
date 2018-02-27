@@ -162,7 +162,7 @@ static NSString *cellReuseIdentifier = @"cellReuseIdentifier";
     for(KKImageItem *item in self.imageArray){
         if(!item.attriTextData){
             item.attriTextData = [KKAttriTextData new];
-            item.attriTextData.textFont = [UIFont systemFontOfSize:16];
+            item.attriTextData.textFont = (iPhone5)?[UIFont systemFontOfSize:15]:[UIFont systemFontOfSize:16];
             item.attriTextData.lineSpace = 2 ;
             item.attriTextData.textColor = [UIColor whiteColor];
             item.attriTextData.maxAttriTextWidth = [KKImageDescView descTextWidth];

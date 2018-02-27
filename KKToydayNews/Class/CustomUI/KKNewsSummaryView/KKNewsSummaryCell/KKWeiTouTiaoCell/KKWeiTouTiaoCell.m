@@ -17,8 +17,9 @@
 #define BarViewHeight 35
 #define space 5.0
 #define imageWidthHeight ((([UIScreen mainScreen].bounds.size.width - 2 * kkPaddingNormal) - 2 * space) / perRowImages)
-#define ContentTextFont [UIFont systemFontOfSize:17]
 #define descLabelHeight 13
+
+static UIFont *contentTextFont = nil ;
 
 @interface KKWeiTouTiaoCell ()<KKCommonDelegate,KKWeiTouTiaoHeadViewDelegate>
 @property(nonatomic,readwrite)UIView *bgView ;
@@ -324,15 +325,18 @@
 
 + (void)initAttriTextData:(KKSummaryContent *)item{
     if(item.attriTextData == nil ){
+        if(!contentTextFont){
+            contentTextFont = [UIFont systemFontOfSize:(iPhone5)?16:17];
+        }
         item.attriTextData = [KKAttriTextData new];
         item.attriTextData.lineSpace = 3 ;
         item.attriTextData.textColor = [UIColor kkColorBlack];
         item.attriTextData.lineBreak = NSLineBreakByCharWrapping;
         item.attriTextData.originalText = item.content;
         item.attriTextData.maxAttriTextWidth = [UIScreen mainScreen].bounds.size.width - 2 * kkPaddingNormal ;
-        item.attriTextData.textFont = ContentTextFont ;
-        if(item.attriTextData.attriTextHeight >= 6 * ContentTextFont.lineHeight + 6 * item.attriTextData.lineSpace){
-            item.attriTextData.attriTextHeight = 6 * ContentTextFont.lineHeight + 6 * item.attriTextData.lineSpace;
+        item.attriTextData.textFont = contentTextFont ;
+        if(item.attriTextData.attriTextHeight >= 6 * contentTextFont.lineHeight + 6 * item.attriTextData.lineSpace){
+            item.attriTextData.attriTextHeight = 6 * contentTextFont.lineHeight + 6 * item.attriTextData.lineSpace;
         }
     }
 }
@@ -475,10 +479,10 @@
         _contentTextView = ({
             UILabel *view = [UILabel new];
             view.textColor = [UIColor blackColor];
-            view.font = ContentTextFont;
             view.textAlignment = NSTextAlignmentLeft;
             view.lineBreakMode = NSLineBreakByTruncatingTail;
             view.numberOfLines = 0 ;
+            view.font = contentTextFont;
             view ;
         });
     }

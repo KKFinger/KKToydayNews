@@ -197,8 +197,9 @@ objc_setAssociatedObject(self, @selector( propertyGetter ), valueObj, OBJC_ASSOC
 
 #define KKUserFavSectionData @"KKUserFavSectionData"//保存用户感兴趣的板块
 #define KKXiGuaSectionData @"KKXiGuaSectionData"//西瓜视频模块的section
+
 //标题的字体
-#define KKTitleFont [UIFont systemFontOfSize:18]
+#define KKTitleFont [UIFont systemFontOfSize:(iPhone5)?17:18]
 //详情的字体
 #define KKDescFont [UIFont systemFontOfSize:11]
 

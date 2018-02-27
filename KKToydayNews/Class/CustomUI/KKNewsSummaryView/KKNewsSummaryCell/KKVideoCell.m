@@ -14,6 +14,8 @@
 #define ButtonHeight 30
 #define ImageViewHeight (UIDeviceScreenWidth * 4 / 7.0 )
 
+static UIFont *titleFont = nil ;
+
 @interface KKVideoCell ()
 @property(nonatomic,strong,readwrite)UIView *contentMaskView;
 @property(nonatomic,strong)UIImageView *largeImgView;
@@ -60,6 +62,12 @@
     [self.contentMaskView addSubview:self.moreBtn];
     [self.contentMaskView addSubview:self.splitView];
     [self.contentMaskView.layer insertSublayer:self.gradientLayer below:self.titleLabel.layer];
+    
+    if(iPhone5){
+        titleFont = [UIFont systemFontOfSize:17 weight:0.3];
+    }else{
+        titleFont = [UIFont systemFontOfSize:18 weight:0.3];
+    }
     
     self.gradientLayer.frame = CGRectMake(0, 0, UIDeviceScreenWidth, ImageViewHeight);
     
@@ -230,7 +238,7 @@
         item.attriTextData.lineBreak = NSLineBreakByWordWrapping;
         item.attriTextData.originalText = item.title;
         item.attriTextData.maxAttriTextWidth = [UIScreen mainScreen].bounds.size.width - 2 * kkPaddingNormal ;
-        item.attriTextData.textFont = [UIFont systemFontOfSize:18 weight:0.3] ;
+        item.attriTextData.textFont = titleFont ;
     }
 }
 
