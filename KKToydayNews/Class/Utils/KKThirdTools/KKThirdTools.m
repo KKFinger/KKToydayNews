@@ -58,6 +58,10 @@
         [[KKWXTool shareInstance]shareVideo:obj.title desc:obj.desc linkUrl:obj.linkUrl thumbImage:obj.thumbImage scene:scene complete:callback];
     }else if(obj.shareType == KKShareContentTypeWebLink){
         [[KKWXTool shareInstance]shareLink:obj.title desc:obj.desc linkUrl:obj.linkUrl thumbImage:obj.thumbImage scene:scene complete:callback];
+    }else{
+        if(callback){
+            callback(KKErrorCodeUnsupport,@"不支持的分享");
+        }
     }
 }
 
@@ -83,6 +87,8 @@
         [[KKQQTool shareInstance]shareVideo:obj.title desc:obj.desc linkUrl:obj.linkUrl thumbImage:obj.thumbImage scene:scene complete:callback];
     }else if(obj.shareType == KKShareContentTypeWebLink){
         [[KKQQTool shareInstance]shareLink:obj.title desc:obj.desc linkUrl:obj.linkUrl thumbImage:obj.thumbImage scene:scene complete:callback];
+    }if(callback){
+        callback(KKErrorCodeUnsupport,@"不支持的分享");
     }
 }
 
@@ -105,7 +111,7 @@
         [[KKWeiBoTool shareInstance]shareLink:obj.title desc:obj.desc linkUrl:obj.linkUrl thumbImage:obj.thumbImage complete:callback];
     }else{
         if(callback){
-            callback(KKErrorCodeFail,@"分享失败");
+            callback(KKErrorCodeUnsupport,@"不支持的分享");
         }
     }
 }
@@ -136,6 +142,10 @@
 + (void)paymentWithPlatform:(KKThirdPlatform)platform payInfo:(KKWXPayObject *)payInfo complete:(complateCallback)callback{
     if(platform == KKThirdPlatformWX){
         [[KKWXTool shareInstance]payWithObject:payInfo complete:callback];
+    }else{
+        if(callback){
+            callback(KKErrorCodeUnsupport,@"暂不支持");
+        }
     }
 }
 
