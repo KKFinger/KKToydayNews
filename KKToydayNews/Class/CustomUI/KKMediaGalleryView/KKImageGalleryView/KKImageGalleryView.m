@@ -608,6 +608,15 @@ static CGFloat space = 1.0 ;
             view.separatorStyle = UITableViewCellSeparatorStyleNone ;
             view.tableFooterView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 0, -1)];
             [view registerClass:[KKAlbumCell class] forCellReuseIdentifier:albumCellIdentifier];
+            
+            //iOS11 reloadData界面乱跳bug
+            view.estimatedRowHeight = 0;
+            view.estimatedSectionHeaderHeight = 0;
+            view.estimatedSectionFooterHeight = 0;
+            if(IOS11_OR_LATER){
+                KKAdjustsScrollViewInsets(view);
+            }
+            
             view ;
         });
     }

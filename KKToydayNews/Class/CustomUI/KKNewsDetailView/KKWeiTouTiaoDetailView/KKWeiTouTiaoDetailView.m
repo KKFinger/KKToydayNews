@@ -353,6 +353,14 @@ static NSString *commentCellReuseable = @"commentCellReuseable";
             [footer setActivityIndicatorViewStyle:UIActivityIndicatorViewStyleGray];
             [view setMj_footer:footer];
             
+            //iOS11 reloadData界面乱跳bug
+            view.estimatedRowHeight = 0;
+            view.estimatedSectionHeaderHeight = 0;
+            view.estimatedSectionFooterHeight = 0;
+            if(IOS11_OR_LATER){
+                KKAdjustsScrollViewInsets(view);
+            }
+            
             view ;
         });
     }

@@ -195,6 +195,15 @@ static NSString *cellReuseIdentifier = @"cellReuseIdentifier";
             view.contentInset = UIEdgeInsetsMake(self.headerViewHeight, 0, 0, 0);
             view.contentOffset = CGPointMake(0, -self.headerViewHeight);
             [view registerClass:[UITableViewCell class] forCellReuseIdentifier:cellReuseIdentifier];
+            
+            //iOS11 reloadData界面乱跳bug
+            view.estimatedRowHeight = 0;
+            view.estimatedSectionHeaderHeight = 0;
+            view.estimatedSectionFooterHeight = 0;
+            if(IOS11_OR_LATER){
+                KKAdjustsScrollViewInsets(view);
+            }
+            
             view ;
         });
     }

@@ -217,6 +217,15 @@ static CGFloat cornerRadius = 15 ;
             view.bounces = NO ;
             view.backgroundColor = [UIColor clearColor];
             [view registerClass:[KKActionSheetCell class] forCellReuseIdentifier:cellReuseIdentifier];
+            
+            //iOS11 reloadData界面乱跳bug
+            view.estimatedRowHeight = 0;
+            view.estimatedSectionHeaderHeight = 0;
+            view.estimatedSectionFooterHeight = 0;
+            if(IOS11_OR_LATER){
+                KKAdjustsScrollViewInsets(view);
+            }
+            
             view ;
         });
     }
