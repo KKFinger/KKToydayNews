@@ -51,10 +51,12 @@
         [attriStr setAttributedString:[[NSAttributedString alloc]initWithString:comment attributes:nil]];
         [attriStr addAttribute:NSForegroundColorAttributeName value:self.textColor range:range];
         [attriStr addAttribute:NSFontAttributeName value:self.textFont range:range];
+        
         NSMutableParagraphStyle *paraStyle = [[NSMutableParagraphStyle alloc] init];
         paraStyle.lineSpacing = self.lineSpace;
         paraStyle.alignment = self.alignment;
         [attriStr addAttribute:NSParagraphStyleAttributeName value:paraStyle range:range];
+        
         _attriText = attriStr;
     }
     return _attriText;
