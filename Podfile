@@ -4,7 +4,7 @@ platform :ios, '8.0'
 
 target 'KKToydayNews' do
     pod 'Masonry'
-    pod 'ReactiveCocoa'
+    pod 'ReactiveCocoa','~>2.5'
     pod 'MJRefresh'
     pod 'MBProgressHUD'
     pod 'MJExtension'
