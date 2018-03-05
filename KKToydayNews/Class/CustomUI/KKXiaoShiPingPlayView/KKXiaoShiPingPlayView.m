@@ -180,13 +180,14 @@
     [backButton addTarget:self action:@selector(dismissVideoPlayView) forControlEvents:UIControlEventTouchUpInside];
     self.navTitleView.leftBtns = @[backButton];
     self.navTitleView.splitView.hidden = YES ;
+    self.navTitleView.contentOffsetY = 5 ;
     
     self.navAuthorView.showDetailLabel = NO ;
     self.navAuthorView.headerSize = CGSizeMake(30, 30);
     [self.navTitleView addSubview:self.navAuthorView];
     [self.navAuthorView mas_updateConstraints:^(MASConstraintMaker *make) {
         make.centerX.mas_equalTo(self.navTitleView);
-        make.centerY.mas_equalTo(self.navTitleView);
+        make.centerY.mas_equalTo(self.navTitleView).mas_offset(5);
         make.width.mas_equalTo(200);
         make.height.mas_equalTo(44);
     }];
