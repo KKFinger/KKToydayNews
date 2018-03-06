@@ -476,6 +476,17 @@
                     videoInfo.modifyDate = modifyDate;
                     videoInfo.localIdentifier =  localIdentifier;
                     videoInfo.itemIndex = index ;
+                    
+                    //视频封面，太耗时，暂时舍弃
+                    /*AVAssetImageGenerator *imageGenerator = [AVAssetImageGenerator assetImageGeneratorWithAsset:urlAsset];
+                     imageGenerator.appliesPreferredTrackTransform = YES;
+                     imageGenerator.requestedTimeToleranceBefore = kCMTimeZero;
+                     imageGenerator.requestedTimeToleranceAfter = kCMTimeZero;
+                     NSError * error = nil;
+                     CMTime time = CMTimeMake(0, 10);
+                     CMTime actualTime;
+                     CGImageRef cgImage = [imageGenerator copyCGImageAtTime:time actualTime:&actualTime error:&error];*/
+                    
                     if(handler){
                         handler(YES,videoInfo);
                     }
@@ -540,6 +551,17 @@
                     videoInfo.createDate = createDate;
                     videoInfo.modifyDate = modifyDate;
                     videoInfo.localIdentifier =  localIdentifier;
+                    
+                    //视频封面，太耗时，暂时舍弃
+                    /*AVAssetImageGenerator *imageGenerator = [AVAssetImageGenerator assetImageGeneratorWithAsset:urlAsset];
+                     imageGenerator.appliesPreferredTrackTransform = YES;
+                     imageGenerator.requestedTimeToleranceBefore = kCMTimeZero;
+                     imageGenerator.requestedTimeToleranceAfter = kCMTimeZero;
+                     NSError * error = nil;
+                     CMTime time = CMTimeMake(0, 10);
+                     CMTime actualTime;
+                     CGImageRef cgImage = [imageGenerator copyCGImageAtTime:time actualTime:&actualTime error:&error];*/
+                    
                     if(handler){
                         handler(YES,videoInfo);
                     }
