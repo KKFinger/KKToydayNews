@@ -43,7 +43,7 @@ static NSString *cellReuseIdentifier = @"cellReuseIdentifier";
         self.canScroll = YES ;
         self.enableFreedomDrag = NO ;
         self.enableVerticalDrag = NO ;
-        self.enableHorizonDrag = YES ;
+        self.enableHorizonDrag = NO ;
         self.willDissmissBlock = willDissmissBlock;
     }
     return self;
@@ -73,8 +73,8 @@ static NSString *cellReuseIdentifier = @"cellReuseIdentifier";
     self.headerViewHeight = 280 ;
     self.footerViewHeight = UIDeviceScreenHeight - self.navTitleHeight;
     
+    [self.navTitleView setBackgroundColor:[[UIColor whiteColor]colorWithAlphaComponent:0]];
     [self.dragContentView insertSubview:self.tableView belowSubview:self.navTitleView];
-    self.navTitleView.backgroundColor = [[UIColor whiteColor]colorWithAlphaComponent:0];
     
     self.headerView.frame = CGRectMake(0, -self.headerViewHeight, UIDeviceScreenWidth, self.headerViewHeight);
     [self.tableView addSubview:self.headerView];
@@ -178,15 +178,15 @@ static NSString *cellReuseIdentifier = @"cellReuseIdentifier";
 #pragma mark -- 开始、拖拽中、结束拖拽
 
 - (void)dragBeginWithPoint:(CGPoint)pt{
-    self.tableView.scrollEnabled = NO ;
+//    self.tableView.scrollEnabled = NO ;
 }
 
 - (void)dragingWithPoint:(CGPoint)pt{
-    self.tableView.scrollEnabled = NO ;
+//    self.tableView.scrollEnabled = NO ;
 }
 
 - (void)dragEndWithPoint:(CGPoint)pt shouldHideView:(BOOL)hideView{
-    self.tableView.scrollEnabled = YES ;
+//    self.tableView.scrollEnabled = YES ;
 }
 
 #pragma mark -- UIScrollViewDelegate

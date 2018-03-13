@@ -12,6 +12,7 @@
 #import "KKAppTools.h"
 #import "KKImageZoomView.h"
 #import "KKGalleryPreviewCell.h"
+#import "KKNetworkTool.h"
 
 #define ImageHorizPading 20 //每张图片之间的间距
 #define ImageItemWith (UIDeviceScreenWidth + ImageHorizPading)

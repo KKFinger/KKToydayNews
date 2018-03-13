@@ -235,6 +235,7 @@ httpHeaderField:(NSString *)httpHeaderField
    fileName:(NSString *)fileName
    mimeType:(NSString *)mimeType
     success:(void (^)(id))success
+   progress:(void(^)(NSProgress *uploadProgress,double progressValue))progress
     failure:(void (^)(NSError *))failure{
     
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -249,7 +250,8 @@ httpHeaderField:(NSString *)httpHeaderField
     [manager POST:url parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
         [formData appendPartWithFileData:fileData name:fieldName fileName:fileName mimeType:mimeType];
     } progress:^(NSProgress * _Nonnull uploadProgress) {
-        
+        double progressValue = 1.0 * uploadProgress.completedUnitCount / uploadProgress.totalUnitCount;
+        if (progress) progress(uploadProgress, progressValue);
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
         dispatch_async(dispatch_get_main_queue(), ^{

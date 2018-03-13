@@ -34,10 +34,6 @@ static NSString *cellReuseIdentifier = @"cellReuseIdentifier";
         self.headerViewHeight = 250 ;
     }
     
-    if (IOS11_OR_LATER) {
-        KKAdjustsScrollViewInsets(self.tabelView);
-    }
-    
     [self.dragContentView addSubview:self.tabelView];
     [self.tabelView mas_updateConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(self.dragContentView);

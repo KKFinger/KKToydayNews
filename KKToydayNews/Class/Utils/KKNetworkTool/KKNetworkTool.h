@@ -109,22 +109,24 @@ httpHeaderField:(NSString *)httpHeaderField
  *  向服务器上传文件
  *
  *  @param url       要上传的文件接口
- *  @param parameter 上传的参数
+ *  @param parameters 上传的参数
  *  @param fileData  上传的文件\数据
  *  @param fieldName 服务对应的字段
  *  @param fileName  上传到时服务器的文件名
  *  @param mimeType  上传的文件类型
  *  @param success   成功执行，block的参数为服务器返回的内容
+ *  @param progress  进度
  *  @param failure   执行失败，block的参数为错误信息
  */
-- (void)post:(NSString *)url
-   parameter:(NSDictionary *)parameter
-        data:(NSData *)fileData
-   fieldName:(NSString *)fieldName
-    fileName:(NSString *)fileName
-    mimeType:(NSString *)mimeType
-     success:(void(^)(id responseObject))success
-     failure:(void(^)(NSError *error))failure;
+-(void)post:(NSString *)url
+  parameter:(NSDictionary *)parameters
+       data:(NSData *)fileData
+  fieldName:(NSString *)fieldName
+   fileName:(NSString *)fileName
+   mimeType:(NSString *)mimeType
+    success:(void (^)(id))success
+   progress:(void(^)(NSProgress *uploadProgress,double progressValue))progress
+    failure:(void (^)(NSError *))failure;
 
 /**
  *  下载文件
