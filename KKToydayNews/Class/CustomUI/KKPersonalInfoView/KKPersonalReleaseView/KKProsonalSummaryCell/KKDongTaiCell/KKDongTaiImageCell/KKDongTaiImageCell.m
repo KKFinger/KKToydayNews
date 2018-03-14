@@ -178,15 +178,20 @@
         avatarUrl = @"";
     }
     SDImageCache *imageCache = [SDImageCache sharedImageCache];
-    @weakify(imageCache);
-    [imageCache diskImageExistsWithKey:avatarUrl completion:^(BOOL isInCache) {
-        @strongify(imageCache);
-        if(isInCache){
-            [self.headView setCornerImage:[imageCache imageFromCacheForKey:avatarUrl]];
-        }else{
-            [self.headView setCornerImageWithURL:[NSURL URLWithString:avatarUrl] placeholder:[UIImage imageWithColor:[UIColor grayColor]]];
-        }
-    }];
+    UIImage *image = [imageCache imageFromCacheForKey:avatarUrl] ;
+    if(image){
+        [self.headView setCornerImage:image];
+    }else{
+        @weakify(imageCache);
+        [imageCache diskImageExistsWithKey:avatarUrl completion:^(BOOL isInCache) {
+            @strongify(imageCache);
+            if(isInCache){
+                [self.headView setCornerImage:[imageCache imageFromCacheForKey:avatarUrl]];
+            }else{
+                [self.headView setCornerImageWithURL:[NSURL URLWithString:avatarUrl] placeholder:[UIImage imageWithColor:[UIColor grayColor]]];
+            }
+        }];
+    }
     
     self.nameLabel.text = item.user.screen_name;
     self.dateLabel.text = [NSString stringIntervalSince1970RuleTwo:item.create_time.longLongValue];
@@ -223,16 +228,19 @@
             }];
 
             NSString *url = imageItem.url;
-            SDImageCache *imageCache = [SDImageCache sharedImageCache];
-            @weakify(imageCache);
-            [imageCache diskImageExistsWithKey:url completion:^(BOOL isInCache) {
-                @strongify(imageCache);
-                if(isInCache){
-                    [view setImage:[imageCache imageFromCacheForKey:url]];
-                }else{
-                    [view yy_setImageWithURL:[NSURL URLWithString:url] placeholder:[UIImage imageWithColor:[UIColor grayColor]]];
-                }
-            }];
+            YYImageCache *imageCache = [YYImageCache sharedCache];
+            UIImage *image = [imageCache getImageForKey:url withType:YYImageCacheTypeMemory] ;
+            if(image){
+                [view setImage:image];
+            }else{
+                [imageCache getImageForKey:url withType:YYImageCacheTypeDisk withBlock:^(UIImage * _Nullable image, YYImageCacheType type) {
+                    if(image){
+                        [view setImage:image];
+                    }else{
+                        [view yy_setImageWithURL:[NSURL URLWithString:url] placeholder:[UIImage imageWithColor:[UIColor grayColor]]];
+                    }
+                }];
+            }
             
             self.moreImageView.hidden = YES ;
             
@@ -249,16 +257,19 @@
                     make.height.mas_equalTo(imageWidthHeight);
                 }];
 
-                SDImageCache *imageCache = [SDImageCache sharedImageCache];
-                @weakify(imageCache);
-                [imageCache diskImageExistsWithKey:url completion:^(BOOL isInCache) {
-                    @strongify(imageCache);
-                    if(isInCache){
-                        [view setImage:[imageCache imageFromCacheForKey:url]];
-                    }else{
-                        [view yy_setImageWithURL:[NSURL URLWithString:url] placeholder:[UIImage imageWithColor:[UIColor grayColor]]];
-                    }
-                }];
+                YYImageCache *imageCache = [YYImageCache sharedCache];
+                UIImage *image = [imageCache getImageForKey:url withType:YYImageCacheTypeMemory] ;
+                if(image){
+                    [view setImage:image];
+                }else{
+                    [imageCache getImageForKey:url withType:YYImageCacheTypeDisk withBlock:^(UIImage * _Nullable image, YYImageCacheType type) {
+                        if(image){
+                            [view setImage:image];
+                        }else{
+                            [view yy_setImageWithURL:[NSURL URLWithString:url] placeholder:[UIImage imageWithColor:[UIColor grayColor]]];
+                        }
+                    }];
+                }
             }
             
             self.moreImageView.hidden = YES ;
@@ -278,16 +289,20 @@
                         make.height.mas_equalTo(imageWidthHeight);
                     }];
 
-                    SDImageCache *imageCache = [SDImageCache sharedImageCache];
-                    @weakify(imageCache);
-                    [imageCache diskImageExistsWithKey:url completion:^(BOOL isInCache) {
-                        @strongify(imageCache);
-                        if(isInCache){
-                            [view setImage:[imageCache imageFromCacheForKey:url]];
-                        }else{
-                            [view yy_setImageWithURL:[NSURL URLWithString:url] placeholder:[UIImage imageWithColor:[UIColor grayColor]]];
-                        }
-                    }];
+                    YYImageCache *imageCache = [YYImageCache sharedCache];
+                    UIImage *image = [imageCache getImageForKey:url withType:YYImageCacheTypeMemory] ;
+                    if(image){
+                        [view setImage:image];
+                    }else{
+                        [imageCache getImageForKey:url withType:YYImageCacheTypeDisk withBlock:^(UIImage * _Nullable image, YYImageCacheType type) {
+                            if(image){
+                                [view setImage:image];
+                            }else{
+                                [view yy_setImageWithURL:[NSURL URLWithString:url] placeholder:[UIImage imageWithColor:[UIColor grayColor]]];
+                            }
+                        }];
+                    }
+
                 }else{
                     UIImageView *view = [self.imageViewArray safeObjectAtIndex:i];
                     view.hidden = YES ;

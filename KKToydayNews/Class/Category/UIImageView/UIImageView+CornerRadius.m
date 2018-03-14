@@ -51,11 +51,12 @@ const char kBorderColor;
     CGSize size = self.bounds.size;
     CGFloat scale = [UIScreen mainScreen].scale;
     CGSize cornerRadii = CGSizeMake(cornerRadius, cornerRadius);
-    
+
     UIGraphicsBeginImageContextWithOptions(size, NO, scale);
     if (nil == UIGraphicsGetCurrentContext()) {
-        return;
+        return ;
     }
+
     UIBezierPath *cornerPath = [UIBezierPath bezierPathWithRoundedRect:self.bounds byRoundingCorners:rectCornerType cornerRadii:cornerRadii];
     [cornerPath addClip];
     [image drawInRect:self.bounds];
@@ -76,10 +77,11 @@ const char kBorderColor;
     CGFloat scale = [UIScreen mainScreen].scale;
     CGSize cornerRadii = CGSizeMake(cornerRadius, cornerRadius);
     
-    UIGraphicsBeginImageContextWithOptions(size, YES, scale);
+    UIGraphicsBeginImageContextWithOptions(size, NO, scale);
     if (nil == UIGraphicsGetCurrentContext()) {
         return;
     }
+    
     UIBezierPath *cornerPath = [UIBezierPath bezierPathWithRoundedRect:self.bounds byRoundingCorners:rectCornerType cornerRadii:cornerRadii];
     UIBezierPath *backgroundRect = [UIBezierPath bezierPathWithRect:self.bounds];
     [backgroundColor setFill];
@@ -87,6 +89,7 @@ const char kBorderColor;
     [cornerPath addClip];
     [image drawInRect:self.bounds];
     [self drawBorder:cornerPath];
+    
     UIImage *processedImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     objc_setAssociatedObject(processedImage, &kProcessedImage, @(1), OBJC_ASSOCIATION_RETAIN_NONATOMIC);

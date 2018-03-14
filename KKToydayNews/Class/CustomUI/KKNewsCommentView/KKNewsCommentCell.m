@@ -184,15 +184,20 @@
         headUrl = @"";
     }
     SDImageCache *imageCache = [SDImageCache sharedImageCache];
-    @weakify(imageCache);
-    [imageCache diskImageExistsWithKey:headUrl completion:^(BOOL isInCache) {
-        @strongify(imageCache);
-        if(isInCache){
-            [self.headImageView setCornerImage:[imageCache imageFromCacheForKey:headUrl]];
-        }else{
-            [self.headImageView setCornerImageWithURL:[NSURL URLWithString:headUrl] placeholder:[UIImage imageNamed:@"head_default"]];
-        }
-    }];
+    /*UIImage *image = [imageCache imageFromCacheForKey:headUrl] ;
+    if(image){
+        [self.headImageView setCornerImage:image];
+    }else{*/
+        @weakify(imageCache);
+        [imageCache diskImageExistsWithKey:headUrl completion:^(BOOL isInCache) {
+            @strongify(imageCache);
+            if(isInCache){
+                [self.headImageView setCornerImage:[imageCache imageFromCacheForKey:headUrl]];
+            }else{
+                [self.headImageView setCornerImageWithURL:[NSURL URLWithString:headUrl] placeholder:[UIImage imageNamed:@"head_default"]];
+            }
+        }];
+    //}
     
     self.nameLabel.text = item.comment.user_name;
     
@@ -340,15 +345,20 @@
         headUrl = @"";
     }
     SDImageCache *imageCache = [SDImageCache sharedImageCache];
-    @weakify(imageCache);
-    [imageCache diskImageExistsWithKey:headUrl completion:^(BOOL isInCache) {
-        @strongify(imageCache);
-        if(isInCache){
-            [self.headImageView setCornerImage:[imageCache imageFromCacheForKey:headUrl]];
-        }else{
-            [self.headImageView setCornerImageWithURL:[NSURL URLWithString:headUrl] placeholder:[UIImage imageNamed:@"head_default"]];
-        }
-    }];
+    /*UIImage *image = [imageCache imageFromCacheForKey:headUrl] ;
+    if(image){
+        [self.headImageView setCornerImage:image];
+    }else{*/
+        @weakify(imageCache);
+        [imageCache diskImageExistsWithKey:headUrl completion:^(BOOL isInCache) {
+            @strongify(imageCache);
+            if(isInCache){
+                [self.headImageView setCornerImage:[imageCache imageFromCacheForKey:headUrl]];
+            }else{
+                [self.headImageView setCornerImageWithURL:[NSURL URLWithString:headUrl] placeholder:[UIImage imageNamed:@"head_default"]];
+            }
+        }];
+    //}
     
     self.nameLabel.text = self.obj.user.screen_name;
     

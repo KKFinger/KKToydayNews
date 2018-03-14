@@ -145,7 +145,7 @@ static NSInteger maxImageCount = 9 ;
 
 - (void)initAppEnv{
     [[KKLocation shareInstance]checkLocationServicesAuthorizationStatus];
-    [[SDWebImageManager sharedManager].imageCache setMaxMemoryCost:20 * 1024 * 1024];//20M
+    [[SDWebImageManager sharedManager].imageCache setMaxMemoryCost:50 * 1024 * 1024];//50M
 }
 
 #pragma mark -- 视频播放器，屏幕旋转相关

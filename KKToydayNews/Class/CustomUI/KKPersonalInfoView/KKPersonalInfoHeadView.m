@@ -37,6 +37,10 @@ static CGFloat bgViewHeightOffset = 150;
     return self;
 }
 
+- (void)dealloc{
+    NSLog(@"%@ dealloc",NSStringFromClass([self class]));
+}
+
 #pragma mark -- 设置UI
 
 - (void)setupUI{

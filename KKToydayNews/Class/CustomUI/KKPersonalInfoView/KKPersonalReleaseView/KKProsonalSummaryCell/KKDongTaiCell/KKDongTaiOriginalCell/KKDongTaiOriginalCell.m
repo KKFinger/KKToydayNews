@@ -153,28 +153,39 @@ static CGFloat splitViewHeight = 5 ;
         avatarUrl = @"";
     }
     SDImageCache *imageCache = [SDImageCache sharedImageCache];
-    @weakify(imageCache);
-    [imageCache diskImageExistsWithKey:avatarUrl completion:^(BOOL isInCache) {
-        @strongify(imageCache);
-        if(isInCache){
-            [self.headView setCornerImage:[imageCache imageFromCacheForKey:avatarUrl]];
-        }else{
-            [self.headView setCornerImageWithURL:[NSURL URLWithString:avatarUrl] placeholder:[UIImage imageWithColor:[UIColor grayColor]]];
-        }
-    }];
+    UIImage *image = [imageCache imageFromCacheForKey:avatarUrl] ;
+    if(image){
+        [self.headView setCornerImage:image];
+    }else{
+        @weakify(imageCache);
+        [imageCache diskImageExistsWithKey:avatarUrl completion:^(BOOL isInCache) {
+            @strongify(imageCache);
+            if(isInCache){
+                [self.headView setCornerImage:[imageCache imageFromCacheForKey:avatarUrl]];
+            }else{
+                [self.headView setCornerImageWithURL:[NSURL URLWithString:avatarUrl] placeholder:[UIImage imageWithColor:[UIColor grayColor]]];
+            }
+        }];
+    }
     
     NSString *url = obj.origin_group.thumb_url;
     if(!url.length){
         url = @"";
     }
-    [imageCache diskImageExistsWithKey:url completion:^(BOOL isInCache) {
-        @strongify(imageCache);
-        if(isInCache){
-            [self.newsImageView setImage:[imageCache imageFromCacheForKey:url]];
-        }else{
-            [self.newsImageView sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageWithColor:[UIColor grayColor]]];
-        }
-    }];
+    image = [imageCache imageFromCacheForKey:url] ;
+    if(image){
+        [self.newsImageView setImage:image];
+    }else{
+        @weakify(imageCache);
+        [imageCache diskImageExistsWithKey:url completion:^(BOOL isInCache) {
+            @strongify(imageCache);
+            if(isInCache){
+                [self.newsImageView setImage:[imageCache imageFromCacheForKey:url]];
+            }else{
+                [self.newsImageView sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageWithColor:[UIColor grayColor]]];
+            }
+        }];
+    }
     
     self.nameLabel.text = obj.user.screen_name;
     self.dateLabel.text = [NSString stringIntervalSince1970RuleTwo:obj.create_time.longLongValue];

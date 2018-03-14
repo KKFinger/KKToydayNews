@@ -81,15 +81,20 @@
         url = @"";
     }
     SDImageCache *imageCache = [SDImageCache sharedImageCache];
-    @weakify(imageCache);
-    [imageCache diskImageExistsWithKey:url completion:^(BOOL isInCache) {
-        @strongify(imageCache);
-        if(isInCache){
-            [self.smallImgView setImage:[imageCache imageFromCacheForKey:url]];
-        }else{
-            [self.smallImgView kk_setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageWithColor:[UIColor grayColor]] animate:YES];
-        }
-    }];
+    UIImage *image = [imageCache imageFromCacheForKey:url] ;
+    if(image){
+        [self.smallImgView setImage:image];
+    }else{
+        @weakify(imageCache);
+        [imageCache diskImageExistsWithKey:url completion:^(BOOL isInCache) {
+            @strongify(imageCache);
+            if(isInCache){
+                [self.smallImgView setImage:[imageCache imageFromCacheForKey:url]];
+            }else{
+                [self.smallImgView kk_setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageWithColor:[UIColor grayColor]] animate:YES];
+            }
+        }];
+    }
     
     [self.smallImgView mas_updateConstraints:^(MASConstraintMaker *make) {
         make.height.mas_equalTo(3 * KKTitleFont.lineHeight + 4 * item.attriTextData.lineSpace);

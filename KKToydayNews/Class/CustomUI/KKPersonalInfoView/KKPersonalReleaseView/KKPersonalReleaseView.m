@@ -40,6 +40,10 @@ static CGFloat topIndexViewHeight = 38;
     return self ;
 }
 
+- (void)dealloc{
+    NSLog(@"%@ dealloc",NSStringFromClass([self class]));
+}
+
 #pragma mark -- 初始化UI
 
 - (void)setupUI{

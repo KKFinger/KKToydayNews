@@ -170,15 +170,20 @@ static UIFont *titleFont = nil ;
         url = @"";
     }
     SDImageCache *imageCache = [SDImageCache sharedImageCache];
-    @weakify(imageCache);
-    [imageCache diskImageExistsWithKey:url completion:^(BOOL isInCache) {
-        @strongify(imageCache);
-        if(isInCache){
-            [self.largeImgView setImage:[imageCache imageFromCacheForKey:url]];
-        }else{
-            [self.largeImgView kk_setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageWithColor:[UIColor grayColor]] animate:YES];
-        }
-    }];
+    UIImage *image = [imageCache imageFromCacheForKey:url] ;
+    if(image){
+        [self.largeImgView setImage:image];
+    }else{
+        @weakify(imageCache);
+        [imageCache diskImageExistsWithKey:url completion:^(BOOL isInCache) {
+            @strongify(imageCache);
+            if(isInCache){
+                [self.largeImgView setImage:[imageCache imageFromCacheForKey:url]];
+            }else{
+                [self.largeImgView kk_setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageWithColor:[UIColor grayColor]] animate:YES];
+            }
+        }];
+    }
     
     self.titleLabel.attributedText = item.attriTextData.attriText;
     self.titleLabel.lineBreakMode = item.attriTextData.lineBreak;
@@ -203,14 +208,20 @@ static UIFont *titleFont = nil ;
     if(!headerUrl.length){
         headerUrl = @"";
     }
-    [imageCache diskImageExistsWithKey:url completion:^(BOOL isInCache) {
-        @strongify(imageCache);
-        if(isInCache){
-            [self.userHeader setCornerImage:[imageCache imageFromCacheForKey:headerUrl]];
-        }else{
-            [self.userHeader setCornerImageWithURL:[NSURL URLWithString:headerUrl] placeholder:[UIImage imageNamed:@"head_default"]];
-        }
-    }];
+    image = [imageCache imageFromCacheForKey:headerUrl] ;
+    if(image){
+        [self.userHeader setCornerImage:image];
+    }else{
+        @weakify(imageCache);
+        [imageCache diskImageExistsWithKey:url completion:^(BOOL isInCache) {
+            @strongify(imageCache);
+            if(isInCache){
+                [self.userHeader setCornerImage:[imageCache imageFromCacheForKey:headerUrl]];
+            }else{
+                [self.userHeader setCornerImageWithURL:[NSURL URLWithString:headerUrl] placeholder:[UIImage imageNamed:@"head_default"]];
+            }
+        }];
+    }
     
     NSString *commentCnt = [[NSNumber numberWithLong:item.comment_count.longLongValue]convert];
     [self.commentBtn setTitle:commentCnt forState:UIControlStateNormal];

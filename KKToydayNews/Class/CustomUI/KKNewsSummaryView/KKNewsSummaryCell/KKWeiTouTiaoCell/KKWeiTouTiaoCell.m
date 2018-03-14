@@ -194,16 +194,19 @@ static UIFont *contentTextFont = nil ;
             if(!url.length){
                 url = @"";
             }
-            SDImageCache *imageCache = [SDImageCache sharedImageCache];
-            @weakify(imageCache);
-            [imageCache diskImageExistsWithKey:url completion:^(BOOL isInCache) {
-                @strongify(imageCache);
-                if(isInCache){
-                    [view setImage:[imageCache imageFromCacheForKey:url]];
-                }else{
-                    [view yy_setImageWithURL:[NSURL URLWithString:url] placeholder:[UIImage imageWithColor:[UIColor grayColor]]];
-                }
-            }];
+            YYImageCache *imageCache = [YYImageCache sharedCache];
+            UIImage *image = [imageCache getImageForKey:url withType:YYImageCacheTypeMemory] ;
+            if(image){
+                [view setImage:image];
+            }else{
+                [imageCache getImageForKey:url withType:YYImageCacheTypeDisk withBlock:^(UIImage * _Nullable image, YYImageCacheType type) {
+                    if(image){
+                        [view setImage:image];
+                    }else{
+                        [view yy_setImageWithURL:[NSURL URLWithString:url] placeholder:[UIImage imageWithColor:[UIColor grayColor]]];
+                    }
+                }];
+            }
             
             self.moreImageView.hidden = YES ;
             
@@ -220,16 +223,19 @@ static UIFont *contentTextFont = nil ;
                     make.height.mas_equalTo(imageWidthHeight);
                 }];
                 
-                SDImageCache *imageCache = [SDImageCache sharedImageCache];
-                @weakify(imageCache);
-                [imageCache diskImageExistsWithKey:url completion:^(BOOL isInCache) {
-                    @strongify(imageCache);
-                    if(isInCache){
-                        [view setImage:[imageCache imageFromCacheForKey:url]];
-                    }else{
-                        [view yy_setImageWithURL:[NSURL URLWithString:url] placeholder:[UIImage imageWithColor:[UIColor grayColor]]];
-                    }
-                }];
+                YYImageCache *imageCache = [YYImageCache sharedCache];
+                UIImage *image = [imageCache getImageForKey:url withType:YYImageCacheTypeMemory] ;
+                if(image){
+                    [view setImage:image];
+                }else{
+                    [imageCache getImageForKey:url withType:YYImageCacheTypeDisk withBlock:^(UIImage * _Nullable image, YYImageCacheType type) {
+                        if(image){
+                            [view setImage:image];
+                        }else{
+                            [view yy_setImageWithURL:[NSURL URLWithString:url] placeholder:[UIImage imageWithColor:[UIColor grayColor]]];
+                        }
+                    }];
+                }
             }
             
             self.moreImageView.hidden = YES ;
@@ -249,16 +255,19 @@ static UIFont *contentTextFont = nil ;
                         make.height.mas_equalTo(imageWidthHeight);
                     }];
                     
-                    SDImageCache *imageCache = [SDImageCache sharedImageCache];
-                    @weakify(imageCache);
-                    [imageCache diskImageExistsWithKey:url completion:^(BOOL isInCache) {
-                        @strongify(imageCache);
-                        if(isInCache){
-                            [view setImage:[imageCache imageFromCacheForKey:url]];
-                        }else{
-                            [view yy_setImageWithURL:[NSURL URLWithString:url] placeholder:[UIImage imageWithColor:[UIColor grayColor]]];
-                        }
-                    }];
+                    YYImageCache *imageCache = [YYImageCache sharedCache];
+                    UIImage *image = [imageCache getImageForKey:url withType:YYImageCacheTypeMemory] ;
+                    if(image){
+                        [view setImage:image];
+                    }else{
+                        [imageCache getImageForKey:url withType:YYImageCacheTypeDisk withBlock:^(UIImage * _Nullable image, YYImageCacheType type) {
+                            if(image){
+                                [view setImage:image];
+                            }else{
+                                [view yy_setImageWithURL:[NSURL URLWithString:url] placeholder:[UIImage imageWithColor:[UIColor grayColor]]];
+                            }
+                        }];
+                    }
                 }else{
                     UIImageView *view = [self.imageViewArray safeObjectAtIndex:i];
                     view.hidden = YES ;

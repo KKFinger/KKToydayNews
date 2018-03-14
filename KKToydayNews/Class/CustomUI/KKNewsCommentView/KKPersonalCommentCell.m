@@ -172,15 +172,20 @@
         headUrl = @"";
     }
     SDImageCache *imageCache = [SDImageCache sharedImageCache];
-    @weakify(imageCache);
-    [imageCache diskImageExistsWithKey:headUrl completion:^(BOOL isInCache) {
-        @strongify(imageCache);
-        if(isInCache){
-            [self.headImageView setCornerImage:[imageCache imageFromCacheForKey:headUrl]];
-        }else{
-            [self.headImageView setCornerImageWithURL:[NSURL URLWithString:headUrl] placeholder:[UIImage imageNamed:@"head_default"]];
-        }
-    }];
+    /*UIImage *image = [imageCache imageFromCacheForKey:headUrl] ;
+    if(image){
+        [self.headImageView setCornerImage:image];
+    }else{*/
+        @weakify(imageCache);
+        [imageCache diskImageExistsWithKey:headUrl completion:^(BOOL isInCache) {
+            @strongify(imageCache);
+            if(isInCache){
+                [self.headImageView setCornerImage:[imageCache imageFromCacheForKey:headUrl]];
+            }else{
+                [self.headImageView setCornerImageWithURL:[NSURL URLWithString:headUrl] placeholder:[UIImage imageNamed:@"head_default"]];
+            }
+        }];
+    //}
     
     self.nameLabel.text = userComment.detail.user.screen_name;
     
@@ -233,15 +238,20 @@
         }];
         
         SDImageCache *imageCache = [SDImageCache sharedImageCache];
-        @weakify(imageCache);
-        [imageCache diskImageExistsWithKey:url completion:^(BOOL isInCache) {
-            @strongify(imageCache);
-            if(isInCache){
-                [view setCornerImage:[imageCache imageFromCacheForKey:url]];
-            }else{
-                [view setCornerImageWithURL:[NSURL URLWithString:url] placeholder:[UIImage imageNamed:@"head_default"]];
-            }
-        }];
+        /*UIImage *image = [imageCache imageFromCacheForKey:url] ;
+        if(image){
+            [view setCornerImage:image];
+        }else{*/
+            @weakify(imageCache);
+            [imageCache diskImageExistsWithKey:url completion:^(BOOL isInCache) {
+                @strongify(imageCache);
+                if(isInCache){
+                    [view setCornerImage:[imageCache imageFromCacheForKey:url]];
+                }else{
+                    [view setCornerImageWithURL:[NSURL URLWithString:url] placeholder:[UIImage imageNamed:@"head_default"]];
+                }
+            }];
+        //}
         
         [view mas_updateConstraints:^(MASConstraintMaker *make) {
             make.width.mas_equalTo(SmallImageWH);

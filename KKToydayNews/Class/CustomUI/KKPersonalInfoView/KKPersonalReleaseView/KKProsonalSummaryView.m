@@ -50,6 +50,10 @@ static NSString *wenDaNormalCellReuseIdentifier = @"wenDaNormalCellReuseIdentifi
     return self;
 }
 
+- (void)dealloc{
+    NSLog(@"%@ dealloc",NSStringFromClass([self class]));
+}
+
 #pragma mark -- 设置UI
 
 - (void)setupUI{

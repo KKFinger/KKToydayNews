@@ -130,15 +130,20 @@
         UIImageView *view = [self.bgView viewWithTag:1000+i];
         
         SDImageCache *imageCache = [SDImageCache sharedImageCache];
-        @weakify(imageCache);
-        [imageCache diskImageExistsWithKey:url completion:^(BOOL isInCache) {
-            @strongify(imageCache);
-            if(isInCache){
-                [view setImage:[imageCache imageFromCacheForKey:url]];
-            }else{
-                [view kk_setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageWithColor:[UIColor grayColor]] animate:YES];
-            }
-        }];
+        UIImage *image = [imageCache imageFromCacheForKey:url] ;
+        if(image){
+            [view setImage:image];
+        }else{
+            @weakify(imageCache);
+            [imageCache diskImageExistsWithKey:url completion:^(BOOL isInCache) {
+                @strongify(imageCache);
+                if(isInCache){
+                    [view setImage:[imageCache imageFromCacheForKey:url]];
+                }else{
+                    [view kk_setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageWithColor:[UIColor grayColor]] animate:YES];
+                }
+            }];
+        }
     }
     
     self.dateLabel.text = summary.datetime;

@@ -178,17 +178,19 @@
             if(!url.length){
                 url = @"";
             }
-            SDImageCache *imageCache = [SDImageCache sharedImageCache];
-            @weakify(imageCache);
-            [imageCache diskImageExistsWithKey:url completion:^(BOOL isInCache) {
-                @strongify(imageCache);
-                if(isInCache){
-                    [view setImage:[imageCache imageFromCacheForKey:url]];
-                }else{
-                    [view yy_setImageWithURL:[NSURL URLWithString:url] placeholder:[UIImage imageWithColor:[UIColor grayColor]]];
-                }
-            }];
-            
+            YYImageCache *imageCache = [YYImageCache sharedCache];
+            UIImage *image = [imageCache getImageForKey:url withType:YYImageCacheTypeMemory];
+            if(image){
+                [view setImage:image];
+            }else{
+                [imageCache getImageForKey:url withType:YYImageCacheTypeDisk withBlock:^(UIImage * _Nullable image, YYImageCacheType type) {
+                    if(image){
+                        [view setImage:image];
+                    }else{
+                        [view yy_setImageWithURL:[NSURL URLWithString:url] placeholder:[UIImage imageWithColor:[UIColor grayColor]]];
+                    }
+                }];
+            }
         }else{
             for(NSInteger i = 0 ; i < imageCount; i++){
                 NSString *url = [item.thumb_image_list safeObjectAtIndex:i].url;
@@ -200,17 +202,20 @@
                     make.width.mas_equalTo(imageWidthHeight);
                     make.height.mas_equalTo(imageWidthHeight);
                 }];
-
-                SDImageCache *imageCache = [SDImageCache sharedImageCache];
-                @weakify(imageCache);
-                [imageCache diskImageExistsWithKey:url completion:^(BOOL isInCache) {
-                    @strongify(imageCache);
-                    if(isInCache){
-                        [view setImage:[imageCache imageFromCacheForKey:url]];
-                    }else{
-                        [view yy_setImageWithURL:[NSURL URLWithString:url] placeholder:[UIImage imageWithColor:[UIColor grayColor]]];
-                    }
-                }];
+                
+                YYImageCache *imageCache = [YYImageCache sharedCache];
+                UIImage *image = [imageCache getImageForKey:url withType:YYImageCacheTypeMemory];
+                if(image){
+                    [view setImage:image];
+                }else{
+                    [imageCache getImageForKey:url withType:YYImageCacheTypeDisk withBlock:^(UIImage * _Nullable image, YYImageCacheType type) {
+                        if(image){
+                            [view setImage:image];
+                        }else{
+                            [view yy_setImageWithURL:[NSURL URLWithString:url] placeholder:[UIImage imageWithColor:[UIColor grayColor]]];
+                        }
+                    }];
+                }
             }
         }
     }
