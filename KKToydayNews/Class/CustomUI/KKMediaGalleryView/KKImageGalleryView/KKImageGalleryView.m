@@ -417,6 +417,29 @@ static CGFloat space = 1.0 ;
     }
 }
 
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
+    if (!decelerate) {//手指离开时不会继续滚动
+        [[KKPhotoManager sharedInstance]cancelAllThumbnailTask];
+        
+        NSArray *array = self.collectView.indexPathsForVisibleItems;
+        for(NSIndexPath *indexPath in array){
+            KKGalleryImageCell *cell = (KKGalleryImageCell *)[self.collectView cellForItemAtIndexPath:indexPath];
+            [cell setDelegate:self];
+            [cell.contentBgView setAlpha:1.0];
+            if(indexPath.row == 0){
+                [cell refreshCell:self.placeholderItem cellType:KKGalleryCellTypeSelect disable:self.disableSelected];
+            }else{
+                [[KKPhotoManager sharedInstance]getThumbnailImageWithIndex:indexPath.row - 1 needImageSize:self.cellSize isNeedDegraded:YES block:^(KKPhotoInfo *item) {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        BOOL disable = (self.disableSelected && (!item.isSelected));
+                        [cell refreshCell:item cellType:KKGalleryCellTypeSelect disable:disable];
+                    });
+                }];
+            }
+        }
+    }
+}
+
 #pragma mark -- 相片库发生变化
 
 - (void)photoLibarayChange{
