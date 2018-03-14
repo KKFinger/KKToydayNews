@@ -67,6 +67,9 @@
 
 #pragma mark -- 图片缩略图获取，albumCollection和albumAssets在调用之前必须先初始化
 
+//取消所有的图片拉取工作
+- (void)cancelAllThumbnailTask;
+
 - (void)getThumbnailImageWithIndex:(NSInteger)index
                      needImageSize:(CGSize)size
                     isNeedDegraded:(BOOL)degraded

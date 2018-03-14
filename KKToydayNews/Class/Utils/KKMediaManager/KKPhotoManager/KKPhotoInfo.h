@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <Photos/Photos.h>
 
 @interface KKPhotoInfo : NSObject
 @property(nonatomic,copy)NSString *identifier;

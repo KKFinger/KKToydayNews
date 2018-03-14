@@ -27,13 +27,13 @@ static CGFloat space = 1.0 ;
 @property(nonatomic)KKNoDataView *noDataView;
 @property(nonatomic)KKBlockAlertView *alertView;
 @property(nonatomic,weak)UIImagePickerController *pickerController;
-@property(nonatomic,assign)CGFloat cellWH;
-@property(nonatomic,assign)CGSize imageSize;
+@property(nonatomic,assign)CGSize cellSize;
 @property(nonatomic)KKMediaAlbumInfo *albumInfo;
 @property(nonatomic,copy)NSString *albumId;
 @property(nonatomic)KKPhotoInfo *placeholderItem;
 @property(nonatomic)NSMutableArray *albumInfoArray;
 @property(nonatomic,assign)BOOL disableSelected;
+@property(nonatomic,assign)BOOL isFirstEnter;
 @end
 
 @implementation KKImageGalleryView
@@ -51,18 +51,20 @@ static CGFloat space = 1.0 ;
         self.limitSelCount = -1 ;
         self.curtSelCount = 0 ;
         self.albumId = [[KKPhotoManager sharedInstance]getCameraRollAlbumId];
-        self.imageSize = CGSizeMake(80, 80);
         
         self.placeholderItem = [KKPhotoInfo new];
         self.placeholderItem.image = [UIImage imageNamed:@"introduct_add_picture"];
         self.placeholderItem.isPlaceholderImage = YES ;
+        
+        self.isFirstEnter = YES ;
     }
     return self ;
 }
 
 - (void)layoutSubviews{
     [super layoutSubviews];
-    self.cellWH = (self.dragContentView.width - 3 * space ) / 4.0;
+    CGFloat cellWH = (self.dragContentView.width - 3 * space ) / 4.0;
+    self.cellSize = CGSizeMake(cellWH, cellWH);
 }
 
 - (void)dealloc{
@@ -145,11 +147,16 @@ static CGFloat space = 1.0 ;
             [[KKPhotoManager sharedInstance]initAlbumWithAlbumObj:self.albumId block:^(BOOL done, KKMediaAlbumInfo *albumInfo) {
                 self.albumInfo = albumInfo;
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    self.navView.albumName = self.albumInfo.albumName;
-                    self.noDataView.hidden = self.albumInfo.assetCount;
+                    [self.navView setAlbumName:self.albumInfo.albumName];
+                    [self.noDataView setHidden:self.albumInfo.assetCount];
                     [self.collectView reloadData];
                     [self.albumTableView reloadData];
                     [self hiddenActivity];
+                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                        if(self.isFirstEnter){
+                            [self scrollViewDidEndDecelerating:self.collectView];
+                        }
+                    });
                 });
             }];
         }else{
@@ -217,9 +224,12 @@ static CGFloat space = 1.0 ;
     if(indexPath.row == 0){
         [cell refreshCell:self.placeholderItem cellType:KKGalleryCellTypeSelect disable:self.disableSelected];
     }else{
-        [[KKPhotoManager sharedInstance]getThumbnailImageWithIndex:indexPath.row - 1 needImageSize:self.imageSize isNeedDegraded:YES block:^(KKPhotoInfo *item) {
-            BOOL disable = (self.disableSelected && (!item.isSelected));
-            [cell refreshCell:item cellType:KKGalleryCellTypeSelect disable:disable];
+        //先加载低分辨的图片，提高加载速度，当视图完全停止滚动的时候，再加载高分辨率的缩略图
+        [[KKPhotoManager sharedInstance]getThumbnailImageWithIndex:indexPath.row - 1 needImageSize:CGSizeMake(30, 30) isNeedDegraded:NO block:^(KKPhotoInfo *item) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                BOOL disable = (self.disableSelected && (!item.isSelected));
+                [cell refreshCell:item cellType:KKGalleryCellTypeSelect disable:disable];
+            });
         }];
     }
     
@@ -227,7 +237,7 @@ static CGFloat space = 1.0 ;
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
-    return CGSizeMake(self.cellWH, self.cellWH);
+    return self.cellSize;
 }
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
@@ -381,6 +391,30 @@ static CGFloat space = 1.0 ;
 
 - (void)dragEndWithPoint:(CGPoint)pt shouldHideView:(BOOL)hideView{
     self.collectView.scrollEnabled = YES ;
+}
+
+#pragma mark -- UIScrollViewDelegate
+
+//完全停止滚动，加载高分辨率的缩略图
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
+    [[KKPhotoManager sharedInstance]cancelAllThumbnailTask];
+    
+    NSArray *array = self.collectView.indexPathsForVisibleItems;
+    for(NSIndexPath *indexPath in array){
+        KKGalleryImageCell *cell = (KKGalleryImageCell *)[self.collectView cellForItemAtIndexPath:indexPath];
+        [cell setDelegate:self];
+        [cell.contentBgView setAlpha:1.0];
+        if(indexPath.row == 0){
+            [cell refreshCell:self.placeholderItem cellType:KKGalleryCellTypeSelect disable:self.disableSelected];
+        }else{
+            [[KKPhotoManager sharedInstance]getThumbnailImageWithIndex:indexPath.row - 1 needImageSize:self.cellSize isNeedDegraded:YES block:^(KKPhotoInfo *item) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    BOOL disable = (self.disableSelected && (!item.isSelected));
+                    [cell refreshCell:item cellType:KKGalleryCellTypeSelect disable:disable];
+                });
+            }];
+        }
+    }
 }
 
 #pragma mark -- 相片库发生变化

@@ -9,6 +9,8 @@
 #import "KKPhotoManager.h"
 #import <AssetsLibrary/AssetsLibrary.h>
 
+static NSInteger maxThumbConcurrentCount = 50 ;//最多同时获取的缩略图个数
+
 @interface KKPhotoManager ()<PHPhotoLibraryChangeObserver>
 @property(nonatomic)PHCachingImageManager *cachingImageManager;//照片缓存，每次获取照片时先从缓存中查找
 //注意，这两个变量只为了提高UICollectionView或者UItableView显示效率,不能用于其他模块的相片获取
@@ -17,7 +19,8 @@
 
 @property(nonatomic)NSMutableDictionary *imageInfos;
 
-@property(nonatomic)dispatch_queue_t queue;
+@property(nonatomic)PHImageRequestOptions *fetchThumOptions;
+@property(nonatomic)NSOperationQueue *fetchThumbQueue;
 
 @end
 
@@ -44,6 +47,15 @@
         self.albumCollection = nil;
         self.cachingImageManager = [[PHCachingImageManager alloc] init];
         self.imageInfos = [NSMutableDictionary new];
+        
+        self.fetchThumbQueue = [[NSOperationQueue alloc]init];
+        self.fetchThumbQueue.maxConcurrentOperationCount = NSIntegerMax ;
+        
+        self.fetchThumOptions = [[PHImageRequestOptions alloc]init];
+        self.fetchThumOptions.networkAccessAllowed = YES ;
+        self.fetchThumOptions.resizeMode = PHImageRequestOptionsResizeModeFast ;
+        self.fetchThumOptions.deliveryMode = PHImageRequestOptionsDeliveryModeOpportunistic;
+        
         PHPhotoLibrary *photoLibrary = [PHPhotoLibrary sharedPhotoLibrary];
         [photoLibrary registerChangeObserver:self];
     }
@@ -374,34 +386,45 @@
 
 #pragma mark - 图片缩略图获取，albumCollection和albumAssets在调用之前必须先初始化
 
+//取消所有的缩略图的拉取工作
+- (void)cancelAllThumbnailTask{
+    [self.fetchThumbQueue cancelAllOperations];
+    NSLog(@"取消所有的缩略图的拉取工作");
+}
+
 - (void)getThumbnailImageWithIndex:(NSInteger)index
                      needImageSize:(CGSize)size
                     isNeedDegraded:(BOOL)degraded
                              block:(void(^)(KKPhotoInfo *item))handler
 {
-    if (self.albumAssets.count - 1 < index) {
-        if(handler){
-            handler(nil);
-        }
-        return;
+    if(self.fetchThumbQueue.operationCount >= maxThumbConcurrentCount){
+        [self.fetchThumbQueue cancelAllOperations];
+        NSLog(@"获取缩略图并发个数过多，取消所有拉取请求");
     }
     
-    if (self.albumCollection && self.albumAssets){
-        [self getThumbnailImageWithAlbumAsset:self.albumAssets
-                                        index:index
-                                needImageSize:size
-                               isNeedDegraded:degraded
-                                        block:^(KKPhotoInfo *item)
-         {
-             if(handler){
-                 handler(item);
-             }
-         }];
-    }else{
-        if(handler){
-            handler(nil);
+    @weakify(self);
+    [self.fetchThumbQueue addOperationWithBlock:^{
+        @strongify(self);
+        if (self.albumCollection && self.albumAssets){
+            dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
+            [self getThumbnailImageWithAlbumAsset:self.albumAssets
+                                            index:index
+                                    needImageSize:size
+                                   isNeedDegraded:degraded
+                                            block:^(KKPhotoInfo *item)
+             {
+                 if(handler){
+                     handler(item);
+                 }
+                 dispatch_semaphore_signal(semaphore);
+             }];
+            dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+        }else{
+            if(handler){
+                handler(nil);
+            }
         }
-    }
+    }];
 }
 
 - (void)getThumbnailImageWithAlbumAsset:(PHFetchResult *)assetsResult
@@ -411,9 +434,6 @@
                                   block:(void(^)(KKPhotoInfo *item))handler
 {
     if (index < assetsResult.count){
-        PHImageRequestOptions *options = [[PHImageRequestOptions alloc]init];
-        options.networkAccessAllowed = YES ;
-        
         PHAsset *asset = assetsResult[index];
         if(!asset){
             if(handler){
@@ -435,7 +455,7 @@
         [self.cachingImageManager requestImageForAsset:asset
                                             targetSize:size
                                            contentMode:PHImageContentModeAspectFill
-                                               options:options
+                                               options:self.fetchThumOptions
                                          resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info)
          {
              if (degraded == YES){
@@ -449,7 +469,7 @@
                  BOOL isDegraded = [[info objectForKey:PHImageResultIsDegradedKey] boolValue];
                  item.image = result;
                  item.imageName = [[info objectForKey:@"PHImageFileURLKey"]lastPathComponent];
-                 if (isDegraded == NO){
+                 if (isDegraded == NO){//图片完全加载
                      if(handler){
                          handler(item);
                      }
