@@ -11,7 +11,7 @@
 #define HeadViewHeight 40
 #define space 5.0
 #define imageWidthHeight ((([UIScreen mainScreen].bounds.size.width - 2 * kkPaddingNormal) - 2 * space) / perRowImages)
-#define ContentTextFont [UIFont systemFontOfSize:17]
+#define ContentTextFont [UIFont systemFontOfSize:(iPhone5)?15:17]
 #define descLabelHeight 13
 #define vInterval 10 //各个控件的垂直距离
 

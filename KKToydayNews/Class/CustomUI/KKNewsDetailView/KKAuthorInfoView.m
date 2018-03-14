@@ -175,7 +175,7 @@
             UILabel *view = [UILabel new];
             view.textAlignment = NSTextAlignmentLeft;
             view.textColor = [UIColor blackColor];
-            view.font = [UIFont systemFontOfSize:15];
+            view.font = [UIFont systemFontOfSize:(iPhone5)?14:15];
             view.lineBreakMode = NSLineBreakByTruncatingTail;
             view ;
         });

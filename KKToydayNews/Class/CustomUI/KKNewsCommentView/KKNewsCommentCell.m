@@ -18,7 +18,7 @@
 #define ButtonHeight 25
 #define LineSpace 5 //文字的上下间距
 
-#define commentTextFont [UIFont systemFontOfSize:16]
+#define commentTextFont [UIFont systemFontOfSize:(iPhone5)?15:16]
 #define replyFont [UIFont systemFontOfSize:14]
 
 #define MaxReplyCount 5

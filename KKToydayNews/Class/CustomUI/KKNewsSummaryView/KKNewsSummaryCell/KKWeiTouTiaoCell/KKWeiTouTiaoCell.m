@@ -335,7 +335,7 @@ static UIFont *contentTextFont = nil ;
 + (void)initAttriTextData:(KKSummaryContent *)item{
     if(item.attriTextData == nil ){
         if(!contentTextFont){
-            contentTextFont = [UIFont systemFontOfSize:(iPhone5)?16:17];
+            contentTextFont = [UIFont systemFontOfSize:(iPhone5)?15:17];
         }
         item.attriTextData = [KKAttriTextData new];
         item.attriTextData.lineSpace = 3 ;
