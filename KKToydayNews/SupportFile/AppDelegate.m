@@ -31,11 +31,6 @@
     //注册通知
     [self registerPushNotification];
     
-    [[[SDWebImageManager sharedManager]imageCache]clearMemory];
-    [[[SDWebImageManager sharedManager]imageCache]clearDiskOnCompletion:^{
-        NSLog(@"clear disk image cache complete!");
-    }];
-    
     return YES;
 }
 
