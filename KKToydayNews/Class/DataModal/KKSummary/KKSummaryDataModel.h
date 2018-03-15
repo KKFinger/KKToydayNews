@@ -341,15 +341,7 @@ middle_image 不为空，large_image_list为空 ,左边标题和描述，右边�
 @end
 
 @interface KKTipInfo : KKModalBase
-//@property(nonatomic,copy)NSString *type;
-//@property(nonatomic,copy)NSString *display_duration;
 @property(nonatomic,copy)NSString *display_info;
-//@property(nonatomic,copy)NSString *display_template;
-//@property(nonatomic,copy)NSString *open_url;
-//@property(nonatomic,copy)NSString *web_url;
-//@property(nonatomic,copy)NSString *download_url;
-//@property(nonatomic,copy)NSString *app_name;
-//@property(nonatomic,copy)NSString *package_name;
 @end
 
 @interface KKSummaryDataModel : KKModalBase
