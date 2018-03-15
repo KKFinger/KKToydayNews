@@ -357,12 +357,5 @@ middle_image 不为空，large_image_list为空 ,左边标题和描述，右边�
 @property(nonatomic,copy)NSMutableArray<KKContentDataModel*> *data;
 @property(nonatomic,copy)NSString *message;
 @property(nonatomic,copy)NSString *total_number;
-//@property(nonatomic,copy)NSString *has_more;
-//@property(nonatomic,copy)NSString *login_status;
-//@property(nonatomic,copy)NSString *show_et_status;
-//@property(nonatomic,copy)NSString *post_content_hint;
-//@property(nonatomic,copy)NSString *has_more_to_refresh;
-//@property(nonatomic,copy)NSString *action_to_last_stick;
-//@property(nonatomic,copy)NSString *feed_flag;
 @property(nonatomic)KKTipInfo *tips ;
 @end
