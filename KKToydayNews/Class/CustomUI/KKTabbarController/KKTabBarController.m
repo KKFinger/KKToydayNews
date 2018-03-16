@@ -145,7 +145,7 @@ static NSInteger maxImageCount = 9 ;
 
 - (void)initAppEnv{
     [[KKLocation shareInstance]checkLocationServicesAuthorizationStatus];
-    [[SDWebImageManager sharedManager].imageCache setMaxMemoryCost:50 * 1024 * 1024];//50M
+    [[SDWebImageManager sharedManager].imageCache setMaxMemoryCost:30 * 1024 * 1024];//30M
     [[[SDWebImageManager sharedManager]imageCache]clearMemory];
     [[[SDWebImageManager sharedManager]imageCache]clearDiskOnCompletion:^{
         NSLog(@"clear disk image cache complete!");
