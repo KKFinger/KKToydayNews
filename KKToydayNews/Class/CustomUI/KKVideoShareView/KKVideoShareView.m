@@ -66,7 +66,7 @@ static CGFloat maxRecordVideoTime = 5 * 60 ;
 
 - (void)viewWillDisappear{
     [super viewWillDisappear];
-    [self.recordEngine shutdown];
+    [self.recordEngine shutdownRecord];
     [[UIApplication sharedApplication]setStatusBarStyle:self.barStyle];
 }
 
@@ -156,35 +156,25 @@ static CGFloat maxRecordVideoTime = 5 * 60 ;
 #pragma mark -- 检测相机和麦克风权限
 
 - (void)checkAuthoriztion{
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        AVAuthorizationStatus audioAuth = [self.recordEngine checkAudioAuthorization];
-        AVAuthorizationStatus videoAuth = [self.recordEngine checkCameraAuthorization];
-        while (audioAuth == AVAuthorizationStatusNotDetermined ||
-               videoAuth == AVAuthorizationStatusNotDetermined) {
-            usleep(1.0 * 1000.0);
-            audioAuth = [self.recordEngine checkAudioAuthorization];
-            videoAuth = [self.recordEngine checkCameraAuthorization];
-        }
-        if(videoAuth != AVAuthorizationStatusAuthorized ||
-           audioAuth != AVAuthorizationStatusAuthorized){
-            dispatch_async(dispatch_get_main_queue(), ^{
-                KKBlockAlertView *view = [KKBlockAlertView new];
-                [view showWithTitle:@"相机或者麦克风" message:@"KK头条没有相机或者麦克风" cancelButtonTitle:@"知道了" otherButtonTitles:@"去设置" block:^(NSInteger re_code, NSDictionary *userInfo) {
-                    if(re_code == 1){
-                        [KKAppTools jumpToSetting];
-                    }
-                }];
-                self.alertView = view ;
-                [self captureViewAnimate];
-            });
-        }else{
+    @weakify(self);
+    [self.recordEngine requireAuthorization:^(AVAuthorizationStatus audioState, AVAuthorizationStatus videoState) {
+        @strongify(self);
+        if(audioState == AVAuthorizationStatusAuthorized &&
+           videoState == AVAuthorizationStatusAuthorized){
             self.allowRecord = YES ;
-            [self.recordEngine startUp];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self captureViewAnimate];
-            });
+            [self.recordEngine setupRecord];
+            [self captureViewAnimate];
+        }else{
+            KKBlockAlertView *view = [KKBlockAlertView new];
+            [view showWithTitle:@"相机或者麦克风" message:@"KK头条没有相机或者麦克风" cancelButtonTitle:@"知道了" otherButtonTitles:@"去设置" block:^(NSInteger re_code, NSDictionary *userInfo) {
+                if(re_code == 1){
+                    [KKAppTools jumpToSetting];
+                }
+            }];
+            self.alertView = view ;
+            [self captureViewAnimate];
         }
-    });
+    }];
 }
 
 #pragma mark -- 录像预览视图动画
@@ -272,7 +262,7 @@ static CGFloat maxRecordVideoTime = 5 * 60 ;
     @weakify(self);
     [self.recordEngine stopCaptureHandler:^(NSString *recordPath) {
         @strongify(self);
-        [self.recordEngine shutdown];
+        [self.recordEngine shutdownRecord];
         dispatch_async(dispatch_get_main_queue(), ^{
             [[UIApplication sharedApplication].keyWindow showActivityViewWithTitle:nil];
             self.startPauseBtn.selected = NO;
@@ -318,8 +308,7 @@ static CGFloat maxRecordVideoTime = 5 * 60 ;
 #pragma mark -- 导入视频
 
 - (void)importVideoBtnClicked{
-    
-    [self.recordEngine shutdown];
+    [self.recordEngine shutdownRecord];
     [self stopTimer];
     
     KKVideoGalleryView *view = [KKVideoGalleryView new];
@@ -346,7 +335,7 @@ static CGFloat maxRecordVideoTime = 5 * 60 ;
                 });
             }];
         }else{
-            [self.recordEngine startUp];
+            [self.recordEngine setupRecord];
         }
     }];
     
@@ -367,7 +356,7 @@ static CGFloat maxRecordVideoTime = 5 * 60 ;
     }];
     
     [view setViewWillDisapear:^{
-        [self.recordEngine startUp];
+        [self.recordEngine setupRecord];
     }];
     
     [view pushIn];
@@ -568,7 +557,7 @@ static CGFloat maxRecordVideoTime = 5 * 60 ;
 
 - (KKRecordEngine *)recordEngine {
     if (_recordEngine == nil) {
-        _recordEngine = [[KKRecordEngine alloc] initWithRecFileFolder:KKVideoRecordFileFolder];
+        _recordEngine = [[KKRecordEngine alloc] initWithRecFileFolder:KKVideoRecordFileFolder previewWithOpenGL:NO writeRecordToLocal:YES];
         _recordEngine.maxRecordTime = maxRecordVideoTime ;
         _recordEngine.pixWidth = UIDeviceScreenWidth;
         _recordEngine.pixHeight = UIDeviceScreenWidth;

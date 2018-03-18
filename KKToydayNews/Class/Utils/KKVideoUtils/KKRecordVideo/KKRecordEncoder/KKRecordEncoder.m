@@ -98,11 +98,20 @@
 
 //完成视频录制时调用
 - (void)finishWithCompletionHandler:(void (^)(void))handler {
-    [self.writer finishWritingWithCompletionHandler: handler];
+    AVAssetWriterStatus status = self.writer.status ;
+    if(status == AVAssetWriterStatusUnknown ||
+       status == AVAssetWriterStatusFailed ||
+       status == AVAssetWriterStatusCancelled){
+        if(handler){
+            handler();
+        }
+        return ;
+    }
+    [self.writer finishWritingWithCompletionHandler:handler];
 }
 
 //通过这个方法写入数据
-- (BOOL)encodeFrame:(CMSampleBufferRef) sampleBuffer isVideo:(BOOL)isVideo {
+- (BOOL)writeRecordToLocal:(CMSampleBufferRef) sampleBuffer isVideo:(BOOL)isVideo {
     //数据是否准备写入
     if (CMSampleBufferDataIsReady(sampleBuffer)) {
         //写入状态为未知,保证视频先写入
@@ -114,8 +123,10 @@
             [self.writer startSessionAtSourceTime:startTime];
         }
         //写入失败
-        if (self.writer.status == AVAssetWriterStatusFailed) {
-            NSLog(@"writer error %@", self.writer.error.localizedDescription);
+        AVAssetWriterStatus status = self.writer.status ;
+        if(status == AVAssetWriterStatusUnknown ||
+           status == AVAssetWriterStatusFailed ||
+           status == AVAssetWriterStatusCancelled){
             return NO;
         }
         //判断是否是视频

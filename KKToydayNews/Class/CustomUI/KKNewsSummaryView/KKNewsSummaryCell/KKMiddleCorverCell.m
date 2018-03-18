@@ -27,6 +27,10 @@
     return self;
 }
 
+- (void)dealloc{
+    NSLog(@"%@ dealloc",NSStringFromClass([self class]));
+}
+
 - (void)awakeFromNib {
     [super awakeFromNib];
     [self.contentView addSubview:self.bgView];

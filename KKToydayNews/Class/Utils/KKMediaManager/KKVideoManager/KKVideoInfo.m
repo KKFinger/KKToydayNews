@@ -8,7 +8,7 @@
 
 #import "KKVideoInfo.h"
 
-@interface KKVideoItem ()
+@interface KKVideoInfo ()
 
 @end
 

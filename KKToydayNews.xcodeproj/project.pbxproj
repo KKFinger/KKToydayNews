@@ -123,6 +123,7 @@
 		5126FCDF1F94F2A100A93D5F /* KKHomeViewCtrl.m in Sources */ = {isa = PBXBuildFile; fileRef = 5126FC691F94F2A100A93D5F /* KKHomeViewCtrl.m */; };
 		5126FD0C1F94F2A100A93D5F /* KKXiaoShiPinViewCtrl.m in Sources */ = {isa = PBXBuildFile; fileRef = 5126FCDA1F94F2A100A93D5F /* KKXiaoShiPinViewCtrl.m */; };
 		5126FD0D1F94F2A100A93D5F /* KKXiGuaViewCtrl.m in Sources */ = {isa = PBXBuildFile; fileRef = 5126FCDE1F94F2A100A93D5F /* KKXiGuaViewCtrl.m */; };
+		512BFC7D205EB75D00BEF7F3 /* KKGLKRenderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 512BFC7B205EB75D00BEF7F3 /* KKGLKRenderView.m */; };
 		514744F21F8FB365006A0C19 /* UIImage+animatedGIF.m in Sources */ = {isa = PBXBuildFile; fileRef = 514744F11F8FB365006A0C19 /* UIImage+animatedGIF.m */; };
 		51477ADD1FC0184100E6E296 /* KKArticleModal.m in Sources */ = {isa = PBXBuildFile; fileRef = 51477AC91FC0184000E6E296 /* KKArticleModal.m */; };
 		51477ADE1FC0184100E6E296 /* KKSectionItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 51477ACC1FC0184000E6E296 /* KKSectionItem.m */; };
@@ -135,6 +136,7 @@
 		51477AE71FC0187100E6E296 /* KKDongTaiModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 51477AE61FC0187100E6E296 /* KKDongTaiModel.m */; };
 		51477AEA1FC021D900E6E296 /* KKPersonalArticalModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 51477AE91FC021D900E6E296 /* KKPersonalArticalModel.m */; };
 		51477AED1FC02B3800E6E296 /* KKPersonalWenDaModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 51477AEC1FC02B3800E6E296 /* KKPersonalWenDaModel.m */; };
+		51482F57205E45B70043FFF9 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 51482F56205E45B70043FFF9 /* libc++.tbd */; };
 		517CF26B203809A20099B1C2 /* KKWXPayObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 517CF26A203809A20099B1C2 /* KKWXPayObject.m */; };
 		5186FB7B1F83D67700E402DF /* UIPanGestureRecognizer+Position.m in Sources */ = {isa = PBXBuildFile; fileRef = 5186FB7A1F83D67700E402DF /* UIPanGestureRecognizer+Position.m */; };
 		5186FB811F850BE900E402DF /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5186FB801F850BE900E402DF /* AVFoundation.framework */; };
@@ -440,6 +442,8 @@
 		5126FCDA1F94F2A100A93D5F /* KKXiaoShiPinViewCtrl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KKXiaoShiPinViewCtrl.m; sourceTree = "<group>"; };
 		5126FCDD1F94F2A100A93D5F /* KKXiGuaViewCtrl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KKXiGuaViewCtrl.h; sourceTree = "<group>"; };
 		5126FCDE1F94F2A100A93D5F /* KKXiGuaViewCtrl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KKXiGuaViewCtrl.m; sourceTree = "<group>"; };
+		512BFC7B205EB75D00BEF7F3 /* KKGLKRenderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KKGLKRenderView.m; sourceTree = "<group>"; };
+		512BFC7C205EB75D00BEF7F3 /* KKGLKRenderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KKGLKRenderView.h; sourceTree = "<group>"; };
 		514744F01F8FB365006A0C19 /* UIImage+animatedGIF.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+animatedGIF.h"; sourceTree = "<group>"; };
 		514744F11F8FB365006A0C19 /* UIImage+animatedGIF.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+animatedGIF.m"; sourceTree = "<group>"; };
 		51477AC81FC0184000E6E296 /* KKArticleModal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KKArticleModal.h; sourceTree = "<group>"; };
@@ -464,6 +468,7 @@
 		51477AE91FC021D900E6E296 /* KKPersonalArticalModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KKPersonalArticalModel.m; sourceTree = "<group>"; };
 		51477AEB1FC02B3800E6E296 /* KKPersonalWenDaModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KKPersonalWenDaModel.h; sourceTree = "<group>"; };
 		51477AEC1FC02B3800E6E296 /* KKPersonalWenDaModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KKPersonalWenDaModel.m; sourceTree = "<group>"; };
+		51482F56205E45B70043FFF9 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		517CF269203809A20099B1C2 /* KKWXPayObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KKWXPayObject.h; sourceTree = "<group>"; };
 		517CF26A203809A20099B1C2 /* KKWXPayObject.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KKWXPayObject.m; sourceTree = "<group>"; };
 		5186FB791F83D67700E402DF /* UIPanGestureRecognizer+Position.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIPanGestureRecognizer+Position.h"; sourceTree = "<group>"; };
@@ -601,6 +606,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				51B9293B1F926BF000BB4467 /* AssetsLibrary.framework in Frameworks */,
+				51482F57205E45B70043FFF9 /* libc++.tbd in Frameworks */,
 				51E3D41A2035C2D2004BE111 /* TencentOpenAPI.framework in Frameworks */,
 				51B929291F92396B00BB4467 /* Photos.framework in Frameworks */,
 				5186FB811F850BE900E402DF /* AVFoundation.framework in Frameworks */,
@@ -619,6 +625,7 @@
 		025BFAD0142E25D5E1D60C19 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				51482F56205E45B70043FFF9 /* libc++.tbd */,
 				51B9293A1F926BF000BB4467 /* AssetsLibrary.framework */,
 				51B929281F92396B00BB4467 /* Photos.framework */,
 				5186FB801F850BE900E402DF /* AVFoundation.framework */,
@@ -1845,6 +1852,8 @@
 		51D941A9205AC481002F9004 /* KKRecordVideo */ = {
 			isa = PBXGroup;
 			children = (
+				512BFC7C205EB75D00BEF7F3 /* KKGLKRenderView.h */,
+				512BFC7B205EB75D00BEF7F3 /* KKGLKRenderView.m */,
 				51D941AA205AC481002F9004 /* KKRecordEncoder */,
 				51D941AD205AC481002F9004 /* KKRecordEngine */,
 			);
@@ -2442,6 +2451,7 @@
 				14645C6E1FE35E89007E06B3 /* KKPersonalCommentView.m in Sources */,
 				14645C4F1FE35E89007E06B3 /* KKBadgeView.m in Sources */,
 				14645CAB1FE35E89007E06B3 /* KKEditRecordCorverView.m in Sources */,
+				512BFC7D205EB75D00BEF7F3 /* KKGLKRenderView.m in Sources */,
 				14337AEC1FE89FB6003AE321 /* KKUserHeaderView.m in Sources */,
 				14645C6D1FE35E89007E06B3 /* KKPersonalCommentCell.m in Sources */,
 				14645C671FE35E89007E06B3 /* KKVideoGalleryView.m in Sources */,

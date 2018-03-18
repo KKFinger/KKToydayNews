@@ -14,7 +14,6 @@
 @interface KKRecordEngine ()<AVCaptureVideoDataOutputSampleBufferDelegate,AVCaptureAudioDataOutputSampleBufferDelegate, CAAnimationDelegate>
 @property(strong,nonatomic)KKRecordEncoder *recordEncoder;//录制编码
 @property(strong,nonatomic)AVCaptureSession *recordSession;//捕获视频的会话
-@property(strong,nonatomic)AVCaptureVideoPreviewLayer *previewLayer;//捕获到的视频呈现的layer
 @property(strong,nonatomic)AVCaptureDeviceInput *backCameraInput;//后置摄像头输入
 @property(strong,nonatomic)AVCaptureDeviceInput *frontCameraInput;//前置摄像头输入
 @property(strong,nonatomic)AVCaptureDeviceInput *audioMicInput;//麦克风输入
@@ -25,11 +24,13 @@
 @property(strong,nonatomic)AVCaptureAudioDataOutput *audioOutput;//音频输出
 
 //录制控制
-@property(atomic,assign)BOOL isCapturing;//正在录制
-@property(atomic,assign)BOOL isPaused;//是否暂停
-@property(atomic,assign)BOOL discont;//是否中断
-@property(atomic,assign)CMTime startTime;//开始录制的时间
-@property(atomic,assign)CGFloat currentRecordTime;//当前录制时间
+@property(nonatomic,assign)BOOL isCapturing;//正在录制
+@property(nonatomic,assign)BOOL isPaused;//是否暂停
+@property(nonatomic,assign)BOOL writeRecordToLocal;//是否将录像文件写入沙盒，默认NO
+@property(nonatomic,assign)BOOL previewWithOpenGL;//使用opengl预览
+@property(nonatomic,assign)BOOL discont;//是否中断
+@property(nonatomic,assign)CMTime startTime;//开始录制的时间
+@property(nonatomic,assign)CGFloat currentRecordTime;//当前录制时间
 
 //数据写入相关
 @property(nonatomic,assign)CMTime timeOffset;//录制的偏移CMTime
@@ -38,8 +39,13 @@
 @property(nonatomic,assign)NSInteger channels;//音频通道
 @property(nonatomic,assign)Float64 samplerate;//音频采样率
 
-@property (atomic,strong) NSString *recordFilePath;//视频路径
-@property (atomic,strong) NSString *recordFolderPath;//视频所在的文件夹
+@property (nonatomic,strong) NSString *recordFilePath;//视频路径
+@property (nonatomic,strong) NSString *recordFolderPath;//视频所在的文件夹
+
+//预览视图使用opengles绘制
+@property(nonatomic,readwrite)KKGLKRenderView *glkView;
+//使用系统自带的预览视图
+@property(nonatomic,readwrite)AVCaptureVideoPreviewLayer *previewLayer;
 
 @end
 
@@ -63,20 +69,35 @@
     [KKAppTools clearFileAtFolder:self.recordFolderPath];
 }
 
-- (instancetype)initWithRecFileFolder:(NSString *)fileFolder{
+- (instancetype)initWithRecFileFolder:(NSString *)fileFolder previewWithOpenGL:(BOOL)previewWithOpenGL writeRecordToLocal:(BOOL)writeRecordToLocal{
     self = [super init];
     if (self) {
         self.maxRecordTime = 60.0f;
         self.pixWidth = UIDeviceScreenWidth;
         self.pixHeight = UIDeviceScreenWidth;
         self.recordFolderPath = fileFolder;
+        self.writeRecordToLocal = writeRecordToLocal;
+        self.previewWithOpenGL = previewWithOpenGL;
     }
     return self;
 }
 
+- (instancetype)init{
+    self = [super init];
+    if(self){
+        self.maxRecordTime = 60.0f;
+        self.pixWidth = UIDeviceScreenWidth;
+        self.pixHeight = UIDeviceScreenWidth;
+        self.recordFolderPath = NSTemporaryDirectory();
+        self.writeRecordToLocal = NO;
+        self.previewWithOpenGL = NO;
+    }
+    return self ;
+}
+
 #pragma mark -- 启动录制功能
 
-- (void)startUp {
+- (void)setupRecord {
     self.startTime = CMTimeMake(0, 0);
     self.isCapturing = NO;
     self.isPaused = NO;
@@ -87,7 +108,7 @@
 
 #pragma mark -- 关闭录制功能
 
-- (void)shutdown {
+- (void)shutdownRecord {
     self.startTime = CMTimeMake(0, 0);
     [self.recordSession stopRunning];
     [self.recordEncoder finishWithCompletionHandler:^{
@@ -270,7 +291,7 @@
     }
 }
 
-#pragma mark -- 写入数据
+#pragma mark -- 数据回调
 
 - (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer fromConnection:(AVCaptureConnection *)connection {
     BOOL isVideo = YES;
@@ -353,8 +374,16 @@
         });
     }
     
-    // 进行数据编码
-    [self.recordEncoder encodeFrame:sampleBuffer isVideo:isVideo];
+    if(self.previewWithOpenGL){
+        UIImage *image = [UIImage imageFromSampleBuffer:sampleBuffer];
+        CIImage *ciimage = [[CIImage alloc] initWithImage:image];
+        [self.glkView drawCIImage:ciimage];
+    }
+    
+    //数据保存
+    if(self.writeRecordToLocal){
+        [self.recordEncoder writeRecordToLocal:sampleBuffer isVideo:isVideo];
+    }
     
     CFRelease(sampleBuffer);
 }
@@ -414,6 +443,40 @@
             callback(granted);
         }
     }];
+}
+
+#pragma mark -- 相机和麦克风的权限
+
+- (void)requireAuthorization:(void(^)(AVAuthorizationStatus audioState,AVAuthorizationStatus videoState))complete{
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        __block AVAuthorizationStatus audioAuth = [self checkAudioAuthorization];
+        __block AVAuthorizationStatus videoAuth = [self checkCameraAuthorization];
+        
+        dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
+        if(audioAuth == AVAuthorizationStatusNotDetermined){
+            @weakify(self);
+            [self requireAudioAuthorization:^(BOOL granted) {
+                @strongify(self);
+                audioAuth = [self checkAudioAuthorization];
+                dispatch_semaphore_signal(semaphore);
+            }];
+            dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+        }
+        if(videoAuth == AVAuthorizationStatusNotDetermined){
+            @weakify(self);
+            [self requireCameraAuthorization:^(BOOL granted) {
+                @strongify(self);
+                videoAuth = [self checkCameraAuthorization];
+                dispatch_semaphore_signal(semaphore);
+            }];
+            dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if(complete){
+                complete(audioAuth,videoAuth);
+            }
+        });
+    });
 }
 
 #pragma mark -- @property set、get方法
@@ -528,6 +591,16 @@
         _previewLayer = preview;
     }
     return _previewLayer;
+}
+
+- (KKGLKRenderView *)glkView{
+    if(!_glkView){
+        _glkView = ({
+            KKGLKRenderView *view = [KKGLKRenderView new];
+            view ;
+        });
+    }
+    return _glkView;
 }
 
 //录制的队列

@@ -85,4 +85,60 @@
     return [UIImage imageWithData:imagedata] ;
 }
 
+// Create a UIImage from sample buffer data
++ (UIImage *) imageFromSampleBuffer:(CMSampleBufferRef) sampleBuffer{
+    CVImageBufferRef imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
+    
+    //锁定像素缓冲区的起始地址
+    CVPixelBufferLockBaseAddress(imageBuffer,0);
+    
+    //获取每行像素的字节数
+    size_t bytesPerRow = CVPixelBufferGetBytesPerRow(imageBuffer);
+    
+    //获取像素缓冲区的宽度和高度
+    size_t width = CVPixelBufferGetWidth(imageBuffer);
+    size_t height = CVPixelBufferGetHeight(imageBuffer);
+    
+    //创建基于设备的RGB颜色空间
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+    if (!colorSpace){
+        NSLog(@"CGColorSpaceCreateDeviceRGB failure");
+        return nil;
+    }
+    
+    //获取像素缓冲区的起始地址
+    void *baseAddress = CVPixelBufferGetBaseAddress(imageBuffer);
+    
+    //获取像素缓冲区的数据大小
+    size_t bufferSize = CVPixelBufferGetDataSize(imageBuffer);
+    
+    //使用提供的数据创建CGDataProviderRef
+    CGDataProviderRef provider = CGDataProviderCreateWithData(NULL, baseAddress, bufferSize,NULL);
+    
+    //通过CGDataProviderRef，创建CGImageRef
+    CGImageRef cgImage =
+    CGImageCreate(width,
+                  height,
+                  8,
+                  32,
+                  bytesPerRow,
+                  colorSpace,
+                  kCGImageAlphaNoneSkipFirst | kCGBitmapByteOrder32Little,
+                  provider,
+                  NULL,
+                  true,
+                  kCGRenderingIntentDefault);
+    CGDataProviderRelease(provider);
+    CGColorSpaceRelease(colorSpace);
+    
+    //创建UIImage
+    UIImage *image = [UIImage imageWithCGImage:cgImage];
+    CGImageRelease(cgImage);
+    
+    //解锁像素缓冲区起始地址
+    CVPixelBufferUnlockBaseAddress(imageBuffer, 0);
+    
+    return image;
+}
+
 @end

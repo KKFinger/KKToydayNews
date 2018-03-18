@@ -57,6 +57,6 @@
  *
  *  @return 写入是否成功
  */
-- (BOOL)encodeFrame:(CMSampleBufferRef)sampleBuffer isVideo:(BOOL)isVideo;
+- (BOOL)writeRecordToLocal:(CMSampleBufferRef)sampleBuffer isVideo:(BOOL)isVideo;
 
 @end

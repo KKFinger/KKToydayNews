@@ -29,7 +29,7 @@
 - (instancetype)init{
     self = [super init];
     if(self){
-        self.semaphore = dispatch_semaphore_create(1);
+        self.semaphore = dispatch_semaphore_create(0);
         self.queue = dispatch_queue_create("KKXiGuaSectionManager", DISPATCH_QUEUE_SERIAL);
     }
     return self ;
@@ -39,7 +39,6 @@
 
 - (void)fetchSectionWithComplete:(void(^)(NSArray<KKSectionItem *> *))block{
     dispatch_async(self.queue, ^{
-        dispatch_semaphore_wait(self.semaphore, DISPATCH_TIME_FOREVER);
         [[KKFetchNewsTool shareInstance]fetchXiGuaSectionWithSuccess:^(NSArray<KKSectionItem *> *itemArray) {
             if(itemArray.count){
                 [self.sectionArr removeAllObjects];
@@ -87,6 +86,7 @@
             });
             dispatch_semaphore_signal(self.semaphore);
         }];
+        dispatch_semaphore_wait(self.semaphore, DISPATCH_TIME_FOREVER);
     });
 }
 

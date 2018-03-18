@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <AVFoundation/AVFoundation.h>
 
 @interface UIImage(UIImage)
 
@@ -24,5 +25,8 @@
 
 //图片压缩
 - (UIImage *)scaleWithFactor:(float)scaleFloat quality:(CGFloat)compressionQuality;
+
+// Create a UIImage from sample buffer data
++ (UIImage *) imageFromSampleBuffer:(CMSampleBufferRef) sampleBuffer;
 
 @end

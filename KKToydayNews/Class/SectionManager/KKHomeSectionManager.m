@@ -30,7 +30,7 @@
 - (instancetype)init{
     self = [super init];
     if(self){
-        self.semaphore = dispatch_semaphore_create(1);
+        self.semaphore = dispatch_semaphore_create(0);
         self.queue = dispatch_queue_create("fetchSectionQueue", DISPATCH_QUEUE_SERIAL);
     }
     return self ;
@@ -40,7 +40,6 @@
 
 - (void)fetchFavSectionWithComplete:(void(^)(NSArray<KKSectionItem *> *))block{
     dispatch_async(self.queue, ^{
-        dispatch_semaphore_wait(self.semaphore, DISPATCH_TIME_FOREVER);
         if(!self.favSectionArr.count){
             NSData *data = [[NSUserDefaults standardUserDefaults]objectForKey:KKUserFavSectionData];
             NSArray *array = nil;
@@ -97,6 +96,7 @@
             });
             dispatch_semaphore_signal(self.semaphore);
         }
+        dispatch_semaphore_wait(self.semaphore, DISPATCH_TIME_FOREVER);
     });
 }
 
@@ -104,7 +104,6 @@
 
 - (void)fetchRecommonSectionWithComplete:(void(^)(NSArray<KKSectionItem *> *))block{
     dispatch_async(self.queue, ^{
-        dispatch_semaphore_wait(self.semaphore, DISPATCH_TIME_FOREVER);
         if(!self.recommonSectionArr.count){
             [[KKFetchNewsTool shareInstance]fetchRecomonSectionWithSuccess:^(NSArray<KKSectionItem *> *itemArray) {
                 if(itemArray.count){
@@ -135,6 +134,7 @@
             });
             dispatch_semaphore_signal(self.semaphore);
         }
+        dispatch_semaphore_wait(self.semaphore, DISPATCH_TIME_FOREVER);
     });
 }
 
@@ -142,7 +142,6 @@
 
 - (void)updateFavoriteSection{
     dispatch_async(self.queue, ^{
-        dispatch_semaphore_wait(self.semaphore, DISPATCH_TIME_FOREVER);
         NSMutableArray *catagorys = [NSMutableArray new];
         for(KKSectionItem *item in self.favSectionArr){
             [catagorys safeAddObject:item.category];
@@ -152,6 +151,7 @@
         } failure:^(NSError *error) {
             dispatch_semaphore_signal(self.semaphore);
         }];
+        dispatch_semaphore_wait(self.semaphore, DISPATCH_TIME_FOREVER);
     });
 }
 
