@@ -463,6 +463,7 @@ static NSString *pictureCellIdentifier = @"pictureCellIdentifier";
     newsInfo.catagory = self.sectionItem.category;
     newsInfo.commentCount = item.comment_count;
     newsInfo.userInfo = item.user_info;
+    
     KKNormalNewsDetailView *view = [[KKNormalNewsDetailView alloc]initWithNewsBaseInfo:newsInfo];
     view.topSpace = 0 ;
     view.navContentOffsetY = KKStatusBarHeight / 2.0 ;

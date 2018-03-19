@@ -100,7 +100,7 @@
             [view removeFromSuperview];
         }
         [self.viewArray removeAllObjects];
-        
+
         for(UIView *view in self.contentView.subviews){
             if([view isKindOfClass:[KKBaseSummaryView class]]){
                 [(KKBaseSummaryView *)view stopVideoIfNeed];
@@ -143,7 +143,7 @@
     [self.headView setCornerImageWithURL:[NSURL URLWithString:@""] placeholder:[UIImage imageNamed:@"userHead"]];
     self.navTitleView.leftBtns = @[self.headView];
     
-    [self.searchBar setFrame:CGRectMake(50, 0, UIDeviceScreenWidth - 60, 27)];
+    self.searchBar.frame = CGRectMake(50, 0, UIDeviceScreenWidth - 60, 27);
     self.navTitleView.titleView = self.searchBar;
 }
 
@@ -188,10 +188,10 @@
     pannelView.topSpace = KKStatusBarHeight;
     pannelView.contentViewCornerRadius = 10 ;
     pannelView.cornerEdge = UIRectCornerTopRight|UIRectCornerTopLeft;
-    
+
     @weakify(self);
     @weakify(pannelView);
-    
+
     [pannelView setCloseHandler:^(BOOL sectionDataChanged){
         @strongify(pannelView);
         if(sectionDataChanged){
@@ -200,7 +200,7 @@
         [pannelView removeFromSuperview];
         pannelView = nil ;
     }];
-    
+
     [pannelView setJumpToViewByItemHandler:^(KKSectionItem *item,BOOL sectionDataChanged) {
         @strongify(pannelView);
         @strongify(self);
@@ -214,36 +214,36 @@
         CGPoint offset = self.contentView.contentOffset;
         offset.x = index * UIDeviceScreenWidth ;
         self.contentView.contentOffset = offset;
-        
+
         NSInteger preSelIndex = [[KKHomeSectionManager shareInstance]fetchIndexOfCatagory:self.preSelCatagory];
         if(preSelIndex != index){
             KKBaseSummaryView *view = [self.viewArray safeObjectAtIndex:preSelIndex];
             [view stopVideoIfNeed];
         }
-        
+
         KKBaseSummaryView *view = [self.viewArray safeObjectAtIndex:index];
         [view beginPullDownUpdate];
-        
+
         self.preSelCatagory = item.category;
     }];
-    
+
     [pannelView setUserSectionOrderChangeHandler:^(NSInteger fromIndex,NSInteger  toIndex){
         @strongify(self);
         self.sectionBarView.sectionItems = [[KKHomeSectionManager shareInstance] getFavoriteSection];
         self.contentView.contentSize = CGSizeMake([[KKHomeSectionManager shareInstance]getFavoriteCount] * UIDeviceScreenWidth,0);
-        
+
         //交换View，重新布局视图
         NSInteger subViewIndex = 0 ;
         KKBaseSummaryView *view = [self.viewArray objectAtIndex:fromIndex];
         [self.viewArray removeObjectAtIndex:fromIndex];
         [self.viewArray insertObject:view atIndex:toIndex];
-        for(KKNewsSummaryView *view in self.viewArray){
+        for(KKBaseSummaryView *view in self.viewArray){
             [view mas_updateConstraints:^(MASConstraintMaker *make) {
                 make.left.mas_equalTo(self.contentView).mas_offset(subViewIndex * UIDeviceScreenWidth);
             }];
             subViewIndex ++ ;
         }
-        
+
         //滚动至相应的位置
         NSString *catagory = self.sectionBarView.curtSelCatagory;
         NSInteger index = [[KKHomeSectionManager shareInstance]fetchIndexOfCatagory:catagory];
@@ -251,15 +251,18 @@
         offset.x = index * UIDeviceScreenWidth ;
         self.contentView.contentOffset = offset;
     }];
-    
+
     [pannelView setAddOrRemoveSectionHandler:^(KKSectionOpType opType, KKSectionItem *item){
         @strongify(self);
         self.sectionBarView.sectionItems = [[KKHomeSectionManager shareInstance] getFavoriteSection];
         self.contentView.contentSize = CGSizeMake([[KKHomeSectionManager shareInstance]getFavoriteCount] * UIDeviceScreenWidth,0);
         if(opType == KKSectionOpTypeAddToFavSection){
-            KKNewsSummaryView *view = [[KKNewsSummaryView alloc]initWithSectionItem:item];
+            KKBaseSummaryView *view = [[KKNewsSummaryView alloc]initWithSectionItem:item];
+            if([item.category isEqualToString:@"hotsoon_video"]){
+                view = [[KKXiaoShiPingSummaryView alloc]initWithSectionItem:item];
+            }
             [view setParentCtrl:self];
-            
+
             [self.viewArray addObject:view];
             [self.contentView addSubview:view];
             [view mas_updateConstraints:^(MASConstraintMaker *make) {
@@ -268,7 +271,7 @@
                 make.width.height.mas_equalTo(self.contentView);
             }];
         }else if(opType == KKSectionOpTypeRemoveFromFavSection){
-            for(KKNewsSummaryView *view in self.viewArray){
+            for(KKBaseSummaryView *view in self.viewArray){
                 if([view.sectionItem.category isEqualToString:item.category]){
                     [view removeFromSuperview];
                     [self.viewArray removeObject:view];
@@ -277,13 +280,13 @@
             }
             //重新布局视图
             NSInteger subViewIndex = 0 ;
-            for(KKNewsSummaryView *view in self.viewArray){
+            for(KKBaseSummaryView *view in self.viewArray){
                 [view mas_updateConstraints:^(MASConstraintMaker *make) {
                     make.left.mas_equalTo(self.contentView).mas_offset(subViewIndex * UIDeviceScreenWidth);
                 }];
                 subViewIndex ++ ;
             }
-            
+
             NSString *catagory = self.sectionBarView.curtSelCatagory;
             if([catagory isEqualToString:item.category]){
                 /*catagory = @"推荐" ;
@@ -298,7 +301,7 @@
         }
     }];
     pannelView.curtSelCatagory = self.sectionBarView.curtSelCatagory;
-    
+
     [[UIApplication sharedApplication].keyWindow addSubview:pannelView];
     [pannelView mas_updateConstraints:^(MASConstraintMaker *make) {
         make.left.top.mas_equalTo(0);

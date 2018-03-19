@@ -374,7 +374,7 @@
         });
     }
     
-    if(self.previewWithOpenGL){
+    if(self.previewWithOpenGL && isVideo){
         UIImage *image = [UIImage imageFromSampleBuffer:sampleBuffer];
         CIImage *ciimage = [[CIImage alloc] initWithImage:image];
         [self.glkView drawCIImage:ciimage];
@@ -550,7 +550,7 @@
         _videoOutput = [[AVCaptureVideoDataOutput alloc] init];
         [_videoOutput setSampleBufferDelegate:self queue:self.captureQueue];
         NSDictionary* setcapSettings = [NSDictionary dictionaryWithObjectsAndKeys:
-                                        [NSNumber numberWithInt:kCVPixelFormatType_420YpCbCr8BiPlanarVideoRange],kCVPixelBufferPixelFormatTypeKey,
+                                        [NSNumber numberWithInt: kCVPixelFormatType_32BGRA],kCVPixelBufferPixelFormatTypeKey,
                                         nil];
         _videoOutput.videoSettings = setcapSettings;
     }

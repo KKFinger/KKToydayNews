@@ -29,6 +29,7 @@
 
 - (void)layoutSubviews{
     [super layoutSubviews];
+    [self.glkView bindDrawable];
     self.rectInPixels = CGRectMake(0.0, 0.0, self.glkView.drawableWidth, self.glkView.drawableHeight);
 }
 
@@ -65,7 +66,6 @@
     if(!_glkView){
         _glkView = ({
             GLKView *view = [GLKView new];
-            [view bindDrawable];
             view ;
         });
     }

@@ -151,6 +151,10 @@ static CGFloat maxRecordVideoTime = 5 * 60 ;
     
     [self.recordEngine.previewLayer setFrame:CGRectMake(0, 0, UIDeviceScreenWidth, UIDeviceScreenWidth)];
     [self.videoCaptureView.layer insertSublayer:self.recordEngine.previewLayer atIndex:0];
+//    [self.videoCaptureView addSubview:self.recordEngine.glkView];
+//    [self.recordEngine.glkView mas_updateConstraints:^(MASConstraintMaker *make) {
+//        make.edges.mas_equalTo(self.videoCaptureView);
+//    }];
 }
 
 #pragma mark -- 检测相机和麦克风权限
@@ -163,6 +167,7 @@ static CGFloat maxRecordVideoTime = 5 * 60 ;
            videoState == AVAuthorizationStatusAuthorized){
             self.allowRecord = YES ;
             [self.recordEngine setupRecord];
+            //[self.recordEngine startCapture];
             [self captureViewAnimate];
         }else{
             KKBlockAlertView *view = [KKBlockAlertView new];
