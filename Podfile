@@ -16,4 +16,5 @@ target 'KKToydayNews' do
     pod 'YYWebImage','~>1.0.5'
     pod 'YYImage/WebP','~>1.0.4'
     pod 'Reachability','~>3.2'
+    pod 'GPUImage','~>0.1.7'
 end
