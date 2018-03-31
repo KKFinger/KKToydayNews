@@ -81,10 +81,10 @@
         headUrl = @"";
     }
     SDImageCache *imageCache = [SDImageCache sharedImageCache];
-    /*UIImage *image = [imageCache imageFromCacheForKey:headUrl] ;
+    UIImage *image = [imageCache imageFromCacheForKey:headUrl] ;
     if(image){
         [self.headImageView setCornerImage:image];
-    }else{*/
+    }else{
         @weakify(imageCache);
         [imageCache diskImageExistsWithKey:headUrl completion:^(BOOL isInCache) {
             @strongify(imageCache);
@@ -94,7 +94,7 @@
                 [self.headImageView setCornerImageWithURL:[NSURL URLWithString:headUrl] placeholder:[UIImage imageNamed:@"head_default"]];
             }
         }];
-    //}
+    }
     
     self.nameLabel.text = info.screen_name;
     

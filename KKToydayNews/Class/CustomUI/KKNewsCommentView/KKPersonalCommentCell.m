@@ -172,10 +172,10 @@
         headUrl = @"";
     }
     SDImageCache *imageCache = [SDImageCache sharedImageCache];
-    /*UIImage *image = [imageCache imageFromCacheForKey:headUrl] ;
+    UIImage *image = [imageCache imageFromCacheForKey:headUrl] ;
     if(image){
         [self.headImageView setCornerImage:image];
-    }else{*/
+    }else{
         @weakify(imageCache);
         [imageCache diskImageExistsWithKey:headUrl completion:^(BOOL isInCache) {
             @strongify(imageCache);
@@ -185,7 +185,7 @@
                 [self.headImageView setCornerImageWithURL:[NSURL URLWithString:headUrl] placeholder:[UIImage imageNamed:@"head_default"]];
             }
         }];
-    //}
+    }
     
     self.nameLabel.text = userComment.detail.user.screen_name;
     
@@ -238,10 +238,10 @@
         }];
         
         SDImageCache *imageCache = [SDImageCache sharedImageCache];
-        /*UIImage *image = [imageCache imageFromCacheForKey:url] ;
+        UIImage *image = [imageCache imageFromCacheForKey:url] ;
         if(image){
             [view setCornerImage:image];
-        }else{*/
+        }else{
             @weakify(imageCache);
             [imageCache diskImageExistsWithKey:url completion:^(BOOL isInCache) {
                 @strongify(imageCache);
@@ -251,7 +251,7 @@
                     [view setCornerImageWithURL:[NSURL URLWithString:url] placeholder:[UIImage imageNamed:@"head_default"]];
                 }
             }];
-        //}
+        }
         
         [view mas_updateConstraints:^(MASConstraintMaker *make) {
             make.width.mas_equalTo(SmallImageWH);
@@ -338,13 +338,11 @@
         _headImageView = ({
             UIImageView *view = [UIImageView new];
             view.contentMode = UIViewContentModeScaleAspectFill;
-            view.layer.masksToBounds = YES ;
             view.userInteractionEnabled = YES ;
             
             @weakify(self);
             [view addTapGestureWithBlock:^(UIView *gestureView) {
                 @strongify(self);
-                
                 if(self.delegate && [self.delegate respondsToSelector:@selector(jumpToUserPage:)]){
                     [self.delegate jumpToUserPage:self.userComment.detail.user.user_id];
                 }

@@ -112,7 +112,7 @@ const char kBorderColor;
     @weakify(self);
     [self sd_setImageWithURL:url placeholderImage:placeholder completed:^(UIImage * _Nullable image, NSError * _Nullable error, SDImageCacheType cacheType, NSURL * _Nullable imageURL) {
         @strongify(self);
-        self.radius = (MIN(self.size.width,self.size.height)) / 2.0 ;
+        //self.radius = (MIN(self.size.width,self.size.height)) / 2.0 ;
         UIImage *rstImage = image ;
         if(!rstImage){
             rstImage = placeholder;
@@ -123,8 +123,9 @@ const char kBorderColor;
 }
 
 - (void)setCornerImage:(UIImage *)image{
-    self.radius = (MIN(self.size.width,self.size.height)) / 2.0 ;
-    [self cornerRadiusWithImage:image cornerRadius:self.radius rectCornerType:UIRectCornerAllCorners];
+    //self.radius = (MIN(self.size.width,self.size.height)) / 2.0 ;
+    //[self cornerRadiusWithImage:image cornerRadius:self.radius rectCornerType:UIRectCornerAllCorners];
+    self.image = [image circleImage];
 }
 
 #pragma mark -- property
