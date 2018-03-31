@@ -13,9 +13,9 @@
 #import "KKAppTools.h"
 
 @interface KKVideoManager()<PHPhotoLibraryChangeObserver>
-@property (nonatomic,strong) PHCachingImageManager *cachingImageManager;
-@property (nonatomic,strong) PHAssetCollection *albumCollection;
-@property (nonatomic,strong) PHFetchResult *albumAssets;
+@property(nonatomic,strong)PHCachingImageManager *cachingImageManager;
+@property(nonatomic,strong)PHAssetCollection *albumCollection;
+@property(nonatomic,strong)PHFetchResult *albumAssets;
 @end
 
 @implementation KKVideoManager
@@ -49,8 +49,7 @@
 #pragma mark -- 照片库变动通知
 
 - (void)photoLibraryDidChange:(PHChange *)changeInstance{
-    //- (void)performSelector:(SEL)aSelector withObject:(nullable id)anArgument afterDelay:(NSTimeInterval)delay需要放在开启了runloop的线程中去执行，子线程的runloop需要手动开启
-    dispatch_async(dispatch_get_main_queue(), ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(photoLibraryDidChange) object:nil];
         [self performSelector:@selector(photoLibraryDidChange) withObject:nil afterDelay:0.3];
     });

@@ -23,6 +23,10 @@
 
 - (UIImage*)imageWithCornerRadius:(CGFloat)radius;
 
+#pragma mark -- 圆角图片
+
+- (UIImage *)circleImage;
+
 //图片压缩
 - (UIImage *)scaleWithFactor:(float)scaleFloat quality:(CGFloat)compressionQuality;
 

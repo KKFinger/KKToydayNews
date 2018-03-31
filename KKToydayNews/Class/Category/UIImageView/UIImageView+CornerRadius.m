@@ -117,7 +117,8 @@ const char kBorderColor;
         if(!rstImage){
             rstImage = placeholder;
         }
-        [self cornerRadiusWithImage:rstImage cornerRadius:self.radius rectCornerType:UIRectCornerAllCorners];
+        //[self cornerRadiusWithImage:rstImage cornerRadius:self.radius rectCornerType:UIRectCornerAllCorners];
+        self.image = [rstImage circleImage];
     }];
 }
 

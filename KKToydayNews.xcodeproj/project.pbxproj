@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0ED10B79206F87A2005D7B35 /* UITableViewCell+Animate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ED10B78206F87A2005D7B35 /* UITableViewCell+Animate.m */; };
 		143200EA1F7E01E400A1CCA4 /* UILabel+KKClickable.m in Sources */ = {isa = PBXBuildFile; fileRef = 143200E91F7E01E400A1CCA4 /* UILabel+KKClickable.m */; };
 		14337AE71FE89EF0003AE321 /* KKUserCenterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 14337AE61FE89EF0003AE321 /* KKUserCenterView.m */; };
 		14337AEC1FE89FB6003AE321 /* KKUserHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 14337AE91FE89FB6003AE321 /* KKUserHeaderView.m */; };
@@ -205,6 +206,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0ED10B77206F87A2005D7B35 /* UITableViewCell+Animate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UITableViewCell+Animate.h"; sourceTree = "<group>"; };
+		0ED10B78206F87A2005D7B35 /* UITableViewCell+Animate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UITableViewCell+Animate.m"; sourceTree = "<group>"; };
 		142911F61F39501A00658E87 /* KKCommonVariable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KKCommonVariable.h; sourceTree = "<group>"; };
 		143200E81F7E01E400A1CCA4 /* UILabel+KKClickable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+KKClickable.h"; sourceTree = "<group>"; };
 		143200E91F7E01E400A1CCA4 /* UILabel+KKClickable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILabel+KKClickable.m"; sourceTree = "<group>"; };
@@ -635,6 +638,15 @@
 				3BF0E1AAD6508A06671F16A2 /* libPods-KKToydayNews.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		0ED10B76206F877B005D7B35 /* UITableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				0ED10B77206F87A2005D7B35 /* UITableViewCell+Animate.h */,
+				0ED10B78206F87A2005D7B35 /* UITableViewCell+Animate.m */,
+			);
+			path = UITableViewCell;
 			sourceTree = "<group>";
 		};
 		143200E71F7E01E400A1CCA4 /* UILabel */ = {
@@ -1616,6 +1628,7 @@
 		5197BD3D1F37273200E67828 /* Category */ = {
 			isa = PBXGroup;
 			children = (
+				0ED10B76206F877B005D7B35 /* UITableViewCell */,
 				518D47B2203DD7A200EB891C /* KKPush */,
 				518A86121F87558D00ED858E /* UIScrollView */,
 				518A860A1F86A41200ED858E /* NSData */,
@@ -2318,6 +2331,7 @@
 				51D941CA205AC481002F9004 /* KKPhotoDateGroup.m in Sources */,
 				51D941DA205AC481002F9004 /* KKLocation.m in Sources */,
 				14645C521FE35E89007E06B3 /* KKCacheSliderView.m in Sources */,
+				0ED10B79206F87A2005D7B35 /* UITableViewCell+Animate.m in Sources */,
 				14645C601FE35E89007E06B3 /* KKGalleryImagePreview.m in Sources */,
 				51D941CE205AC481002F9004 /* KKVideoManager.m in Sources */,
 				14645C561FE35E89007E06B3 /* KKImageBrowser.m in Sources */,

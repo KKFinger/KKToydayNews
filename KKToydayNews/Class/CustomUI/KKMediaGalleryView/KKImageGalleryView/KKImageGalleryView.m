@@ -154,6 +154,7 @@ static CGFloat space = 1.0 ;
                     [self hiddenActivity];
                     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                         if(self.isFirstEnter){
+                            self.isFirstEnter = NO ;
                             [self scrollViewDidEndDecelerating:self.collectView];
                         }
                     });
@@ -397,6 +398,7 @@ static CGFloat space = 1.0 ;
 
 //完全停止滚动，加载高分辨率的缩略图
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
+    
     [[KKPhotoManager sharedInstance]cancelAllThumbnailTask];
     
     NSArray *array = self.collectView.indexPathsForVisibleItems;
@@ -419,6 +421,7 @@ static CGFloat space = 1.0 ;
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
     if (!decelerate) {//手指离开时不会继续滚动
+        
         [[KKPhotoManager sharedInstance]cancelAllThumbnailTask];
         
         NSArray *array = self.collectView.indexPathsForVisibleItems;

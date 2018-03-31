@@ -19,7 +19,7 @@ static NSInteger maxThumbConcurrentCount = 50 ;//最多同时获取的缩略图�
 
 @property(nonatomic)NSMutableDictionary *imageInfos;
 
-@property(nonatomic)PHImageRequestOptions *fetchThumOptions;
+@property(nonatomic)PHImageRequestOptions *fetchThumbOptions;
 @property(nonatomic)NSOperationQueue *fetchThumbQueue;
 
 @end
@@ -51,10 +51,10 @@ static NSInteger maxThumbConcurrentCount = 50 ;//最多同时获取的缩略图�
         self.fetchThumbQueue = [[NSOperationQueue alloc]init];
         self.fetchThumbQueue.maxConcurrentOperationCount = NSIntegerMax ;
         
-        self.fetchThumOptions = [[PHImageRequestOptions alloc]init];
-        self.fetchThumOptions.networkAccessAllowed = YES ;
-        self.fetchThumOptions.resizeMode = PHImageRequestOptionsResizeModeFast ;
-        self.fetchThumOptions.deliveryMode = PHImageRequestOptionsDeliveryModeOpportunistic;
+        self.fetchThumbOptions = [[PHImageRequestOptions alloc]init];
+        self.fetchThumbOptions.networkAccessAllowed = YES ;
+        self.fetchThumbOptions.resizeMode = PHImageRequestOptionsResizeModeFast ;
+        self.fetchThumbOptions.deliveryMode = PHImageRequestOptionsDeliveryModeOpportunistic;
         
         PHPhotoLibrary *photoLibrary = [PHPhotoLibrary sharedPhotoLibrary];
         [photoLibrary registerChangeObserver:self];
@@ -73,8 +73,7 @@ static NSInteger maxThumbConcurrentCount = 50 ;//最多同时获取的缩略图�
 #pragma mark -- 照片库变动通知
 
 - (void)photoLibraryDidChange:(PHChange *)changeInstance{
-    //- (void)performSelector:(SEL)aSelector withObject:(nullable id)anArgument afterDelay:(NSTimeInterval)delay需要放在开启了runloop的线程中去执行，子线程的runloop需要手动开启
-    dispatch_async(dispatch_get_main_queue(), ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(photoLibraryDidChange) object:nil];
         [self performSelector:@selector(photoLibraryDidChange) withObject:nil afterDelay:0.3];
     });
@@ -455,7 +454,7 @@ static NSInteger maxThumbConcurrentCount = 50 ;//最多同时获取的缩略图�
         [self.cachingImageManager requestImageForAsset:asset
                                             targetSize:size
                                            contentMode:PHImageContentModeAspectFill
-                                               options:self.fetchThumOptions
+                                               options:self.fetchThumbOptions
                                          resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info)
          {
              if (degraded == YES){
@@ -1633,7 +1632,7 @@ static NSInteger maxThumbConcurrentCount = 50 ;//最多同时获取的缩略图�
     }];
 }
 
-#pragma mark- 图片添加
+#pragma mark -- 图片添加
 
 - (void)addImageToAlbumWithImage:(UIImage *)image
                          albumId:(NSString *)albumId

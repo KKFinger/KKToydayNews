@@ -387,6 +387,10 @@ static NSString *pictureCellIdentifier = @"pictureCellIdentifier";
     }
 }
 
+- (void)tableView:(UITableView *)tableView willDisplayCell:(nonnull UITableViewCell *)cell forRowAtIndexPath:(nonnull NSIndexPath *)indexPath{
+//    [cell flyInOutAnimateForIndexPath:indexPath];
+}
+
 #pragma mark -- KKCommonDelegate
 
 - (void)shieldBtnClicked:(KKSummaryContent *)item{

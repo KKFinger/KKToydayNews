@@ -41,5 +41,6 @@
 #import <YYWebImage/YYWebImage.h>
 #import "UIView+Border.h"
 #import "Reachability.h"
+#import "UITableViewCell+Animate.h"
 
 #endif /* KKPublicHeader_h */
