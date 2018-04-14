@@ -132,21 +132,17 @@
     if(!url.length){
         url = @"";
     }
+    
+    @weakify(self);
     SDImageCache *imageCache = [SDImageCache sharedImageCache];
-    UIImage *image = [imageCache imageFromCacheForKey:url] ;
-    if(image){
-        [self.largeImgView setImage:image];
-    }else{
-        @weakify(imageCache);
-        [imageCache diskImageExistsWithKey:url completion:^(BOOL isInCache) {
-            @strongify(imageCache);
-            if(isInCache){
-                [self.largeImgView setImage:[imageCache imageFromCacheForKey:url]];
-            }else{
-                [self.largeImgView kk_setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageWithColor:[UIColor grayColor]] animate:YES];
-            }
-        }];
-    }
+    [imageCache queryCacheOperationForKey:url done:^(UIImage * _Nullable image, NSData * _Nullable data, SDImageCacheType cacheType) {
+        @strongify(self);
+        if(image){
+            [self.largeImgView setImage:image];
+        }else{
+            [self.largeImgView kk_setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageWithColor:[UIColor grayColor]] animate:YES];
+        }
+    }];
     
     NSString *publishTime = [NSString stringIntervalSince1970RuleOne:item.publish_time.longLongValue];
     NSString *commentCnt = [[NSNumber numberWithLong:item.comment_count.longLongValue]convert];

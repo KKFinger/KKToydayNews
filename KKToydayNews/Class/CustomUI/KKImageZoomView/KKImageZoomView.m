@@ -86,21 +86,28 @@
 
 - (void)showImageWithUrl:(NSString *)imageUrl placeHolder:(UIImage *)placeholder {
     _imageUrl = imageUrl;
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        [[SDWebImageManager sharedManager]cachedImageExistsForURL:[NSURL URLWithString:_imageUrl] completion:^(BOOL isInCache) {
-            if(isInCache){
-                NSString *key = [[SDWebImageManager sharedManager]cacheKeyForURL:[NSURL URLWithString:_imageUrl]];
-                UIImage *image = [[SDWebImageManager sharedManager].imageCache imageFromCacheForKey:key];
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [self displayImage:image];
-                });
-            }else{
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [self loadImageWithUrl:_imageUrl placeHolder:placeholder];
-                });
-            }
-        }];
-    });
+//    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+//        [[SDWebImageManager sharedManager]cachedImageExistsForURL:[NSURL URLWithString:_imageUrl] completion:^(BOOL isInCache) {
+//            if(isInCache){
+//                NSString *key = [[SDWebImageManager sharedManager]cacheKeyForURL:[NSURL URLWithString:_imageUrl]];
+//                UIImage *image = [[SDWebImageManager sharedManager].imageCache imageFromCacheForKey:key];
+//                dispatch_async(dispatch_get_main_queue(), ^{
+//                    [self displayImage:image];
+//                });
+//            }else{
+//                dispatch_async(dispatch_get_main_queue(), ^{
+//                    [self loadImageWithUrl:_imageUrl placeHolder:placeholder];
+//                });
+//            }
+//        }];
+//    });
+    [[SDImageCache sharedImageCache]queryCacheOperationForKey:_imageUrl done:^(UIImage * _Nullable image, NSData * _Nullable data, SDImageCacheType cacheType) {
+        if(image){
+            [self displayImage:image];
+        }else{
+            [self loadImageWithUrl:_imageUrl placeHolder:placeholder];
+        }
+    }];
 }
 
 #pragma mark -- 显示相片

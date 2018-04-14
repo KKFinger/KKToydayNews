@@ -174,13 +174,13 @@
     SDImageCache *imageCache = [SDImageCache sharedImageCache];
     UIImage *image = [imageCache imageFromCacheForKey:headUrl] ;
     if(image){
-        [self.headImageView setCornerImage:image];
+        self.headImageView.image = image ;
     }else{
         @weakify(imageCache);
         [imageCache diskImageExistsWithKey:headUrl completion:^(BOOL isInCache) {
             @strongify(imageCache);
             if(isInCache){
-                [self.headImageView setCornerImage:[imageCache imageFromCacheForKey:headUrl]];
+                self.headImageView.image = [imageCache imageFromCacheForKey:headUrl] ;
             }else{
                 [self.headImageView setCornerImageWithURL:[NSURL URLWithString:headUrl] placeholder:[UIImage imageNamed:@"head_default"]];
             }
@@ -238,20 +238,13 @@
         }];
         
         SDImageCache *imageCache = [SDImageCache sharedImageCache];
-        UIImage *image = [imageCache imageFromCacheForKey:url] ;
-        if(image){
-            [view setCornerImage:image];
-        }else{
-            @weakify(imageCache);
-            [imageCache diskImageExistsWithKey:url completion:^(BOOL isInCache) {
-                @strongify(imageCache);
-                if(isInCache){
-                    [view setCornerImage:[imageCache imageFromCacheForKey:url]];
-                }else{
-                    [view setCornerImageWithURL:[NSURL URLWithString:url] placeholder:[UIImage imageNamed:@"head_default"]];
-                }
-            }];
-        }
+        [imageCache queryCacheOperationForKey:url done:^(UIImage * _Nullable image, NSData * _Nullable data, SDImageCacheType cacheType) {
+            if(image){
+                view.image = image ;
+            }else{
+                [view setCornerImageWithURL:[NSURL URLWithString:url] placeholder:[UIImage imageNamed:@"head_default"]];
+            }
+        }];
         
         [view mas_updateConstraints:^(MASConstraintMaker *make) {
             make.width.mas_equalTo(SmallImageWH);

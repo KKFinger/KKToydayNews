@@ -92,20 +92,13 @@
         url = @"";
     }
     SDImageCache *imageCache = [SDImageCache sharedImageCache];
-    UIImage *image = [imageCache imageFromCacheForKey:url] ;
-    if(image){
-        [self.answerImageView setImage:image];
-    }else{
-        @weakify(imageCache);
-        [imageCache diskImageExistsWithKey:url completion:^(BOOL isInCache) {
-            @strongify(imageCache);
-            if(isInCache){
-                [self.answerImageView setImage:[imageCache imageFromCacheForKey:url]];
-            }else{
-                [self.answerImageView sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageWithColor:[UIColor grayColor]]];
-            }
-        }];
-    }
+    [imageCache queryCacheOperationForKey:url done:^(UIImage * _Nullable image, NSData * _Nullable data, SDImageCacheType cacheType) {
+        if(image){
+            [self.answerImageView setImage:image];
+        }else{
+            [self.answerImageView sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageWithColor:[UIColor grayColor]]];
+        }
+    }];
     
     NSString *diggCount = [[NSNumber numberWithInteger:modal.answer.digg_count.longLongValue]convert];
     NSString *browcount = [[NSNumber numberWithInteger:modal.answer.brow_count.longLongValue]convert];

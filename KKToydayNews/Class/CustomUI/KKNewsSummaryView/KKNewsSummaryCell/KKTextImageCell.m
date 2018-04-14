@@ -139,18 +139,13 @@
             url = @"";
         }
         YYImageCache *imageCache = [YYImageCache sharedCache];
-        UIImage *image = [imageCache getImageForKey:url withType:YYImageCacheTypeMemory] ;
-        if(image){
-            [self.contentImageView setImage:image];
-        }else{
-            [imageCache getImageForKey:url withType:YYImageCacheTypeDisk withBlock:^(UIImage * _Nullable image, YYImageCacheType type) {
-                if(image){
-                    [self.contentImageView setImage:image];
-                }else{
-                    [self.contentImageView yy_setImageWithURL:[NSURL URLWithString:url] placeholder:[UIImage imageWithColor:[UIColor grayColor]]];
-                }
-            }];
-        }
+        [imageCache getImageForKey:url withType:YYImageCacheTypeMemory|YYImageCacheTypeDisk withBlock:^(UIImage * _Nullable image, YYImageCacheType type) {
+            if(image){
+                [self.contentImageView setImage:image];
+            }else{
+                [self.contentImageView yy_setImageWithURL:[NSURL URLWithString:url] placeholder:[UIImage imageWithColor:[UIColor grayColor]]];
+            }
+        }];
         
         [self.contentImageView mas_updateConstraints:^(MASConstraintMaker *make) {
             make.height.mas_equalTo(imageH);

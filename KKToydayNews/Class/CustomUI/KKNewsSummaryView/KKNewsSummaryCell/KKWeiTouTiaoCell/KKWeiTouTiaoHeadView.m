@@ -102,20 +102,13 @@
         _headUrl = @"";
     }
     SDImageCache *imageCache = [SDImageCache sharedImageCache];
-    UIImage *image = [imageCache imageFromCacheForKey:_headUrl] ;
-    if(image){
-        [self.headView setCornerImage:image];
-    }else{
-        @weakify(imageCache);
-        [imageCache diskImageExistsWithKey:_headUrl completion:^(BOOL isInCache) {
-            @strongify(imageCache);
-            if(isInCache){
-                [self.headView setCornerImage:[imageCache imageFromCacheForKey:_headUrl]];
-            }else{
-                [self.headView setCornerImageWithURL:[NSURL URLWithString:_headUrl] placeholder:[UIImage imageWithColor:[UIColor grayColor]]];
-            }
-        }];
-    }
+    [imageCache queryCacheOperationForKey:_headUrl done:^(UIImage * _Nullable image, NSData * _Nullable data, SDImageCacheType cacheType) {
+        if(image){
+            self.headView.image = image ;
+        }else{
+            [self.headView setCornerImageWithURL:[NSURL URLWithString:_headUrl] placeholder:[UIImage imageWithColor:[UIColor grayColor]]];
+        }
+    }];
 }
 
 - (void)setName:(NSString *)name{

@@ -118,7 +118,9 @@ const char kBorderColor;
             rstImage = placeholder;
         }
         //[self cornerRadiusWithImage:rstImage cornerRadius:self.radius rectCornerType:UIRectCornerAllCorners];
-        self.image = [rstImage circleImage];
+        rstImage = [rstImage circleImage];
+        [[SDImageCache sharedImageCache]storeImage:rstImage forKey:url.absoluteString completion:nil];
+        self.image = rstImage ;
     }];
 }
 

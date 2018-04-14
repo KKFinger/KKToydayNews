@@ -41,8 +41,8 @@ static NSInteger maxImageCount = 9 ;
     NSArray *classes = @[@"KKHomeViewCtrl",@"KKXiGuaViewCtrl",@"KKXiaoShiPinViewCtrl",@"KKWeiTouTiaoViewCtrl"];
     NSArray *images = @[@"home_tabbar_32x32_",@"video_tabbar_32x32_",@"huoshan_tabbar",@"weitoutiao_tabbar_32x32_"];
     NSArray *selectedImages = @[@"home_tabbar_press_32x32_",@"video_tabbar_press_32x32_",@"huoshan_tabbar_press",@"weitoutiao_tabbar_press_32x32_"];
-    
     NSArray *titles = @[@"首页",@"西瓜视频",@"小视频",@"微头条"];
+    
     for (NSInteger i = 0; i < classes.count; i++){
         UIViewController *itemVc = [[NSClassFromString(classes[i]) alloc] init];
         itemVc.tabBarItem.title = titles[i];

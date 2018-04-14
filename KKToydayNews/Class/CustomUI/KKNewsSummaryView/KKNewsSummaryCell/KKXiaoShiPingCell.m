@@ -108,20 +108,13 @@
         }
     }
     SDImageCache *imageCache = [SDImageCache sharedImageCache];
-    UIImage *image = [imageCache imageFromCacheForKey:url] ;
-    if(image){
-        [self.corverView setImage:image];
-    }else{
-        @weakify(imageCache);
-        [imageCache diskImageExistsWithKey:url completion:^(BOOL isInCache) {
-            @strongify(imageCache);
-            if(isInCache){
-                [self.corverView setImage:[imageCache imageFromCacheForKey:url]];
-            }else{
-                [self.corverView sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageWithColor:[UIColor grayColor]]];
-            }
-        }];
-    }
+    [imageCache queryCacheOperationForKey:url done:^(UIImage * _Nullable image, NSData * _Nullable data, SDImageCacheType cacheType) {
+        if(image){
+            [self.corverView setImage:image];
+        }else{
+            [self.corverView sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageWithColor:[UIColor grayColor]]];
+        }
+    }];
 
     self.titleLabel.attributedText = item.smallVideo.attriTextData.attriText;
     self.titleLabel.lineBreakMode = item.smallVideo.attriTextData.lineBreak;

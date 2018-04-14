@@ -199,18 +199,13 @@ static UIFont *contentTextFont = nil ;
                 url = @"";
             }
             YYImageCache *imageCache = [YYImageCache sharedCache];
-            UIImage *image = [imageCache getImageForKey:url withType:YYImageCacheTypeMemory] ;
-            if(image){
-                [view setImage:image];
-            }else{
-                [imageCache getImageForKey:url withType:YYImageCacheTypeDisk withBlock:^(UIImage * _Nullable image, YYImageCacheType type) {
-                    if(image){
-                        [view setImage:image];
-                    }else{
-                        [view yy_setImageWithURL:[NSURL URLWithString:url] placeholder:[UIImage imageWithColor:[UIColor grayColor]]];
-                    }
-                }];
-            }
+            [imageCache getImageForKey:url withType:YYImageCacheTypeMemory|YYImageCacheTypeDisk withBlock:^(UIImage * _Nullable image, YYImageCacheType type) {
+                if(image){
+                    [view setImage:image];
+                }else{
+                    [view yy_setImageWithURL:[NSURL URLWithString:url] placeholder:[UIImage imageWithColor:[UIColor grayColor]]];
+                }
+            }];
             
             self.moreImageView.hidden = YES ;
             
@@ -228,18 +223,13 @@ static UIFont *contentTextFont = nil ;
                 }];
                 
                 YYImageCache *imageCache = [YYImageCache sharedCache];
-                UIImage *image = [imageCache getImageForKey:url withType:YYImageCacheTypeMemory] ;
-                if(image){
-                    [view setImage:image];
-                }else{
-                    [imageCache getImageForKey:url withType:YYImageCacheTypeDisk withBlock:^(UIImage * _Nullable image, YYImageCacheType type) {
-                        if(image){
-                            [view setImage:image];
-                        }else{
-                            [view yy_setImageWithURL:[NSURL URLWithString:url] placeholder:[UIImage imageWithColor:[UIColor grayColor]]];
-                        }
-                    }];
-                }
+                [imageCache getImageForKey:url withType:YYImageCacheTypeMemory|YYImageCacheTypeDisk withBlock:^(UIImage * _Nullable image, YYImageCacheType type) {
+                    if(image){
+                        [view setImage:image];
+                    }else{
+                        [view yy_setImageWithURL:[NSURL URLWithString:url] placeholder:[UIImage imageWithColor:[UIColor grayColor]]];
+                    }
+                }];
             }
             
             self.moreImageView.hidden = YES ;
@@ -260,18 +250,13 @@ static UIFont *contentTextFont = nil ;
                     }];
                     
                     YYImageCache *imageCache = [YYImageCache sharedCache];
-                    UIImage *image = [imageCache getImageForKey:url withType:YYImageCacheTypeMemory] ;
-                    if(image){
-                        [view setImage:image];
-                    }else{
-                        [imageCache getImageForKey:url withType:YYImageCacheTypeDisk withBlock:^(UIImage * _Nullable image, YYImageCacheType type) {
-                            if(image){
-                                [view setImage:image];
-                            }else{
-                                [view yy_setImageWithURL:[NSURL URLWithString:url] placeholder:[UIImage imageWithColor:[UIColor grayColor]]];
-                            }
-                        }];
-                    }
+                    [imageCache getImageForKey:url withType:YYImageCacheTypeMemory|YYImageCacheTypeDisk withBlock:^(UIImage * _Nullable image, YYImageCacheType type) {
+                        if(image){
+                            [view setImage:image];
+                        }else{
+                            [view yy_setImageWithURL:[NSURL URLWithString:url] placeholder:[UIImage imageWithColor:[UIColor grayColor]]];
+                        }
+                    }];
                 }else{
                     UIImageView *view = [self.imageViewArray safeObjectAtIndex:i];
                     view.hidden = YES ;
