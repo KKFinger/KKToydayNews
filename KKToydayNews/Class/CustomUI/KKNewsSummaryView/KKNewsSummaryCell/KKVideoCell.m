@@ -300,6 +300,8 @@ static UIFont *titleFont = nil ;
             view.contentMode = UIViewContentModeScaleAspectFill ;
             view.layer.masksToBounds = YES ;
             view.userInteractionEnabled = YES ;
+            view.layer.borderWidth = 0.5;
+            view.layer.borderColor = [[UIColor grayColor]colorWithAlphaComponent:0.1].CGColor;
             @weakify(view);
             @weakify(self);
             [view addTapGestureWithBlock:^(UIView *gestureView) {

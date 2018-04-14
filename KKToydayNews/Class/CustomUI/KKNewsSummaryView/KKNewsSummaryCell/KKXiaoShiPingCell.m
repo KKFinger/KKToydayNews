@@ -165,6 +165,8 @@
             UIImageView *view = [UIImageView new];
             view.contentMode = UIViewContentModeScaleAspectFill;
             view.layer.masksToBounds = YES ;
+            view.layer.borderWidth = 0.5;
+            view.layer.borderColor = [[UIColor grayColor]colorWithAlphaComponent:0.1].CGColor;
             view ;
         });
     }
