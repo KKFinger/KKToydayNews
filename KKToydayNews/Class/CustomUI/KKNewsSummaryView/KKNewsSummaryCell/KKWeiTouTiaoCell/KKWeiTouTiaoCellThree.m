@@ -1,41 +1,20 @@
 //
-//  KKWeiTouTiaoCell.m
+//  KKWeiTouTiaoCellThree.m
 //  KKToydayNews
 //
-//  Created by finger on 2017/9/18.
-//  Copyright © 2017年 finger. All rights reserved.
+//  Created by finger on 2018/4/15.
+//  Copyright © 2018年 finger. All rights reserved.
 //
 
-#import "KKWeiTouTiaoCell.h"
-#import "KKWeiTouTiaoHeadView.h"
-#import "KKWeiTouTiaoBarView.h"
+#import "KKWeiTouTiaoCellThree.h"
 
-#define maxImageCount 9 //最大的图片个数
-#define perRowImages 3 //每行
-#define HeadViewHeight 40
-#define vInterval 10 //各个控件的垂直距离
-#define BarViewHeight 35
-#define space 5.0
-#define imageWidthHeight ((([UIScreen mainScreen].bounds.size.width - 2 * kkPaddingNormal) - 2 * space) / perRowImages)
-#define descLabelHeight 13
-
-static UIFont *contentTextFont = nil ;
-
-@interface KKWeiTouTiaoCell ()<KKCommonDelegate,KKWeiTouTiaoHeadViewDelegate>
-@property(nonatomic,readwrite)UIView *bgView ;
-@property(nonatomic)KKWeiTouTiaoHeadView *header ;
-@property(nonatomic)KKWeiTouTiaoBarView *barView ;
-@property(nonatomic)UILabel *contentTextView;
-@property(nonatomic)UILabel *posAndReadCountLabel;
-@property(nonatomic)UIButton *moreImageView;
-@property(nonatomic)UIImageView *positionView ;
-
+@interface KKWeiTouTiaoCellThree()
 @property(nonatomic)NSMutableArray *imageViewArray ;
+@property(nonatomic)UIButton *moreImageView;
 @property(nonatomic,weak)KKSummaryContent *item ;
-
 @end
 
-@implementation KKWeiTouTiaoCell
+@implementation KKWeiTouTiaoCellThree
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
@@ -61,7 +40,7 @@ static UIFont *contentTextFont = nil ;
     [self.bgView addSubview:self.moreImageView];
     [self.bgView addSubview:self.barView];
     
-    for(NSInteger i = 0 ; i < maxImageCount ; i++){
+    for(NSInteger i = 0 ; i < 3 ; i++){
         UIImageView *view = [YYAnimatedImageView new];
         view.contentMode = UIViewContentModeScaleAspectFill;
         view.userInteractionEnabled = YES ;
@@ -103,15 +82,10 @@ static UIFont *contentTextFont = nil ;
     }];
     
     UIImageView *lastView = nil ;
-    for(NSInteger i = 0 ; i < maxImageCount ; i++ ){
-        NSInteger row = i / perRowImages ;
+    for(NSInteger i = 0 ; i < 3 ; i++ ){
         UIImageView *imageView = [self.imageViewArray safeObjectAtIndex:i];
         [imageView mas_updateConstraints:^(MASConstraintMaker *make) {
-            if(row == 0){
-               make.top.mas_equalTo(self.contentTextView.mas_bottom).mas_offset(vInterval);
-            }else{
-               UIImageView *view = [self.imageViewArray safeObjectAtIndex:(row -1) * 3]; make.top.mas_equalTo(view.mas_bottom).mas_offset(space);
-            }
+            make.top.mas_equalTo(self.contentTextView.mas_bottom).mas_offset(vInterval);
             if(i % 3 == 0){
                 make.left.mas_equalTo(self.contentTextView);
             }else{
@@ -158,7 +132,7 @@ static UIFont *contentTextFont = nil ;
 - (void)refreshWithItem:(KKSummaryContent *)item{
     self.item = item ;
     
-    [KKWeiTouTiaoCell initAttriTextData:item];
+    [KKWeiTouTiaoCellThree initAttriTextData:item];
     
     self.header.headUrl = item.user.avatar_url;
     self.header.name = item.user.screen_name;
@@ -173,33 +147,16 @@ static UIFont *contentTextFont = nil ;
     }];
     
     NSInteger imageCount = item.thumb_image_list.count;
-    if(!imageCount){
-        for(UIImageView *view in self.imageViewArray){
-            view.hidden = YES ;
-            view.image = nil ;
-        }
-        self.moreImageView.hidden = YES ;
-    }else{
-        if(imageCount == 1){
-            for(UIImageView *view in self.imageViewArray){
-                view.hidden = YES ;
-                view.image = nil ;
-            }
-            KKImageItem *imageItem = item.ugc_cut_image_list.firstObject;
-            CGFloat width = [UIScreen mainScreen].bounds.size.width / 2.0 ;
-            CGFloat height = width / ([imageItem.width floatValue] / [imageItem.height floatValue]) ;
-            
-            UIImageView *view = self.imageViewArray.firstObject ;
-            view.hidden = NO ;
-            [view mas_updateConstraints:^(MASConstraintMaker *make) {
-                make.width.mas_equalTo(width);
-                make.height.mas_equalTo(height);
-            }];
-
-            NSString *url = imageItem.url ;
-            if(!url.length){
+    NSInteger count = MIN(perRowImages,imageCount);
+    for(NSInteger i = 0 ; i < perRowImages ; i++){
+        if(i < count){
+            NSString *url = [item.thumb_image_list safeObjectAtIndex:i].url;
+            if(!url.length || [url isKindOfClass:[NSNull class]]){
                 url = @"";
             }
+            UIImageView *view = [self.imageViewArray safeObjectAtIndex:i];
+            view.hidden = NO ;
+            
             YYImageCache *imageCache = [YYImageCache sharedCache];
             [imageCache getImageForKey:url withType:YYImageCacheTypeMemory|YYImageCacheTypeDisk withBlock:^(UIImage * _Nullable image, YYImageCacheType type) {
                 if(image){
@@ -208,73 +165,20 @@ static UIFont *contentTextFont = nil ;
                     [view yy_setImageWithURL:[NSURL URLWithString:url] placeholder:[UIImage imageWithColor:[UIColor grayColor]]];
                 }
             }];
-            
-            self.moreImageView.hidden = YES ;
-            
-        }else if(imageCount == maxImageCount){
-            for(NSInteger i = 0 ; i < imageCount; i++){
-                NSString *url = [item.thumb_image_list safeObjectAtIndex:i].url;
-                if(!url.length || [url isKindOfClass:[NSNull class]]){
-                    url = @"";
-                }
-                UIImageView *view = [self.imageViewArray safeObjectAtIndex:i];
-                view.hidden = NO ;
-                [view mas_updateConstraints:^(MASConstraintMaker *make) {
-                    make.width.mas_equalTo(imageWidthHeight);
-                    make.height.mas_equalTo(imageWidthHeight);
-                }];
-                
-                YYImageCache *imageCache = [YYImageCache sharedCache];
-                [imageCache getImageForKey:url withType:YYImageCacheTypeMemory|YYImageCacheTypeDisk withBlock:^(UIImage * _Nullable image, YYImageCacheType type) {
-                    if(image){
-                        [view setImage:image];
-                    }else{
-                        [view yy_setImageWithURL:[NSURL URLWithString:url] placeholder:[UIImage imageWithColor:[UIColor grayColor]]];
-                    }
-                }];
-            }
-            
-            self.moreImageView.hidden = YES ;
-            
         }else{
-            NSInteger count = MIN(3,imageCount);
-            for(NSInteger i = 0 ; i < maxImageCount ; i++){
-                if(i < count){
-                    NSString *url = [item.thumb_image_list safeObjectAtIndex:i].url;
-                    if(!url.length || [url isKindOfClass:[NSNull class]]){
-                        url = @"";
-                    }
-                    UIImageView *view = [self.imageViewArray safeObjectAtIndex:i];
-                    view.hidden = NO ;
-                    [view mas_updateConstraints:^(MASConstraintMaker *make) {
-                        make.width.mas_equalTo(imageWidthHeight);
-                        make.height.mas_equalTo(imageWidthHeight);
-                    }];
-                    
-                    YYImageCache *imageCache = [YYImageCache sharedCache];
-                    [imageCache getImageForKey:url withType:YYImageCacheTypeMemory|YYImageCacheTypeDisk withBlock:^(UIImage * _Nullable image, YYImageCacheType type) {
-                        if(image){
-                            [view setImage:image];
-                        }else{
-                            [view yy_setImageWithURL:[NSURL URLWithString:url] placeholder:[UIImage imageWithColor:[UIColor grayColor]]];
-                        }
-                    }];
-                }else{
-                    UIImageView *view = [self.imageViewArray safeObjectAtIndex:i];
-                    view.hidden = YES ;
-                    view.image = nil ;
-                }
-            }
-            
-            NSInteger diff = imageCount - 3 ;
-            if(diff > 0){
-                self.moreImageView.hidden = NO ;
-                [self.moreImageView setTitle:[NSString stringWithFormat:@"+%ld",diff] forState:UIControlStateNormal];
-                [self.bgView bringSubviewToFront:self.moreImageView];
-            }else{
-                self.moreImageView.hidden = YES ;
-            }
+            UIImageView *view = [self.imageViewArray safeObjectAtIndex:i];
+            view.hidden = YES ;
+            view.image = nil ;
         }
+    }
+    
+    NSInteger diff = imageCount - perRowImages ;
+    if(diff > 0){
+        self.moreImageView.hidden = NO ;
+        [self.moreImageView setTitle:[NSString stringWithFormat:@"+%ld",diff] forState:UIControlStateNormal];
+        [self.bgView bringSubviewToFront:self.moreImageView];
+    }else{
+        self.moreImageView.hidden = YES ;
     }
     
     NSString *position = [item.position objectForKey:@"position"];
@@ -304,20 +208,7 @@ static UIFont *contentTextFont = nil ;
 }
 
 + (CGFloat)fetchHeightWithItem:(KKSummaryContent *)item{
-    
-    [KKWeiTouTiaoCell initAttriTextData:item];
-    
-    NSInteger imageCont = item.thumb_image_list.count;
-    if(imageCont == 0){
-        return HeadViewHeight + item.attriTextData.attriTextHeight + descLabelHeight + BarViewHeight + 4 * vInterval + space;
-    }else if(imageCont == 1){
-        KKImageItem *imageItem = item.ugc_cut_image_list.firstObject;
-        CGFloat width = [UIScreen mainScreen].bounds.size.width / 2.0 ;
-        CGFloat height = width / ([imageItem.width floatValue] / [imageItem.height floatValue]) ;
-        return HeadViewHeight + item.attriTextData.attriTextHeight + descLabelHeight + BarViewHeight + space + height + 5 * vInterval;
-    }else if(imageCont == maxImageCount){
-        return HeadViewHeight + item.attriTextData.attriTextHeight + descLabelHeight + BarViewHeight + 3 * space + 3 * imageWidthHeight + 5 * vInterval;
-    }
+    [KKWeiTouTiaoCellThree initAttriTextData:item];
     return HeadViewHeight + item.attriTextData.attriTextHeight + descLabelHeight + BarViewHeight + space + imageWidthHeight + 5 * vInterval;
 }
 
@@ -376,35 +267,16 @@ static UIFont *contentTextFont = nil ;
 - (void)resetImageViewHidden:(BOOL)hidden index:(NSInteger)index{
     NSInteger imageCount = self.item.thumb_image_list.count;
     if(index == -1){
-        if(imageCount == 1){
-            UIImageView *view = self.imageViewArray.firstObject ;
+        NSInteger count = MIN(perRowImages,imageCount);
+        for(NSInteger i = 0 ; i < count ; i++){
+            UIImageView *view = [self.imageViewArray safeObjectAtIndex:i];
             view.hidden = hidden ;
-        }else if(imageCount == maxImageCount){
-            for(NSInteger i = 0 ; i < imageCount; i++){
-                UIImageView *view = [self.imageViewArray safeObjectAtIndex:i];
-                view.hidden = hidden ;
-            }
-        }else{
-            NSInteger count = MIN(3,imageCount);
-            for(NSInteger i = 0 ; i < count ; i++){
-                UIImageView *view = [self.imageViewArray safeObjectAtIndex:i];
-                view.hidden = hidden ;
-                
-            }
         }
     }else{
-        if(imageCount == 1){
-            UIImageView *view = self.imageViewArray.firstObject ;
+        NSInteger count = MIN(perRowImages,imageCount);
+        if(index < count){
+            UIImageView *view = [self.imageViewArray safeObjectAtIndex:index];
             view.hidden = hidden ;
-        }else if(imageCount == maxImageCount){
-            UIImageView *view = [self.imageViewArray safeObjectAtIndex:index] ;
-            view.hidden = hidden ;
-        }else{
-            NSInteger count = MIN(3,imageCount);
-            if(index < count){
-                UIImageView *view = [self.imageViewArray safeObjectAtIndex:index];
-                view.hidden = hidden ;
-            }
         }
     }
 }
@@ -412,21 +284,14 @@ static UIFont *contentTextFont = nil ;
 #pragma mark -- 获取对应索引的的CGRect
 
 - (CGRect)fetchImageFrameWithIndex:(NSInteger)index{
-    NSInteger imageCount = self.item.thumb_image_list.count;
     UIImageView *view = [self.imageViewArray safeObjectAtIndex:index];
-    if(imageCount == 1){
-        return view.frame ;
-    }else if(imageCount == maxImageCount){
+    if(index < perRowImages){
         return view.frame ;
     }else{
-        if(index < 3){
-            return view.frame ;
-        }else{
-            UIImageView *view = [self.imageViewArray safeObjectAtIndex:0];
-            return view.frame;
-        }
+        UIImageView *view = [self.imageViewArray safeObjectAtIndex:0];
+        return view.frame;
     }
-    return view.frame ;
+    return view.frame;
 }
 
 #pragma mark -- 获取对应索引的的UIImage
@@ -438,79 +303,11 @@ static UIFont *contentTextFont = nil ;
 
 #pragma mark -- @property
 
-- (UIView *)bgView{
-    if(!_bgView){
-        _bgView = ({
-            UIView *view = [UIView new];
-            view.backgroundColor = [UIColor whiteColor];
-            view ;
-        });
+- (NSMutableArray *)imageViewArray{
+    if(!_imageViewArray){
+        _imageViewArray = [NSMutableArray new];
     }
-    return _bgView;
-}
-
-- (KKWeiTouTiaoHeadView *)header{
-    if(!_header){
-        _header = ({
-            KKWeiTouTiaoHeadView *view = [KKWeiTouTiaoHeadView new];
-            view.delegate = self ;
-            view ;
-        });
-    }
-    return _header;
-}
-
-- (KKWeiTouTiaoBarView *)barView{
-    if(!_barView){
-        _barView = ({
-            KKWeiTouTiaoBarView *view = [KKWeiTouTiaoBarView new];
-            view.delegate = self ;
-            view.borderType = KKBorderTypeTop;
-            view.borderColor = [[UIColor grayColor]colorWithAlphaComponent:0.3];
-            view.borderThickness = 0.5 ;
-            view;
-        });
-    }
-    return _barView;
-}
-
-- (UILabel *)contentTextView{
-    if(!_contentTextView){
-        _contentTextView = ({
-            UILabel *view = [UILabel new];
-            view.textColor = [UIColor blackColor];
-            view.textAlignment = NSTextAlignmentLeft;
-            view.lineBreakMode = NSLineBreakByTruncatingTail;
-            view.numberOfLines = 0 ;
-            view.font = contentTextFont;
-            view ;
-        });
-    }
-    return _contentTextView;
-}
-
-- (UIImageView *)positionView{
-    if(!_positionView){
-        _positionView = ({
-            UIImageView *view = [UIImageView new];
-            view.image = [UIImage imageNamed:@"pgc_discover_28x28_"];
-            view ;
-        });
-    }
-    return _positionView ;
-}
-
-- (UILabel *)posAndReadCountLabel{
-    if(!_posAndReadCountLabel){
-        _posAndReadCountLabel = ({
-            UILabel *view = [UILabel new];
-            [view setTextColor:[UIColor grayColor]];
-            [view setTextAlignment:NSTextAlignmentLeft];
-            [view setFont:[UIFont systemFontOfSize:11]];
-            view ;
-        });
-    }
-    return _posAndReadCountLabel;
+    return _imageViewArray;
 }
 
 - (UIButton *)moreImageView{
@@ -525,13 +322,6 @@ static UIFont *contentTextFont = nil ;
         });
     }
     return _moreImageView;
-}
-
-- (NSMutableArray *)imageViewArray{
-    if(!_imageViewArray){
-        _imageViewArray = [NSMutableArray new];
-    }
-    return _imageViewArray;
 }
 
 @end

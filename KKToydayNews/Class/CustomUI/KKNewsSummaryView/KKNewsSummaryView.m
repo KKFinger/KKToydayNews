@@ -13,7 +13,9 @@
 #import "KKSmallCorverCell.h"
 #import "KKLargeCorverCell.h"
 #import "KKMiddleCorverCell.h"
-#import "KKWeiTouTiaoCell.h"
+#import "KKWeiTouTiaoCellNine.h"
+#import "KKWeiTouTiaoCellOne.h"
+#import "KKWeiTouTiaoCellThree.h"
 #import "KKRefreshView.h"
 #import "KKTextImageCell.h"
 #import "KKVideoCell.h"
@@ -33,10 +35,12 @@
 static NSString *smallCellIdentifier = @"smallCellIdentifier";
 static NSString *largeCellIdentifier = @"largeCellIdentifier";
 static NSString *middleCellIdentifier = @"middleCellIdentifier";
-static NSString *vipUserCellIdentifier = @"vipUserCellIdentifier";
 static NSString *textImageCellIdentifier = @"textImageCellIdentifier";
 static NSString *videoCellIdentifier = @"videoCellIdentifier";
 static NSString *pictureCellIdentifier = @"pictureCellIdentifier";
+static NSString *vipUserCellIdentifier1 = @"vipUserCellIdentifier1";
+static NSString *vipUserCellIdentifier3 = @"vipUserCellIdentifier3";
+static NSString *vipUserCellIdentifier9 = @"vipUserCellIdentifier9";
 
 @interface KKNewsSummaryView ()<UITableViewDataSource,UITableViewDelegate,KKCommonDelegate,KKWeiTouTiaoCellDelegate>
 @property(nonatomic)UILabel *refreshTipLabel;
@@ -255,8 +259,15 @@ static NSString *pictureCellIdentifier = @"pictureCellIdentifier";
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     KKSummaryContent *item = [self.dataArray safeObjectAtIndex:indexPath.row];
-    if(item.user){//vip用户
-        return [KKWeiTouTiaoCell fetchHeightWithItem:item];
+    if(item.user){//微头条
+        NSInteger imageCount = item.thumb_image_list.count;
+        if(imageCount <= 1){
+            return [KKWeiTouTiaoCellOne fetchHeightWithItem:item];
+        }
+        if(imageCount == 9){
+            return [KKWeiTouTiaoCellNine fetchHeightWithItem:item];
+        }
+        return [KKWeiTouTiaoCellThree fetchHeightWithItem:item];
     }else if([self.sectionItem.category isEqualToString:@"essay_joke"]||
              [self.sectionItem.category isEqualToString:@"image_funny"] ||
              [self.sectionItem.category isEqualToString:@"image_ppmm"] ||
@@ -297,11 +308,18 @@ static NSString *pictureCellIdentifier = @"pictureCellIdentifier";
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     KKSummaryContent *item = [self.dataArray safeObjectAtIndex:indexPath.row];
     UITableViewCell *cell = nil;
-    if(item.user){//Vip用户
-        cell = [tableView dequeueReusableCellWithIdentifier:vipUserCellIdentifier];
-        [((KKWeiTouTiaoCell *)cell) refreshWithItem:item];
-        [((KKWeiTouTiaoCell *)cell) setDelegate:self];
-        [((KKWeiTouTiaoCell *)cell) setIndexPath:indexPath];
+    if(item.user){//微头条
+        NSInteger imageCount = item.thumb_image_list.count;
+        if(imageCount <= 1){
+            cell = [tableView dequeueReusableCellWithIdentifier:vipUserCellIdentifier1];
+        }else if(imageCount >= 9){
+            cell = [tableView dequeueReusableCellWithIdentifier:vipUserCellIdentifier9];
+        }else{
+            cell = [tableView dequeueReusableCellWithIdentifier:vipUserCellIdentifier3];
+        }
+        [((KKWeiTouTiaoBaseCell *)cell) refreshWithItem:item];
+        [((KKWeiTouTiaoBaseCell *)cell) setDelegate:self];
+        [((KKWeiTouTiaoBaseCell *)cell) setIndexPath:indexPath];
     }else if([self.sectionItem.category isEqualToString:@"essay_joke"] ||
              [self.sectionItem.category isEqualToString:@"image_funny"] ||
              [self.sectionItem.category isEqualToString:@"image_ppmm"] ||
@@ -425,7 +443,7 @@ static NSString *pictureCellIdentifier = @"pictureCellIdentifier";
         }
     }else if(item.user){//微头条
         self.selIndexPath = [NSIndexPath indexPathForRow:indexPath.row inSection:0];
-        KKWeiTouTiaoCell *cell = (KKWeiTouTiaoCell *)[self.tableView cellForRowAtIndexPath:self.selIndexPath];
+        KKWeiTouTiaoBaseCell *cell = (KKWeiTouTiaoBaseCell *)[self.tableView cellForRowAtIndexPath:self.selIndexPath];
         CGRect frame = [fromView convertRect:rect toView:self.tableView];
         NSArray *imageArray = item.large_image_list;
         for(NSInteger i = 0 ; i < imageArray.count ; i++){
@@ -726,21 +744,21 @@ static NSString *pictureCellIdentifier = @"pictureCellIdentifier";
         }completion:^(BOOL finished) {
             [imageView removeFromSuperview];
             [browser removeFromSuperview];
-            KKWeiTouTiaoCell *cell = (KKWeiTouTiaoCell *)[self.tableView cellForRowAtIndexPath:self.selIndexPath];
+            KKWeiTouTiaoBaseCell *cell = (KKWeiTouTiaoBaseCell *)[self.tableView cellForRowAtIndexPath:self.selIndexPath];
             [cell resetImageViewHidden:NO index:-1];
         }];
     }];
     
     [browser setAlphaViewIfNeed:^(BOOL alphaView,NSInteger index){
-        for(KKWeiTouTiaoCell *cell in self.tableView.visibleCells){
+        for(KKWeiTouTiaoBaseCell *cell in self.tableView.visibleCells){
             [cell resetImageViewHidden:NO index:-1];
         }
-        KKWeiTouTiaoCell *cell = (KKWeiTouTiaoCell *)[self.tableView cellForRowAtIndexPath:self.selIndexPath];
+        KKWeiTouTiaoBaseCell *cell = (KKWeiTouTiaoBaseCell *)[self.tableView cellForRowAtIndexPath:self.selIndexPath];
         [cell resetImageViewHidden:alphaView index:index];
     }];
     
     [browser setImageIndexChange:^(NSInteger imageIndex, void (^updeteOriFrame)(CGRect oriFrame)) {
-        KKWeiTouTiaoCell *cell = (KKWeiTouTiaoCell *)[self.tableView cellForRowAtIndexPath:self.selIndexPath];
+        KKWeiTouTiaoBaseCell *cell = (KKWeiTouTiaoBaseCell *)[self.tableView cellForRowAtIndexPath:self.selIndexPath];
         CGRect imageFrame = [cell fetchImageFrameWithIndex:imageIndex];
         imageFrame = [cell.bgView convertRect:imageFrame toView:self.tableView];
         if(updeteOriFrame){
@@ -784,7 +802,9 @@ static NSString *pictureCellIdentifier = @"pictureCellIdentifier";
             [view registerClass:[KKSmallCorverCell class] forCellReuseIdentifier:smallCellIdentifier];
             [view registerClass:[KKLargeCorverCell class] forCellReuseIdentifier:largeCellIdentifier];
             [view registerClass:[KKMiddleCorverCell class] forCellReuseIdentifier:middleCellIdentifier];
-            [view registerClass:[KKWeiTouTiaoCell class] forCellReuseIdentifier:vipUserCellIdentifier];
+            [view registerClass:[KKWeiTouTiaoCellOne class] forCellReuseIdentifier:vipUserCellIdentifier1];
+            [view registerClass:[KKWeiTouTiaoCellThree class] forCellReuseIdentifier:vipUserCellIdentifier3];
+            [view registerClass:[KKWeiTouTiaoCellNine class] forCellReuseIdentifier:vipUserCellIdentifier9];
             [view registerClass:[KKTextImageCell class] forCellReuseIdentifier:textImageCellIdentifier];
             [view registerClass:[KKVideoCell class] forCellReuseIdentifier:videoCellIdentifier];
             [view registerClass:[KKPictureCell class] forCellReuseIdentifier:pictureCellIdentifier];

@@ -72,7 +72,7 @@
 		14645C821FE35E89007E06B3 /* KKTextImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 14645BD51FE35E89007E06B3 /* KKTextImageCell.m */; };
 		14645C831FE35E89007E06B3 /* KKVideoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 14645BD71FE35E89007E06B3 /* KKVideoCell.m */; };
 		14645C841FE35E89007E06B3 /* KKWeiTouTiaoBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 14645BDA1FE35E89007E06B3 /* KKWeiTouTiaoBarView.m */; };
-		14645C851FE35E89007E06B3 /* KKWeiTouTiaoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 14645BDC1FE35E89007E06B3 /* KKWeiTouTiaoCell.m */; };
+		14645C851FE35E89007E06B3 /* KKWeiTouTiaoCellNine.m in Sources */ = {isa = PBXBuildFile; fileRef = 14645BDC1FE35E89007E06B3 /* KKWeiTouTiaoCellNine.m */; };
 		14645C861FE35E89007E06B3 /* KKWeiTouTiaoHeadView.m in Sources */ = {isa = PBXBuildFile; fileRef = 14645BDE1FE35E89007E06B3 /* KKWeiTouTiaoHeadView.m */; };
 		14645C871FE35E89007E06B3 /* KKXiaoShiPingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 14645BE01FE35E89007E06B3 /* KKXiaoShiPingCell.m */; };
 		14645C881FE35E89007E06B3 /* KKNewsSummaryView.m in Sources */ = {isa = PBXBuildFile; fileRef = 14645BE21FE35E89007E06B3 /* KKNewsSummaryView.m */; };
@@ -121,6 +121,9 @@
 		14645CBA1FE35FD0007E06B3 /* KKActionSheetView.m in Sources */ = {isa = PBXBuildFile; fileRef = 14645CB71FE35FD0007E06B3 /* KKActionSheetView.m */; };
 		149AB8FB1F94950A00379511 /* KKHomeSectionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 149AB8FA1F94950A00379511 /* KKHomeSectionManager.m */; };
 		149AB8FE1F949A3300379511 /* KKXiGuaSectionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 149AB8FD1F949A3300379511 /* KKXiGuaSectionManager.m */; };
+		510100DF2083779A00706704 /* KKWeiTouTiaoCellOne.m in Sources */ = {isa = PBXBuildFile; fileRef = 510100DE2083779A00706704 /* KKWeiTouTiaoCellOne.m */; };
+		510100E22083788C00706704 /* KKWeiTouTiaoBaseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 510100E12083788C00706704 /* KKWeiTouTiaoBaseCell.m */; };
+		510100E5208380D100706704 /* KKWeiTouTiaoCellThree.m in Sources */ = {isa = PBXBuildFile; fileRef = 510100E4208380D100706704 /* KKWeiTouTiaoCellThree.m */; };
 		5126FCDF1F94F2A100A93D5F /* KKHomeViewCtrl.m in Sources */ = {isa = PBXBuildFile; fileRef = 5126FC691F94F2A100A93D5F /* KKHomeViewCtrl.m */; };
 		5126FD0C1F94F2A100A93D5F /* KKXiaoShiPinViewCtrl.m in Sources */ = {isa = PBXBuildFile; fileRef = 5126FCDA1F94F2A100A93D5F /* KKXiaoShiPinViewCtrl.m */; };
 		5126FD0D1F94F2A100A93D5F /* KKXiGuaViewCtrl.m in Sources */ = {isa = PBXBuildFile; fileRef = 5126FCDE1F94F2A100A93D5F /* KKXiGuaViewCtrl.m */; };
@@ -337,8 +340,8 @@
 		14645BD71FE35E89007E06B3 /* KKVideoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KKVideoCell.m; sourceTree = "<group>"; };
 		14645BD91FE35E89007E06B3 /* KKWeiTouTiaoBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KKWeiTouTiaoBarView.h; sourceTree = "<group>"; };
 		14645BDA1FE35E89007E06B3 /* KKWeiTouTiaoBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KKWeiTouTiaoBarView.m; sourceTree = "<group>"; };
-		14645BDB1FE35E89007E06B3 /* KKWeiTouTiaoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KKWeiTouTiaoCell.h; sourceTree = "<group>"; };
-		14645BDC1FE35E89007E06B3 /* KKWeiTouTiaoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KKWeiTouTiaoCell.m; sourceTree = "<group>"; };
+		14645BDB1FE35E89007E06B3 /* KKWeiTouTiaoCellNine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KKWeiTouTiaoCellNine.h; sourceTree = "<group>"; };
+		14645BDC1FE35E89007E06B3 /* KKWeiTouTiaoCellNine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KKWeiTouTiaoCellNine.m; sourceTree = "<group>"; };
 		14645BDD1FE35E89007E06B3 /* KKWeiTouTiaoHeadView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KKWeiTouTiaoHeadView.h; sourceTree = "<group>"; };
 		14645BDE1FE35E89007E06B3 /* KKWeiTouTiaoHeadView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KKWeiTouTiaoHeadView.m; sourceTree = "<group>"; };
 		14645BDF1FE35E89007E06B3 /* KKXiaoShiPingCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KKXiaoShiPingCell.h; sourceTree = "<group>"; };
@@ -438,6 +441,12 @@
 		149AB8FD1F949A3300379511 /* KKXiGuaSectionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KKXiGuaSectionManager.m; sourceTree = "<group>"; };
 		3BF0E1AAD6508A06671F16A2 /* libPods-KKToydayNews.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-KKToydayNews.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		406BC8EAF47A4E8C6276602F /* Pods-KKToydayNews.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KKToydayNews.release.xcconfig"; path = "Pods/Target Support Files/Pods-KKToydayNews/Pods-KKToydayNews.release.xcconfig"; sourceTree = "<group>"; };
+		510100DD2083779A00706704 /* KKWeiTouTiaoCellOne.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KKWeiTouTiaoCellOne.h; sourceTree = "<group>"; };
+		510100DE2083779A00706704 /* KKWeiTouTiaoCellOne.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KKWeiTouTiaoCellOne.m; sourceTree = "<group>"; };
+		510100E02083788C00706704 /* KKWeiTouTiaoBaseCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KKWeiTouTiaoBaseCell.h; sourceTree = "<group>"; };
+		510100E12083788C00706704 /* KKWeiTouTiaoBaseCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KKWeiTouTiaoBaseCell.m; sourceTree = "<group>"; };
+		510100E3208380D100706704 /* KKWeiTouTiaoCellThree.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KKWeiTouTiaoCellThree.h; sourceTree = "<group>"; };
+		510100E4208380D100706704 /* KKWeiTouTiaoCellThree.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KKWeiTouTiaoCellThree.m; sourceTree = "<group>"; };
 		51223E93203D708E00D8C805 /* KKToydayNews.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = KKToydayNews.entitlements; sourceTree = "<group>"; };
 		5126FC681F94F2A100A93D5F /* KKHomeViewCtrl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KKHomeViewCtrl.h; sourceTree = "<group>"; };
 		5126FC691F94F2A100A93D5F /* KKHomeViewCtrl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KKHomeViewCtrl.m; sourceTree = "<group>"; };
@@ -1123,10 +1132,16 @@
 			children = (
 				14645BD91FE35E89007E06B3 /* KKWeiTouTiaoBarView.h */,
 				14645BDA1FE35E89007E06B3 /* KKWeiTouTiaoBarView.m */,
-				14645BDB1FE35E89007E06B3 /* KKWeiTouTiaoCell.h */,
-				14645BDC1FE35E89007E06B3 /* KKWeiTouTiaoCell.m */,
+				14645BDB1FE35E89007E06B3 /* KKWeiTouTiaoCellNine.h */,
+				14645BDC1FE35E89007E06B3 /* KKWeiTouTiaoCellNine.m */,
 				14645BDD1FE35E89007E06B3 /* KKWeiTouTiaoHeadView.h */,
 				14645BDE1FE35E89007E06B3 /* KKWeiTouTiaoHeadView.m */,
+				510100DD2083779A00706704 /* KKWeiTouTiaoCellOne.h */,
+				510100DE2083779A00706704 /* KKWeiTouTiaoCellOne.m */,
+				510100E02083788C00706704 /* KKWeiTouTiaoBaseCell.h */,
+				510100E12083788C00706704 /* KKWeiTouTiaoBaseCell.m */,
+				510100E3208380D100706704 /* KKWeiTouTiaoCellThree.h */,
+				510100E4208380D100706704 /* KKWeiTouTiaoCellThree.m */,
 			);
 			path = KKWeiTouTiaoCell;
 			sourceTree = "<group>";
@@ -2302,7 +2317,7 @@
 				51477AE21FC0184100E6E296 /* KKPersonalModel.m in Sources */,
 				14645C591FE35E89007E06B3 /* KKIndicatorView.m in Sources */,
 				14645CA61FE35E89007E06B3 /* KKTabBarController.m in Sources */,
-				14645C851FE35E89007E06B3 /* KKWeiTouTiaoCell.m in Sources */,
+				14645C851FE35E89007E06B3 /* KKWeiTouTiaoCellNine.m in Sources */,
 				14645C541FE35E89007E06B3 /* KKDragableNavBaseView.m in Sources */,
 				51477ADD1FC0184100E6E296 /* KKArticleModal.m in Sources */,
 				143200EA1F7E01E400A1CCA4 /* UILabel+KKClickable.m in Sources */,
@@ -2312,6 +2327,7 @@
 				51D941D3205AC481002F9004 /* KKRecordEncoder.m in Sources */,
 				51D941CD205AC481002F9004 /* KKVideoInfo.m in Sources */,
 				5197BF701F3754A700E67828 /* UIView+ActivityIndicatorView.m in Sources */,
+				510100DF2083779A00706704 /* KKWeiTouTiaoCellOne.m in Sources */,
 				14645C941FE35E89007E06B3 /* KKDongTaiOriginalCell.m in Sources */,
 				51D941C4205AC481002F9004 /* KKAttriTextData.m in Sources */,
 				51D941D7205AC481002F9004 /* KKNetworkTool.m in Sources */,
@@ -2361,6 +2377,7 @@
 				14645C971FE35E89007E06B3 /* KKProsonalSummaryView.m in Sources */,
 				517CF26B203809A20099B1C2 /* KKWXPayObject.m in Sources */,
 				51E4EB321F38ABCF00153382 /* NSArray+Safe.m in Sources */,
+				510100E22083788C00706704 /* KKWeiTouTiaoBaseCell.m in Sources */,
 				51D941D4205AC481002F9004 /* KKRecordEngine.m in Sources */,
 				1439E4AC1F67B25D00DBF24D /* UIButton+KK.m in Sources */,
 				14645CA91FE35E89007E06B3 /* KKUserDiggCell.m in Sources */,
@@ -2426,6 +2443,7 @@
 				5126FD0D1F94F2A100A93D5F /* KKXiGuaViewCtrl.m in Sources */,
 				51477AE71FC0187100E6E296 /* KKDongTaiModel.m in Sources */,
 				14645C8C1FE35E89007E06B3 /* KKPersonalInfoView.m in Sources */,
+				510100E5208380D100706704 /* KKWeiTouTiaoCellThree.m in Sources */,
 				51E3D4352036E09C004BE111 /* KKShareObject.m in Sources */,
 				51477AE41FC0184100E6E296 /* KKWTTDetailModel.m in Sources */,
 				14645CB01FE35E89007E06B3 /* KKXiaoShiPingPlayView.m in Sources */,
