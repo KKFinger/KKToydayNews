@@ -23,8 +23,10 @@
 
 //封面图片信息
 @interface KKImageItem : KKModalBase
-@property(nonatomic,copy)NSString *height;
-@property(nonatomic,copy)NSString *width;
+@property(nonatomic,assign)CGFloat height;
+@property(nonatomic,assign)CGFloat width;
+@property(nonatomic,assign)CGFloat cellHeight;//图片在cell中的实际高度(自适应)
+@property(nonatomic,assign)CGFloat cellWidth;//图片在cell中的实际宽度(自适应)
 //@property(nonatomic,copy)NSString *uri;
 @property(nonatomic,copy)NSString *url;
 @property(nonatomic,copy)NSString *desc;
@@ -332,6 +334,8 @@ middle_image 不为空，large_image_list为空 ,左边标题和描述，右边�
 @property(nonatomic)KKAttriTextData *attriTextData;
 //视频长度字符、图片个数字符等宽度
 @property(nonatomic,assign)CGFloat newsTipWidth;
+//item对应的cell的高度
+@property(nonatomic,assign)CGFloat itemCellHeight;
 
 @end
 

@@ -132,7 +132,7 @@
     
     if(item.large_image.url.length){
         CGFloat imageW = ContentTextWidth ;
-        CGFloat imageH = imageW / ([item.large_image.width floatValue] / [item.large_image.height floatValue]);
+        CGFloat imageH = imageW / (item.large_image.width  / item.large_image.height);
         
         NSString *url =item.large_image.url;
         if(!url.length){
@@ -176,15 +176,17 @@
 }
 
 + (CGFloat)fetchHeightWithItem:(KKSummaryContent *)item{
-    
     [KKTextImageCell initAttriTextData:item];
-    
-    if(item.large_image.url.length){
-        CGFloat imageW = ContentTextWidth ;
-        CGFloat imageH = imageW / ([item.large_image.width floatValue] / [item.large_image.height floatValue]);
-        return 3 * kkPaddingNormal + item.attriTextData.attriTextHeight + ButtonHeight + SplitViewHeight + imageH + space;
+    if(item.itemCellHeight <= 0){
+        if(item.large_image.url.length){
+            CGFloat imageW = ContentTextWidth ;
+            CGFloat imageH = imageW / (item.large_image.width / item.large_image.height);
+            item.itemCellHeight = 3 * kkPaddingNormal + item.attriTextData.attriTextHeight + ButtonHeight + SplitViewHeight + imageH + space;
+        }else{
+            item.itemCellHeight = 3 * kkPaddingNormal + item.attriTextData.attriTextHeight + ButtonHeight + SplitViewHeight  ;
+        }
     }
-    return 3 * kkPaddingNormal + item.attriTextData.attriTextHeight + ButtonHeight + SplitViewHeight  ;
+    return item.itemCellHeight;
 }
 
 #pragma mark -- 初始化标题文本

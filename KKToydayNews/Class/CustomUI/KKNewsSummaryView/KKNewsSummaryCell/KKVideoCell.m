@@ -227,7 +227,10 @@ static UIFont *titleFont = nil ;
 }
 
 + (CGFloat)fetchHeightWithItem:(KKSummaryContent *)item{
-    return 2 * kkPaddingNormal + UserHeaderHeight + ImageViewHeight + SplitViewHeight;
+    if(item.itemCellHeight <= 0){
+        item.itemCellHeight = 2 * kkPaddingNormal + UserHeaderHeight + ImageViewHeight + SplitViewHeight;
+    }
+    return item.itemCellHeight;
 }
 
 #pragma mark -- 初始化标题文本

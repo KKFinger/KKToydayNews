@@ -40,6 +40,15 @@
     [super setSelected:selected animated:animated];
 }
 
+- (void)drawRect:(CGRect)rect{
+    [super drawRect:rect];
+    UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect:self.headImageView.bounds byRoundingCorners:UIRectCornerAllCorners cornerRadii:CGSizeMake(ImageWH, ImageWH)];
+    CAShapeLayer *maskLayer = [CAShapeLayer layer];
+    maskLayer.frame = self.headImageView.bounds;
+    maskLayer.path = path.CGPath;
+    self.headImageView.layer.mask = maskLayer;
+}
+
 #pragma mark -- 设置UI
 
 - (void)setupUI{
@@ -85,7 +94,7 @@
         if(image){
             self.headImageView.image = image;
         }else{
-            [self.headImageView setCornerImageWithURL:[NSURL URLWithString:headUrl] placeholder:[UIImage imageNamed:@"head_default"]];
+            [self.headImageView sd_setImageWithURL:[NSURL URLWithString:headUrl] placeholderImage:[UIImage imageNamed:@"head_default"]];
         }
     }];
     

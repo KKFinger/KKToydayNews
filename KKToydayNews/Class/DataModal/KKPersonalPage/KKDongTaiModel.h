@@ -85,6 +85,7 @@
 @property(nonatomic)KKPositionInfo *position;
 
 @property(nonatomic)KKAttriTextData *attriTextData;
+@property(nonatomic,assign)CGFloat itemCellHeight;//cell的高度
 
 @end
 

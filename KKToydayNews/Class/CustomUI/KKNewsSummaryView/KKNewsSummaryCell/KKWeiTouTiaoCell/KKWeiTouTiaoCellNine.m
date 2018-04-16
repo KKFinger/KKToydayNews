@@ -189,7 +189,10 @@
 
 + (CGFloat)fetchHeightWithItem:(KKSummaryContent *)item{
     [KKWeiTouTiaoCellNine initAttriTextData:item];
-    return HeadViewHeight + item.attriTextData.attriTextHeight + descLabelHeight + BarViewHeight + 3 * space + 3 * imageWidthHeight + 5 * vInterval;
+    if(item.itemCellHeight <= 0){
+        item.itemCellHeight = HeadViewHeight + item.attriTextData.attriTextHeight + descLabelHeight + BarViewHeight + 3 * space + 3 * imageWidthHeight + 5 * vInterval ;
+    }
+    return item.itemCellHeight;
 }
 
 #pragma mark -- 初始化标题文本

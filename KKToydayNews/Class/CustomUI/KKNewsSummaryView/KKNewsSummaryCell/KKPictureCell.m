@@ -141,10 +141,11 @@
 }
 
 + (CGFloat)fetchHeightWithItem:(KKSummaryContent *)item{
-    
     [KKPictureCell initAttriTextData:item];
-    
-    return kkPaddingLarge + 2 * space + imageHeight + item.attriTextData.attriTextHeight + descLabelHeight + SplitViewHeight;
+    if(item.itemCellHeight <= 0){
+        item.itemCellHeight = kkPaddingLarge + 2 * space + imageHeight + item.attriTextData.attriTextHeight + descLabelHeight + SplitViewHeight ;
+    }
+    return item.itemCellHeight;
 }
 
 + (void)initAttriTextData:(KKSummaryContent *)item{

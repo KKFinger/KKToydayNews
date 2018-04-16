@@ -197,7 +197,10 @@
 
 + (CGFloat)fetchHeightWithItem:(KKSummaryContent *)item{
     [KKSmallCorverCell initAttriTextData:item];
-    return 2 * kkPaddingLarge + 2 * space + imageHeight + item.attriTextData.attriTextHeight + descLabelHeight;
+    if(item.itemCellHeight <= 0){
+        item.itemCellHeight = 2 * kkPaddingLarge + 2 * space + imageHeight + item.attriTextData.attriTextHeight + descLabelHeight ;
+    }
+    return item.itemCellHeight;
 }
 
 #pragma mark -- 初始化标题文本

@@ -213,7 +213,7 @@
             }
             KKImageItem *imageItem = item.ugc_cut_image_list.firstObject;
             CGFloat width = [UIScreen mainScreen].bounds.size.width / 2.0 ;
-            CGFloat height = width / ([imageItem.width floatValue] / [imageItem.height floatValue]) ;
+            CGFloat height = width / (imageItem.width / imageItem.height) ;
             
             UIImageView *view = self.imageViewArray.firstObject ;
             view.hidden = NO ;
@@ -336,7 +336,7 @@
     }else if(imageCont == 1){
         KKImageItem *imageItem = item.ugc_cut_image_list.firstObject;
         CGFloat width = [UIScreen mainScreen].bounds.size.width / 2.0 ;
-        CGFloat height = width / ([imageItem.width floatValue] / [imageItem.height floatValue]) ;
+        CGFloat height = width / (imageItem.width / imageItem.height ) ;
         return headViewWH + item.attriTextData.attriTextHeight + detailFont.lineHeight + BarViewHeight + space + height + 5 * vInterval;
     }else if(imageCont == maxImageCount){
         return headViewWH + item.attriTextData.attriTextHeight + detailFont.lineHeight + BarViewHeight + 3 * space + 3 * imageWidthHeight + 5 * vInterval;

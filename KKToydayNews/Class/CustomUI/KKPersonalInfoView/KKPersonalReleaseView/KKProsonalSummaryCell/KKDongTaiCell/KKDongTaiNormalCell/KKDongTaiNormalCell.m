@@ -128,7 +128,10 @@ static CGFloat splitViewHeight = 5 ;
 
 + (CGFloat)fetchHeightWith:(KKDongTaiObject *)obj{
     [KKDongTaiNormalCell initAttriTextData:obj];
-    return 5 * vIntervael + headViewWH + newsContentHeight + splitViewHeight + contentTextFont.lineHeight + detailFont.lineHeight;
+    if(obj.itemCellHeight <= 0){
+        obj.itemCellHeight = 5 * vIntervael + headViewWH + newsContentHeight + splitViewHeight + contentTextFont.lineHeight + detailFont.lineHeight ;
+    }
+    return obj.itemCellHeight;
 }
 
 #pragma mark -- 数据刷新
@@ -146,7 +149,7 @@ static CGFloat splitViewHeight = 5 ;
         if(image){
             self.headView.image = image ;
         }else{
-            [self.headView setCornerImageWithURL:[NSURL URLWithString:avatarUrl] placeholder:[UIImage imageWithColor:[UIColor grayColor]]];
+            [self.headView sd_setImageWithURL:[NSURL URLWithString:avatarUrl] placeholderImage:[UIImage imageWithColor:[UIColor grayColor]]];
         }
     }];
     

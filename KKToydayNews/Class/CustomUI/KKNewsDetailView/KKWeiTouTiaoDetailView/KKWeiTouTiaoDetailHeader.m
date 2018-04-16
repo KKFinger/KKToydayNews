@@ -166,7 +166,7 @@
         if(imageCount == 1){
             KKImageItem *imageItem = item.ugc_cut_image_list.firstObject;
             CGFloat width = [UIScreen mainScreen].bounds.size.width - 2 * kkPaddingNormal ;
-            CGFloat height = width / ([imageItem.width floatValue] / [imageItem.height floatValue]) ;
+            CGFloat height = width / (imageItem.width / imageItem.height) ;
             
             UIImageView *view = self.imageViewArray.firstObject ;
             [view mas_updateConstraints:^(MASConstraintMaker *make) {
@@ -252,7 +252,7 @@
     }else if(imageCont == 1){
         KKImageItem *imageItem = self.item.ugc_cut_image_list.firstObject;
         CGFloat width = [UIScreen mainScreen].bounds.size.width - 2 * kkPaddingNormal ;
-        CGFloat height = width / ([imageItem.width floatValue] / [imageItem.height floatValue]) ;
+        CGFloat height = width / (imageItem.width / imageItem.height) ;
         return HeadViewHeight + self.attriTextData.attriTextHeight + descLabelHeight + space + height + 5 * vInterval;
     }
     

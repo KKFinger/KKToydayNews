@@ -150,7 +150,7 @@
     if(item.large_image.url){
         self.contentImageView.yy_imageURL = [NSURL URLWithString:item.large_image.url];
         CGFloat imageW = TextViewWidth;
-        CGFloat imageH = imageW / ([item.large_image.width floatValue] / [item.large_image.height floatValue]);
+        CGFloat imageH = imageW / (item.large_image.width / item.large_image.height);
         [self.contentImageView mas_updateConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(self.textLabel.mas_bottom).mas_offset(5);
             make.height.mas_equalTo(imageH);

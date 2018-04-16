@@ -40,7 +40,7 @@
     [self.bgView addSubview:self.moreImageView];
     [self.bgView addSubview:self.barView];
     
-    for(NSInteger i = 0 ; i < 3 ; i++){
+    for(NSInteger i = 0 ; i < perRowImages ; i++){
         UIImageView *view = [YYAnimatedImageView new];
         view.contentMode = UIViewContentModeScaleAspectFill;
         view.userInteractionEnabled = YES ;
@@ -82,7 +82,7 @@
     }];
     
     UIImageView *lastView = nil ;
-    for(NSInteger i = 0 ; i < 3 ; i++ ){
+    for(NSInteger i = 0 ; i < perRowImages ; i++ ){
         UIImageView *imageView = [self.imageViewArray safeObjectAtIndex:i];
         [imageView mas_updateConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(self.contentTextView.mas_bottom).mas_offset(vInterval);
@@ -209,7 +209,10 @@
 
 + (CGFloat)fetchHeightWithItem:(KKSummaryContent *)item{
     [KKWeiTouTiaoCellThree initAttriTextData:item];
-    return HeadViewHeight + item.attriTextData.attriTextHeight + descLabelHeight + BarViewHeight + space + imageWidthHeight + 5 * vInterval;
+    if(item.itemCellHeight <= 0){
+        item.itemCellHeight = HeadViewHeight + item.attriTextData.attriTextHeight + descLabelHeight + BarViewHeight + space + imageWidthHeight + 5 * vInterval ;
+    }
+    return item.itemCellHeight;
 }
 
 #pragma mark -- 初始化标题文本

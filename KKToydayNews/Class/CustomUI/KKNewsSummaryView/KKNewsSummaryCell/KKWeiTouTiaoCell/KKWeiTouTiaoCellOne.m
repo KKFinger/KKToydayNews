@@ -114,12 +114,16 @@
         self.largeImageView.hidden = YES ;
     }else{
         KKImageItem *imageItem = item.ugc_cut_image_list.firstObject;
-        CGFloat width = [UIScreen mainScreen].bounds.size.width / 2.0 ;
-        CGFloat height = width / ([imageItem.width floatValue] / [imageItem.height floatValue]) ;
+        if(imageItem.cellHeight <= 0 || imageItem.cellWidth <= 0){
+            CGFloat width = [UIScreen mainScreen].bounds.size.width / 2.0 ;
+            CGFloat height = width / (imageItem.width / imageItem.height) ;
+            imageItem.cellWidth = width;
+            imageItem.cellHeight = height;
+        }
         self.largeImageView.hidden = NO ;
         [self.largeImageView mas_updateConstraints:^(MASConstraintMaker *make) {
-            make.width.mas_equalTo(width);
-            make.height.mas_equalTo(height);
+            make.width.mas_equalTo(imageItem.cellWidth);
+            make.height.mas_equalTo(imageItem.cellHeight);
         }];
         
         NSString *url = imageItem.url ;
@@ -168,12 +172,22 @@
     
     NSInteger imageCount = item.thumb_image_list.count;
     if(imageCount <= 0){
-        return HeadViewHeight + item.attriTextData.attriTextHeight + descLabelHeight + BarViewHeight + 4 * vInterval + space;
+        if(item.itemCellHeight <= 0){
+            item.itemCellHeight = HeadViewHeight + item.attriTextData.attriTextHeight + descLabelHeight + BarViewHeight + 4 * vInterval + space ;
+        }
+        return item.itemCellHeight;
     }
     KKImageItem *imageItem = item.ugc_cut_image_list.firstObject;
-    CGFloat width = [UIScreen mainScreen].bounds.size.width / 2.0 ;
-    CGFloat height = width / ([imageItem.width floatValue] / [imageItem.height floatValue]) ;
-    return HeadViewHeight + item.attriTextData.attriTextHeight + descLabelHeight + BarViewHeight + space + height + 5 * vInterval;
+    if(imageItem.cellWidth <= 0 || imageItem.cellHeight <= 0){
+        CGFloat width = [UIScreen mainScreen].bounds.size.width / 2.0 ;
+        CGFloat height = width / (imageItem.width / imageItem.height) ;
+        imageItem.cellWidth = width;
+        imageItem.cellHeight = height;
+    }
+    if(item.itemCellHeight <= 0){
+        item.itemCellHeight = HeadViewHeight + item.attriTextData.attriTextHeight + descLabelHeight + BarViewHeight + space + imageItem.cellHeight + 5 * vInterval ;
+    }
+    return item.itemCellHeight;
 }
 
 #pragma mark -- 初始化标题文本
@@ -251,6 +265,7 @@
         _largeImageView = ({
             UIImageView *view = [YYAnimatedImageView new];
             view.contentMode = UIViewContentModeScaleAspectFill;
+            view.layer.masksToBounds = YES ;
             view.userInteractionEnabled = YES ;
             view.layer.borderWidth = 0.5;
             view.layer.borderColor = [[UIColor grayColor]colorWithAlphaComponent:0.1].CGColor;

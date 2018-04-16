@@ -221,13 +221,16 @@
 }
 
 + (CGFloat)fetchHeightWithItem:(KKSummaryContent *)item{
-    
     [KKMiddleCorverCell initAttriTextData:item];
     
-    if(item.attriTextData.attriTextHeight >= 3 * KKTitleFont.lineHeight + 3 * item.attriTextData.lineSpace){
-        return 2 * kkPaddingLarge + 3 * KKTitleFont.lineHeight + 3 * item.attriTextData.lineSpace + descLabelHeight;
+    if(item.itemCellHeight <= 0){
+        if(item.attriTextData.attriTextHeight >= 3 * KKTitleFont.lineHeight + 3 * item.attriTextData.lineSpace){
+            item.itemCellHeight = 2 * kkPaddingLarge + 3 * KKTitleFont.lineHeight + 3 * item.attriTextData.lineSpace + descLabelHeight ;
+        }else{
+            item.itemCellHeight = 2 * kkPaddingLarge + 3 * KKTitleFont.lineHeight + 3 * item.attriTextData.lineSpace ;
+        }
     }
-    return 2 * kkPaddingLarge + 3 * KKTitleFont.lineHeight + 3 * item.attriTextData.lineSpace;
+    return item.itemCellHeight;
 }
 
 #pragma mark -- 初始化标题富文本
