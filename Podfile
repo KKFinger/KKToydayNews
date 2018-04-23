@@ -11,7 +11,6 @@ target 'KKToydayNews' do
     pod 'AFNetworking','~>3.1.0'
     pod 'FMDB','~>2.7.2'
     pod 'SDWebImage','~>4.2.2'
-    pod 'iOS-WebP','~>0.4'
     pod 'SDWebImage/WebP','~>4.2.2'
     pod 'YYWebImage','~>1.0.5'
     pod 'YYImage/WebP','~>1.0.4'

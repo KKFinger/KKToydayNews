@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0700"
+   LastUpgradeVersion = "0930"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -13,11 +13,11 @@
             buildForProfiling = "YES"
             buildForArchiving = "YES">
             <BuildableReference
-               BuildableIdentifier = 'primary'
-               BlueprintIdentifier = 'F5C27DA1E3B75E79A66DF2C4CE9376EE'
-               BlueprintName = 'libwebp'
-               ReferencedContainer = 'container:Pods.xcodeproj'
-               BuildableName = 'liblibwebp.a'>
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "88F5D30CA21CCD6CDAEB4E5596E30E90"
+               BlueprintName = "libwebp"
+               ReferencedContainer = "container:Pods.xcodeproj"
+               BuildableName = "liblibwebp.a">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
