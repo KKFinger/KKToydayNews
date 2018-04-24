@@ -10,4 +10,5 @@
 #import "KKNewsBaseViewCtrl.h"
 
 @interface KKHomeViewCtrl : KKNewsBaseViewCtrl
+
 @end
