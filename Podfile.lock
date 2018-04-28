@@ -1,18 +1,18 @@
 PODS:
-  - AFNetworking (3.1.0):
-    - AFNetworking/NSURLSession (= 3.1.0)
-    - AFNetworking/Reachability (= 3.1.0)
-    - AFNetworking/Security (= 3.1.0)
-    - AFNetworking/Serialization (= 3.1.0)
-    - AFNetworking/UIKit (= 3.1.0)
-  - AFNetworking/NSURLSession (3.1.0):
+  - AFNetworking (3.2.0):
+    - AFNetworking/NSURLSession (= 3.2.0)
+    - AFNetworking/Reachability (= 3.2.0)
+    - AFNetworking/Security (= 3.2.0)
+    - AFNetworking/Serialization (= 3.2.0)
+    - AFNetworking/UIKit (= 3.2.0)
+  - AFNetworking/NSURLSession (3.2.0):
     - AFNetworking/Reachability
     - AFNetworking/Security
     - AFNetworking/Serialization
-  - AFNetworking/Reachability (3.1.0)
-  - AFNetworking/Security (3.1.0)
-  - AFNetworking/Serialization (3.1.0)
-  - AFNetworking/UIKit (3.1.0):
+  - AFNetworking/Reachability (3.2.0)
+  - AFNetworking/Security (3.2.0)
+  - AFNetworking/Serialization (3.2.0)
+  - AFNetworking/UIKit (3.2.0):
     - AFNetworking/NSURLSession
   - FMDB (2.7.2):
     - FMDB/standard (= 2.7.2)
@@ -54,11 +54,11 @@ PODS:
   - ReactiveCocoa/no-arc (2.5)
   - ReactiveCocoa/UI (2.5):
     - ReactiveCocoa/Core
-  - SDWebImage (4.2.3):
-    - SDWebImage/Core (= 4.2.3)
-  - SDWebImage/Core (4.2.3)
-  - SDWebImage/WebP (4.2.3):
-    - libwebp
+  - SDWebImage (4.3.3):
+    - SDWebImage/Core (= 4.3.3)
+  - SDWebImage/Core (4.3.3)
+  - SDWebImage/WebP (4.3.3):
+    - libwebp (~> 0.5)
     - SDWebImage/Core
   - YYCache (1.0.4)
   - YYImage (1.0.4):
@@ -71,18 +71,18 @@ PODS:
     - YYImage
 
 DEPENDENCIES:
-  - AFNetworking (~> 3.1.0)
+  - AFNetworking (~> 3.2.0)
   - FMDB (~> 2.7.2)
   - GPUImage (~> 0.1.7)
   - Masonry (~> 1.1.0)
   - MBProgressHUD (~> 1.1.0)
   - MJExtension (~> 3.0.13)
-  - MJRefresh (~> 3.1.15.1)
+  - MJRefresh (~> 3.1.15.3)
   - Reachability (~> 3.2)
   - ReactiveCocoa (~> 2.5)
-  - SDWebImage (~> 4.2.2)
-  - SDWebImage/WebP (~> 4.2.2)
-  - YYImage/WebP (~> 1.0.4)
+  - SDWebImage (~> 4.3.3)
+  - SDWebImage/WebP
+  - YYImage/WebP
   - YYWebImage (~> 1.0.5)
 
 SPEC REPOS:
@@ -103,7 +103,7 @@ SPEC REPOS:
     - YYWebImage
 
 SPEC CHECKSUMS:
-  AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
+  AFNetworking: 8ac6017b94ea105479f7776e5288e48ae9c59bb4
   FMDB: 6198a90e7b6900cfc046e6bc0ef6ebb7be9236aa
   GPUImage: 733a5f0fab92df9de1c37ba9df520a833ccb406d
   libwebp: 0f01098c6c17175391af621b2f14150f3ca16e16
@@ -113,11 +113,11 @@ SPEC CHECKSUMS:
   MJRefresh: b48380ae2b927b46c4ef000de9adb8dc748e1df7
   Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
   ReactiveCocoa: e2db045570aa97c695e7aa97c2bcab222ae51f4a
-  SDWebImage: 791bb72962b3492327ddcac4b1880bd1b5458431
+  SDWebImage: de4d90b5bff3571eae7bd16202b1f43135409fa5
   YYCache: 8105b6638f5e849296c71f331ff83891a4942952
   YYImage: 1e1b62a9997399593e4b9c4ecfbbabbf1d3f3b54
   YYWebImage: 5f7f36aee2ae293f016d418c7d6ba05c4863e928
 
-PODFILE CHECKSUM: be536478dbd4bae8aa28f9e66c1fc3c882205e59
+PODFILE CHECKSUM: 00837814ccbf9e0d1fe6bc9c8b486339327b7144
 
 COCOAPODS: 1.5.0
