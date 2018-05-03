@@ -404,14 +404,12 @@ static NSString *webViewCellReuseable = @"webViewCellReuseable";
     UIApplication *app = [UIApplication sharedApplication];
     
     if ([url.absoluteString containsString:@"itunes.apple.com"]){
-        
         if ([app canOpenURL:url]){
             [app openURL:url];
             decisionHandler(WKNavigationActionPolicyCancel);
             return;
         }
     }
-    
     decisionHandler(WKNavigationActionPolicyAllow);
 }
 

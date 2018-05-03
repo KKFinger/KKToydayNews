@@ -132,13 +132,13 @@
     
     [KKSmallCorverCell initAttriTextData:item];
     
+    SDImageCache *imageCache = [SDImageCache sharedImageCache];
     for(NSInteger i = 0 ; i < 3 ; i++){
         NSString *url = [item.image_list safeObjectAtIndex:i].url;
         if(!url.length || [url isKindOfClass:[NSNull class]]){
             url = @"";
         }
         UIImageView *view = [self.bgView viewWithTag:1000+i];
-        SDImageCache *imageCache = [SDImageCache sharedImageCache];
         [imageCache queryCacheOperationForKey:url done:^(UIImage * _Nullable image, NSData * _Nullable data, SDImageCacheType cacheType) {
             if(image){
                 [view setImage:image];

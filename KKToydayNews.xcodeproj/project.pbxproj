@@ -1162,17 +1162,9 @@
 				14645BEA1FE35E89007E06B3 /* KKPersonalInfoHeadView.m */,
 				14645BEB1FE35E89007E06B3 /* KKPersonalInfoView.h */,
 				14645BEC1FE35E89007E06B3 /* KKPersonalInfoView.m */,
-				14645BED1FE35E89007E06B3 /* KKPersonalNewsDetail */,
 				14645BEE1FE35E89007E06B3 /* KKPersonalReleaseView */,
 			);
 			path = KKPersonalInfoView;
-			sourceTree = "<group>";
-		};
-		14645BED1FE35E89007E06B3 /* KKPersonalNewsDetail */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = KKPersonalNewsDetail;
 			sourceTree = "<group>";
 		};
 		14645BEE1FE35E89007E06B3 /* KKPersonalReleaseView */ = {

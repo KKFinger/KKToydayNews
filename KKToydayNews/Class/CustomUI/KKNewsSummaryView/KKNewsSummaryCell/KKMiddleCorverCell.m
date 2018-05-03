@@ -46,11 +46,39 @@
         make.edges.mas_equalTo(self.contentView);
     }];
     
+    [self.titleLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.centerY.mas_equalTo(self.smallImgView).mas_offset(-descLabelHeight/2.0);
+        make.left.mas_equalTo(self.bgView).mas_offset(kkPaddingNormal);
+        make.width.mas_equalTo(KKTitleWidth);
+        make.height.mas_equalTo(0);
+    }];
+    
     [self.smallImgView mas_updateConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.bgView).mas_offset(kkPaddingLarge);
         make.right.mas_equalTo(self.bgView).mas_offset(-kkPaddingNormal);
         make.width.mas_equalTo(imageWidth);
         make.height.mas_equalTo(3 * KKTitleFont.lineHeight + 4);
+    }];
+    
+    [self.shieldBtn mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.right.mas_equalTo(self.smallImgView).mas_offset(-space-imageWidth);
+        make.top.mas_equalTo(self.titleLabel.mas_bottom);
+        make.width.mas_equalTo(descLabelHeight);
+        make.height.mas_equalTo(descLabelHeight);
+    }];
+    
+    [self.leftBtn mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(self.titleLabel);
+        make.centerY.mas_equalTo(self.shieldBtn);
+        make.width.mas_offset(leftBtnSize.width);
+        make.height.mas_equalTo(leftBtnSize.height);
+    }];
+    
+    [self.descLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(self.leftBtn.mas_right).mas_offset(space);
+        make.centerY.mas_equalTo(self.shieldBtn);
+        make.right.mas_lessThanOrEqualTo(self.shieldBtn.mas_left).mas_offset(-kkPaddingNormal);
+        make.height.mas_equalTo(descLabelHeight);
     }];
     
     self.newsTipBtn.layer.cornerRadius = newsTipBtnHeight/2.0 ;
@@ -109,62 +137,26 @@
     
     if(titleHeight >= 3 * KKTitleFont.lineHeight + 3 * item.attriTextData.lineSpace){
         
-        [self.titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(self.smallImgView);
-            make.left.mas_equalTo(self.bgView).mas_offset(kkPaddingNormal);
-            make.width.mas_equalTo(KKTitleWidth);
+        [self.titleLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.centerY.mas_equalTo(self.smallImgView).mas_offset(0);
             make.height.mas_equalTo(3 * KKTitleFont.lineHeight + 3 * item.attriTextData.lineSpace);
         }];
         
-        [self.shieldBtn mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.right.mas_equalTo(self.smallImgView);
-            make.top.mas_equalTo(self.smallImgView.mas_bottom).mas_offset(2);
-            make.width.mas_equalTo(descLabelHeight);
-            make.height.mas_equalTo(descLabelHeight);
-        }];
-        
-        [self.leftBtn mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(self.titleLabel);
-            make.centerY.mas_equalTo(self.shieldBtn);
-            make.width.mas_offset(leftBtnSize.width);
-            make.height.mas_equalTo(leftBtnSize.height);
-        }];
-        
-        [self.descLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(self.leftBtn.mas_right).mas_offset(space);
-            make.centerY.mas_equalTo(self.shieldBtn);
-            make.right.mas_lessThanOrEqualTo(self.shieldBtn.mas_left).mas_offset(-kkPaddingNormal);
-            make.height.mas_equalTo(descLabelHeight);
+        [self.shieldBtn mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.right.mas_equalTo(self.smallImgView).mas_offset(0);
+            make.top.mas_equalTo(self.titleLabel.mas_bottom).mas_offset(5);
         }];
         
     }else{
         
-        [self.titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.centerY.mas_equalTo(self.smallImgView).mas_offset(-space-5);
-            make.left.mas_equalTo(self.bgView).mas_offset(kkPaddingNormal);
-            make.width.mas_equalTo(KKTitleWidth);
+        [self.titleLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.centerY.mas_equalTo(self.smallImgView).mas_offset(-descLabelHeight/2.0);
             make.height.mas_equalTo(titleHeight);
         }];
         
-        [self.shieldBtn mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.right.mas_equalTo(self.smallImgView.mas_left).mas_offset(-space);
-            make.top.mas_equalTo(self.titleLabel.mas_bottom);
-            make.width.mas_equalTo(descLabelHeight);
-            make.height.mas_equalTo(descLabelHeight);
-        }];
-        
-        [self.leftBtn mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(self.titleLabel);
-            make.centerY.mas_equalTo(self.shieldBtn);
-            make.width.mas_offset(leftBtnSize.width);
-            make.height.mas_equalTo(leftBtnSize.height);
-        }];
-        
-        [self.descLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(self.leftBtn.mas_right).mas_offset(space);
-            make.centerY.mas_equalTo(self.shieldBtn);
-            make.right.mas_lessThanOrEqualTo(self.shieldBtn.mas_left).mas_offset(-kkPaddingNormal);
-            make.height.mas_equalTo(descLabelHeight);
+        [self.shieldBtn mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.right.mas_equalTo(self.smallImgView).mas_offset(-space-imageWidth);
+            make.top.mas_equalTo(self.titleLabel.mas_bottom).mas_offset(3);
         }];
     }
     
@@ -225,9 +217,9 @@
     
     if(item.itemCellHeight <= 0){
         if(item.attriTextData.attriTextHeight >= 3 * KKTitleFont.lineHeight + 3 * item.attriTextData.lineSpace){
-            item.itemCellHeight = 2 * kkPaddingLarge + 3 * KKTitleFont.lineHeight + 3 * item.attriTextData.lineSpace + descLabelHeight ;
+            item.itemCellHeight = 2 * kkPaddingLarge + 3 * KKTitleFont.lineHeight + 3 * item.attriTextData.lineSpace + descLabelHeight + 5;
         }else{
-            item.itemCellHeight = 2 * kkPaddingLarge + 3 * KKTitleFont.lineHeight + 3 * item.attriTextData.lineSpace ;
+            item.itemCellHeight = 2 * kkPaddingLarge + 3 * KKTitleFont.lineHeight + 4 * item.attriTextData.lineSpace + 5 ;
         }
     }
     return item.itemCellHeight;

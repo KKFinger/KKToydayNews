@@ -235,6 +235,7 @@
             self.moreImageView.hidden = YES ;
             
         }else if(imageCount == maxImageCount){
+            YYImageCache *imageCache = [YYImageCache sharedCache];
             for(NSInteger i = 0 ; i < imageCount; i++){
                 NSString *url = [item.thumb_image_list safeObjectAtIndex:i].url;
                 if(!url.length || [url isKindOfClass:[NSNull class]]){
@@ -247,7 +248,6 @@
                     make.height.mas_equalTo(imageWidthHeight);
                 }];
 
-                YYImageCache *imageCache = [YYImageCache sharedCache];
                 [imageCache getImageForKey:url withType:YYImageCacheTypeMemory|YYImageCacheTypeDisk withBlock:^(UIImage * _Nullable image, YYImageCacheType type) {
                     if(image){
                         [view setImage:image];
@@ -260,6 +260,7 @@
             self.moreImageView.hidden = YES ;
             
         }else{
+            YYImageCache *imageCache = [YYImageCache sharedCache];
             NSInteger count = MIN(3,imageCount);
             for(NSInteger i = 0 ; i < maxImageCount ; i++){
                 if(i < count){
@@ -274,7 +275,6 @@
                         make.height.mas_equalTo(imageWidthHeight);
                     }];
 
-                    YYImageCache *imageCache = [YYImageCache sharedCache];
                     [imageCache getImageForKey:url withType:YYImageCacheTypeMemory|YYImageCacheTypeDisk withBlock:^(UIImage * _Nullable image, YYImageCacheType type) {
                         if(image){
                             [view setImage:image];

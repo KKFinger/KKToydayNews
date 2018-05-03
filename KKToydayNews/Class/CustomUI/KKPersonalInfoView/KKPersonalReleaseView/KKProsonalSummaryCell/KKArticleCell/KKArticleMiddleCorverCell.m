@@ -51,6 +51,20 @@
         make.width.mas_equalTo(imageWidth);
     }];
     
+    [self.titleLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.centerY.mas_equalTo(self.smallImgView).mas_offset(-descLabelHeight/2.0);
+        make.left.mas_equalTo(self.bgView).mas_offset(kkPaddingNormal);
+        make.width.mas_equalTo(KKTitleWidth);
+        make.height.mas_equalTo(0);
+    }];
+    
+    [self.descLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(self.titleLabel);
+        make.right.mas_lessThanOrEqualTo(self.titleLabel);
+        make.top.mas_equalTo(self.titleLabel.mas_bottom).mas_offset(3);
+        make.height.mas_equalTo(descLabelHeight);
+    }];
+    
     self.newsTipBtn.layer.cornerRadius = newsTipBtnHeight/2.0 ;
     [self.newsTipBtn mas_updateConstraints:^(MASConstraintMaker *make) {
         make.right.mas_equalTo(self.smallImgView).mas_offset(-space);
@@ -106,44 +120,14 @@
     
     if(titleHeight >= 2 * KKTitleFont.lineHeight + 2 * summary.attriTextData.lineSpace){
         
-        [self.titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.top.mas_equalTo(self.smallImgView);
-            make.left.mas_equalTo(self.bgView).mas_offset(kkPaddingNormal);
-            make.width.mas_equalTo(KKTitleWidth);
+        [self.titleLabel mas_updateConstraints:^(MASConstraintMaker *make) {
             make.height.mas_equalTo(2 * KKTitleFont.lineHeight + 2 * summary.attriTextData.lineSpace);
-        }];
-        
-        [self.descLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(self.titleLabel);
-            make.bottom.mas_equalTo(self.smallImgView);
-            make.height.mas_equalTo(descLabelHeight);
-        }];
-        
-        [self.dateLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.right.mas_equalTo(self.titleLabel);
-            make.bottom.mas_equalTo(self.smallImgView);
-            make.height.mas_equalTo(descLabelHeight);
         }];
         
     }else{
         
-        [self.titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.centerY.mas_equalTo(self.smallImgView).mas_offset(-space-5);
-            make.left.mas_equalTo(self.bgView).mas_offset(kkPaddingNormal);
-            make.width.mas_equalTo(KKTitleWidth);
+        [self.titleLabel mas_updateConstraints:^(MASConstraintMaker *make) {
             make.height.mas_equalTo(titleHeight);
-        }];
-        
-        [self.descLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(self.titleLabel);
-            make.bottom.mas_equalTo(self.smallImgView);
-            make.height.mas_equalTo(descLabelHeight);
-        }];
-        
-        [self.dateLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
-            make.right.mas_equalTo(self.titleLabel);
-            make.bottom.mas_equalTo(self.smallImgView);
-            make.height.mas_equalTo(descLabelHeight);
         }];
     }
     

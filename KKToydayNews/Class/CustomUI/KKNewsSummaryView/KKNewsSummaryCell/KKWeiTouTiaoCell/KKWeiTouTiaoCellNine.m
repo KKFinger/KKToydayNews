@@ -143,6 +143,9 @@
     [self.contentTextView mas_updateConstraints:^(MASConstraintMaker *make) {
         make.height.mas_equalTo(textHeight);
     }];
+    
+    YYImageCache *imageCache = [YYImageCache sharedCache];
+    
     for(NSInteger i = 0 ; i < maxImageCount; i++){
         NSString *url = [item.thumb_image_list safeObjectAtIndex:i].url;
         if(!url.length || [url isKindOfClass:[NSNull class]]){
@@ -151,7 +154,6 @@
         UIImageView *view = [self.imageViewArray safeObjectAtIndex:i];
         view.hidden = NO ;
         
-        YYImageCache *imageCache = [YYImageCache sharedCache];
         [imageCache getImageForKey:url withType:YYImageCacheTypeMemory|YYImageCacheTypeDisk withBlock:^(UIImage * _Nullable image, YYImageCacheType type) {
             if(image){
                 [view setImage:image];

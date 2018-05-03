@@ -146,6 +146,8 @@
         make.height.mas_equalTo(textHeight);
     }];
     
+    YYImageCache *imageCache = [YYImageCache sharedCache];
+    
     NSInteger imageCount = item.thumb_image_list.count;
     NSInteger count = MIN(perRowImages,imageCount);
     for(NSInteger i = 0 ; i < perRowImages ; i++){
@@ -157,7 +159,6 @@
             UIImageView *view = [self.imageViewArray safeObjectAtIndex:i];
             view.hidden = NO ;
             
-            YYImageCache *imageCache = [YYImageCache sharedCache];
             [imageCache getImageForKey:url withType:YYImageCacheTypeMemory|YYImageCacheTypeDisk withBlock:^(UIImage * _Nullable image, YYImageCacheType type) {
                 if(image){
                     [view setImage:image];
