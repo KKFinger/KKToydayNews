@@ -37,4 +37,9 @@
 + (NSString *)createFolderIfNeed:(NSString *)folderPath;
 #pragma mark -- 生成视频名称，确保唯一性
 + (NSString *)formartFileName:(NSString *)name fileType:(NSString *)fileType;
+#pragma mark -- 获取ctrl最顶层的present出来的控制器
+- (UIViewController *)presentedCttl:(UIViewController *)ctrl;
+#pragma mark -- 获取ctrl最底层的present出来的控制器
+- (UIViewController *)presentingCttl:(UIViewController *)ctrl;
+
 @end

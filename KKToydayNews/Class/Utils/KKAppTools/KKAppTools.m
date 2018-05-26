@@ -221,4 +221,24 @@
     return fileName;
 }
 
+#pragma mark -- 获取ctrl最顶层的present出来的控制器
+
+- (UIViewController *)presentedCttl:(UIViewController *)ctrl{
+    UIViewController *presentedCttl = ctrl ;
+    while(presentedCttl.presentedViewController){
+        presentedCttl = presentedCttl.presentedViewController;
+    }
+    return presentedCttl;
+}
+
+#pragma mark -- 获取ctrl最底层的present出来的控制器
+
+- (UIViewController *)presentingCttl:(UIViewController *)ctrl{
+    UIViewController *presentingCttl = ctrl ;
+    while(presentingCttl.presentingViewController){
+        presentingCttl = presentingCttl.presentingViewController;
+    }
+    return presentingCttl;
+}
+
 @end

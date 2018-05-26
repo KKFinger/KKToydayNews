@@ -42,5 +42,7 @@
 #import "UIView+Border.h"
 #import "Reachability.h"
 #import "UITableViewCell+Animate.h"
+#import "UIImageView+URL.h"
+#import "UIImageView+YYURL.h"
 
 #endif /* KKPublicHeader_h */

@@ -107,14 +107,7 @@
             url = @"";
         }
     }
-    SDImageCache *imageCache = [SDImageCache sharedImageCache];
-    [imageCache queryCacheOperationForKey:url done:^(UIImage * _Nullable image, NSData * _Nullable data, SDImageCacheType cacheType) {
-        if(image){
-            [self.corverView setImage:image];
-        }else{
-            [self.corverView sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageWithColor:[UIColor grayColor]]];
-        }
-    }];
+    [self.corverView setImageWithUrl:url placeholder:[UIImage imageWithColor:[UIColor grayColor]] circleImage:NO completed:nil];
 
     self.titleLabel.attributedText = item.smallVideo.attriTextData.attriText;
     self.titleLabel.lineBreakMode = item.smallVideo.attriTextData.lineBreak;

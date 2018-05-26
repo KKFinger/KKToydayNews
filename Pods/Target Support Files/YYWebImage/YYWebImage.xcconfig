@@ -1,4 +1,5 @@
 CONFIGURATION_BUILD_DIR = ${PODS_CONFIGURATION_BUILD_DIR}/YYWebImage
+FRAMEWORK_SEARCH_PATHS = $(inherited) "${PODS_ROOT}/YYImage/Vendor"
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
 HEADER_SEARCH_PATHS = $(inherited) "${PODS_ROOT}/Headers/Private" "${PODS_ROOT}/Headers/Private/YYWebImage" "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/YYCache" "${PODS_ROOT}/Headers/Public/YYImage" "${PODS_ROOT}/Headers/Public/YYWebImage"
 LIBRARY_SEARCH_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/YYCache" "${PODS_CONFIGURATION_BUILD_DIR}/YYImage"

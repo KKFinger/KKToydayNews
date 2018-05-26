@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0ECC1ABD20AABCC000F0A3B6 /* UIImageView+URL.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ECC1ABB20AABCC000F0A3B6 /* UIImageView+URL.m */; };
+		0ECC1AC020AABE5000F0A3B6 /* UIImageView+YYURL.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ECC1ABE20AABE5000F0A3B6 /* UIImageView+YYURL.m */; };
 		0ED10B79206F87A2005D7B35 /* UITableViewCell+Animate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ED10B78206F87A2005D7B35 /* UITableViewCell+Animate.m */; };
 		143200EA1F7E01E400A1CCA4 /* UILabel+KKClickable.m in Sources */ = {isa = PBXBuildFile; fileRef = 143200E91F7E01E400A1CCA4 /* UILabel+KKClickable.m */; };
 		14337AE71FE89EF0003AE321 /* KKUserCenterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 14337AE61FE89EF0003AE321 /* KKUserCenterView.m */; };
@@ -209,6 +211,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0ECC1ABB20AABCC000F0A3B6 /* UIImageView+URL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+URL.m"; sourceTree = "<group>"; };
+		0ECC1ABC20AABCC000F0A3B6 /* UIImageView+URL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+URL.h"; sourceTree = "<group>"; };
+		0ECC1ABE20AABE5000F0A3B6 /* UIImageView+YYURL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+YYURL.m"; sourceTree = "<group>"; };
+		0ECC1ABF20AABE5000F0A3B6 /* UIImageView+YYURL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+YYURL.h"; sourceTree = "<group>"; };
 		0ED10B77206F87A2005D7B35 /* UITableViewCell+Animate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UITableViewCell+Animate.h"; sourceTree = "<group>"; };
 		0ED10B78206F87A2005D7B35 /* UITableViewCell+Animate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UITableViewCell+Animate.m"; sourceTree = "<group>"; };
 		142911F61F39501A00658E87 /* KKCommonVariable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KKCommonVariable.h; sourceTree = "<group>"; };
@@ -1690,6 +1696,10 @@
 		5197BD4E1F373B0700E67828 /* UIImageView */ = {
 			isa = PBXGroup;
 			children = (
+				0ECC1ABF20AABE5000F0A3B6 /* UIImageView+YYURL.h */,
+				0ECC1ABE20AABE5000F0A3B6 /* UIImageView+YYURL.m */,
+				0ECC1ABC20AABCC000F0A3B6 /* UIImageView+URL.h */,
+				0ECC1ABB20AABCC000F0A3B6 /* UIImageView+URL.m */,
 				5197BD501F373B1D00E67828 /* UIImageView+CornerRadius.h */,
 				5197BD511F373B1D00E67828 /* UIImageView+CornerRadius.m */,
 				51DA1C9B1F6D9E2100D7D53B /* UIImageView+Animate.h */,
@@ -2370,6 +2380,7 @@
 				51DA1C8A1F6D656E00D7D53B /* UIFont+Standard.m in Sources */,
 				14645C8D1FE35E89007E06B3 /* KKPersonalReleaseView.m in Sources */,
 				14645C9E1FE35E89007E06B3 /* KKSectionItemView.m in Sources */,
+				0ECC1ABD20AABCC000F0A3B6 /* UIImageView+URL.m in Sources */,
 				14645C4C1FE35E89007E06B3 /* KKAttributeTextView.m in Sources */,
 				14645C881FE35E89007E06B3 /* KKNewsSummaryView.m in Sources */,
 				14645C8A1FE35E89007E06B3 /* KKNoDataView.m in Sources */,
@@ -2456,6 +2467,7 @@
 				51D941C7205AC481002F9004 /* KKNewsAnalyzeTool.m in Sources */,
 				5186FB7B1F83D67700E402DF /* UIPanGestureRecognizer+Position.m in Sources */,
 				14645C6B1FE35E89007E06B3 /* KKNewsCommentCell.m in Sources */,
+				0ECC1AC020AABE5000F0A3B6 /* UIImageView+YYURL.m in Sources */,
 				51D941C8205AC481002F9004 /* KKCommonDevice.m in Sources */,
 				5197BE691F3748AD00E67828 /* main.m in Sources */,
 				518A860D1F86A41200ED858E /* NSData+CRC32.m in Sources */,

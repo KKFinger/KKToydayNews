@@ -87,7 +87,7 @@ static NSInteger maxThumbConcurrentCount = 50 ;//最多同时获取的缩略图�
 
 #pragma mark -- 用户权限
 
-- (KKPhotoAuthorizationStatus )convertStatusWithPHAuthorizationStatus:(PHAuthorizationStatus)PHStatus{
+- (KKPhotoAuthorizationStatus)convertStatusWithPHAuthorizationStatus:(PHAuthorizationStatus)PHStatus{
     switch (PHStatus){
         case PHAuthorizationStatusNotDetermined:
             return KKPhotoAuthorizationStatusNotDetermined;

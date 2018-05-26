@@ -1,18 +1,18 @@
 PODS:
-  - AFNetworking (3.2.0):
-    - AFNetworking/NSURLSession (= 3.2.0)
-    - AFNetworking/Reachability (= 3.2.0)
-    - AFNetworking/Security (= 3.2.0)
-    - AFNetworking/Serialization (= 3.2.0)
-    - AFNetworking/UIKit (= 3.2.0)
-  - AFNetworking/NSURLSession (3.2.0):
+  - AFNetworking (3.2.1):
+    - AFNetworking/NSURLSession (= 3.2.1)
+    - AFNetworking/Reachability (= 3.2.1)
+    - AFNetworking/Security (= 3.2.1)
+    - AFNetworking/Serialization (= 3.2.1)
+    - AFNetworking/UIKit (= 3.2.1)
+  - AFNetworking/NSURLSession (3.2.1):
     - AFNetworking/Reachability
     - AFNetworking/Security
     - AFNetworking/Serialization
-  - AFNetworking/Reachability (3.2.0)
-  - AFNetworking/Security (3.2.0)
-  - AFNetworking/Serialization (3.2.0)
-  - AFNetworking/UIKit (3.2.0):
+  - AFNetworking/Reachability (3.2.1)
+  - AFNetworking/Security (3.2.1)
+  - AFNetworking/Serialization (3.2.1)
+  - AFNetworking/UIKit (3.2.1):
     - AFNetworking/NSURLSession
   - FMDB (2.7.2):
     - FMDB/standard (= 2.7.2)
@@ -71,22 +71,22 @@ PODS:
     - YYImage
 
 DEPENDENCIES:
-  - AFNetworking (~> 3.2.0)
-  - FMDB (~> 2.7.2)
-  - GPUImage (~> 0.1.7)
-  - Masonry (~> 1.1.0)
-  - MBProgressHUD (~> 1.1.0)
-  - MJExtension (~> 3.0.13)
-  - MJRefresh (~> 3.1.15.3)
-  - Reachability (~> 3.2)
+  - AFNetworking
+  - FMDB
+  - GPUImage
+  - Masonry
+  - MBProgressHUD
+  - MJExtension
+  - MJRefresh
+  - Reachability
   - ReactiveCocoa (~> 2.5)
-  - SDWebImage (~> 4.3.3)
+  - SDWebImage
   - SDWebImage/WebP
   - YYImage/WebP
-  - YYWebImage (~> 1.0.5)
+  - YYWebImage
 
 SPEC REPOS:
-  https://github.com/CocoaPods/Specs.git:
+  https://github.com/cocoapods/specs.git:
     - AFNetworking
     - FMDB
     - GPUImage
@@ -103,7 +103,7 @@ SPEC REPOS:
     - YYWebImage
 
 SPEC CHECKSUMS:
-  AFNetworking: 8ac6017b94ea105479f7776e5288e48ae9c59bb4
+  AFNetworking: b6f891fdfaed196b46c7a83cf209e09697b94057
   FMDB: 6198a90e7b6900cfc046e6bc0ef6ebb7be9236aa
   GPUImage: 733a5f0fab92df9de1c37ba9df520a833ccb406d
   libwebp: 0f01098c6c17175391af621b2f14150f3ca16e16
@@ -118,6 +118,6 @@ SPEC CHECKSUMS:
   YYImage: 1e1b62a9997399593e4b9c4ecfbbabbf1d3f3b54
   YYWebImage: 5f7f36aee2ae293f016d418c7d6ba05c4863e928
 
-PODFILE CHECKSUM: 00837814ccbf9e0d1fe6bc9c8b486339327b7144
+PODFILE CHECKSUM: 45b90b0dc03b957a189a0a40238a10f233acc5e7
 
-COCOAPODS: 1.5.0
+COCOAPODS: 1.5.3
