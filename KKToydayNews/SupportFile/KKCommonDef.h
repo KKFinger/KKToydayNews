@@ -117,6 +117,9 @@ _Pragma("clang diagnostic pop")\
 #define WEAKSELF_( __CLASSNAME__ )     __block typeof( __CLASSNAME__ *) weakSelf = self;
 #endif
 
+#define __weakify(type) @weakify(type)
+#define __strongify(type) @strongify(type)
+
 //颜色相关
 #define KKColor(r, g, b, a) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:(a)]
 #define randomColorValue arc4random_uniform(256)
