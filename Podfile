@@ -9,7 +9,7 @@ target 'KKToydayNews' do
     pod 'MBProgressHUD'
     pod 'MJExtension'
     pod 'AFNetworking'
-    pod 'FMDB'
+    pod 'FMDB'  
     pod 'SDWebImage'
     pod 'SDWebImage/WebP'
     pod 'YYWebImage'

@@ -138,9 +138,9 @@ static CGFloat headViewWH = 55 ;
             view.image = [UIImage imageNamed:@"backItem"] ;
             view.userInteractionEnabled = YES ;
             
-            @weakify(self);
+            __weakify(self);
             [view addTapGestureWithBlock:^(UIView *gestureView) {
-                @strongify(self);
+                __strongify(self);
                 [self backViewClicked];
             }];
             
