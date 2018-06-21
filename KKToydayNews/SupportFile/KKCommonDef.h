@@ -161,8 +161,6 @@ objc_setAssociatedObject(self, @selector( propertyGetter ), valueObj, OBJC_ASSOC
 
 #define KKNewsAlbumName @"KK头条"
 
-
-
 //获取头条数据的服务器
 #define KKNewsHost @"https://is.snssdk.com/"//新闻服务器
 #define KKNovelHost @"http://ic.snssdk.com"//小说服务器
@@ -211,5 +209,7 @@ objc_setAssociatedObject(self, @selector( propertyGetter ), valueObj, OBJC_ASSOC
 #define KKNotifyVideoLibraryDidChange             @"KKNotifyVideoLibraryDidChange"//视频变动通知
 
 #define KKDeviceToken @"remoteNotifyDeviceToken"
+
+#define BuglyAppId @"269f2796e5"//Bugly App id
 
 #endif

@@ -31,6 +31,9 @@
     //注册通知
     [self registerPushNotification];
     
+    //Bugly
+    [Bugly startWithAppId:BuglyAppId];
+    
     return YES;
 }
 

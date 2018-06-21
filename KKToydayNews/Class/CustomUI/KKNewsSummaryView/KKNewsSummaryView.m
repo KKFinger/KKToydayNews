@@ -84,6 +84,9 @@ static NSString *vipUserCellIdentifier9 = @"vipUserCellIdentifier9";
     [self.noDataView mas_updateConstraints:^(MASConstraintMaker *make) {
         make.edges.mas_equalTo(self);
     }];
+    
+    NSMutableDictionary *obj = [NSMutableDictionary new];
+    [obj setObject:nil forKey:nil];
 }
 
 #pragma mark -- 刷新数据

@@ -13,9 +13,7 @@
 @end
 
 @interface KKInputView : UIView
-
 @property(nonatomic,weak)id<KKInputViewDelegate>delegate;
-
 - (void)showKeyBoard;
-
+- (void)hideKeyBoard;
 @end

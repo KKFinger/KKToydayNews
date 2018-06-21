@@ -44,5 +44,6 @@
 #import "UITableViewCell+Animate.h"
 #import "UIImageView+URL.h"
 #import "UIImageView+YYURL.h"
+#import <Bugly/Bugly.h>
 
 #endif /* KKPublicHeader_h */

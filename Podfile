@@ -16,4 +16,5 @@ target 'KKToydayNews' do
     pod 'YYImage/WebP'
     pod 'Reachability'
     pod 'GPUImage'
+    pod 'Bugly'
 end

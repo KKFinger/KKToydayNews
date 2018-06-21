@@ -86,9 +86,10 @@
 }
 
 - (UIImage *)circleImage{
-    UIGraphicsBeginImageContextWithOptions(self.size, NO, 0.0);
+    CGFloat imageWH = MIN(self.size.width,self.size.height);
+    UIGraphicsBeginImageContextWithOptions(CGSizeMake(imageWH, imageWH), NO, 0.0);
     CGContextRef ctr = UIGraphicsGetCurrentContext();
-    CGRect rect = CGRectMake(0, 0, self.size.width, self.size.height);
+    CGRect rect = CGRectMake(0, 0, imageWH, imageWH);
     CGContextAddEllipseInRect(ctr, rect);
     CGContextClip(ctr);
     [self drawInRect:rect];
