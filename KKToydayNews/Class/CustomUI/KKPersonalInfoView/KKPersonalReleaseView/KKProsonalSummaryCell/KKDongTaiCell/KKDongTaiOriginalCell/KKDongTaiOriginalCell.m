@@ -8,6 +8,7 @@
 
 #import "KKDongTaiOriginalCell.h"
 #import "KKDongTaiBarView.h"
+#import "TYAttributedLabel.h"
 
 static CGFloat headViewWH = 40 ;
 static CGFloat vIntervael = kkPaddingNormal;//各个控件之间的垂直距离
@@ -22,11 +23,11 @@ static CGFloat splitViewHeight = 5 ;
 @property(nonatomic)UILabel *nameLabel;
 @property(nonatomic)UILabel *dateLabel;
 @property(nonatomic)UIButton *moreBtn;
-@property(nonatomic)UILabel *titleLabel;
+@property(nonatomic)TYAttributedLabel *titleLabel;
 @property(nonatomic)UIView *newContentBgView;
 @property(nonatomic)UIImageView *newsImageView;
 @property(nonatomic)UIButton *playBtn;
-@property(nonatomic)UILabel *newsSummaryLabel;
+@property(nonatomic)TYAttributedLabel *newsSummaryLabel;
 @property(nonatomic)UILabel *detailLabel;
 @property(nonatomic)KKDongTaiBarView *barView ;
 @property(nonatomic)UIView *splitView ;
@@ -139,7 +140,7 @@ static CGFloat splitViewHeight = 5 ;
 
 + (CGFloat)fetchHeightWith:(KKDongTaiObject *)obj{
     [KKDongTaiOriginalCell initAttriTextData:obj];
-    return 5 * vIntervael + headViewWH + newsContentHeight + splitViewHeight + detailFont.lineHeight + BarViewHeight + obj.attriTextData.attriTextHeight;
+    return 5 * vIntervael + headViewWH + newsContentHeight + splitViewHeight + detailFont.lineHeight + BarViewHeight + obj.textContainer.attriTextHeight;
 }
 
 #pragma mark -- 数据刷新
@@ -176,10 +177,9 @@ static CGFloat splitViewHeight = 5 ;
     self.nameLabel.text = obj.user.screen_name;
     self.dateLabel.text = [NSString stringIntervalSince1970RuleTwo:obj.create_time.longLongValue];
     
-    self.titleLabel.attributedText = obj.attriTextData.attriText;
-    self.titleLabel.lineBreakMode = NSLineBreakByTruncatingTail;
+    self.titleLabel.textContainer = obj.textContainer;
     [self.titleLabel mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.height.mas_equalTo(obj.attriTextData.attriTextHeight);
+        make.height.mas_equalTo(obj.textContainer.attriTextHeight);
     }];
     
     NSString *readCount = [[NSNumber numberWithLongLong:obj.read_count.longLongValue]convert];
@@ -187,10 +187,9 @@ static CGFloat splitViewHeight = 5 ;
     NSString *commentCount = [[NSNumber numberWithLongLong:obj.comment_count.longLongValue]convert];
     self.detailLabel.text = [NSString stringWithFormat:@"%@ 阅读  %@赞  %@评论",readCount,diggCount,commentCount];
     
-    self.newsSummaryLabel.attributedText = obj.origin_group.attriTextData.attriText;
-    self.newsSummaryLabel.lineBreakMode = NSLineBreakByTruncatingTail;
+    self.newsSummaryLabel.textContainer = obj.origin_group.textContainer;
     [self.newsSummaryLabel mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.height.mas_equalTo(obj.origin_group.attriTextData.attriTextHeight);
+        make.height.mas_equalTo(obj.origin_group.textContainer.attriTextHeight);
     }];
     
     self.playBtn.hidden = ![obj.origin_group.media_type isEqualToString:@"2"];
@@ -218,30 +217,26 @@ static CGFloat splitViewHeight = 5 ;
 #pragma mark -- 初始化标题文本
 
 + (void)initAttriTextData:(KKDongTaiObject *)item{
-    if(item.origin_group.attriTextData == nil ){
-        item.origin_group.attriTextData = [KKAttriTextData new];
-        item.origin_group.attriTextData.lineSpace = 3 ;
-        item.origin_group.attriTextData.textColor = contentTextColor;
-        item.origin_group.attriTextData.lineBreak = NSLineBreakByCharWrapping;
-        item.origin_group.attriTextData.originalText = item.origin_group.title;
-        item.origin_group.attriTextData.maxAttriTextWidth = newsSummaryWidth ;
-        item.origin_group.attriTextData.textFont = contentTextFont;
-        if(item.origin_group.attriTextData.attriTextHeight > 2 * contentTextFont.lineHeight + 2 * item.origin_group.attriTextData.lineSpace){
-            item.origin_group.attriTextData.attriTextHeight = 2 * contentTextFont.lineHeight + 2 * item.origin_group.attriTextData.lineSpace ;
-        }
+    if(item.origin_group.textContainer == nil ){
+        TYTextContainer *temp = [TYTextContainer new];
+        temp.linesSpacing = 3 ;
+        temp.textColor = contentTextColor;
+        temp.lineBreakMode = NSLineBreakByTruncatingTail;
+        temp.text = item.origin_group.title;
+        temp.font = contentTextFont;
+        temp.numberOfLines = 2 ;
+        item.origin_group.textContainer = [temp createTextContainerWithTextWidth:newsSummaryWidth];
     }
     
-    if(item.attriTextData == nil ){
-        item.attriTextData = [KKAttriTextData new];
-        item.attriTextData.lineSpace = 3 ;
-        item.attriTextData.textColor = contentTextColor;
-        item.attriTextData.lineBreak = NSLineBreakByCharWrapping;
-        item.attriTextData.originalText = item.content_unescape;
-        item.attriTextData.maxAttriTextWidth = (UIDeviceScreenWidth - 2 * kkPaddingNormal) ;
-        item.attriTextData.textFont = contentTextFont;
-        if(item.attriTextData.attriTextHeight > 6 * contentTextFont.lineHeight + 6 * item.attriTextData.lineSpace){
-            item.attriTextData.attriTextHeight = 6 * contentTextFont.lineHeight + 6 * item.attriTextData.lineSpace ;
-        }
+    if(item.textContainer == nil ){
+        TYTextContainer *temp = [TYTextContainer new];
+        temp.linesSpacing = 3 ;
+        temp.textColor = contentTextColor;
+        temp.lineBreakMode = NSLineBreakByTruncatingTail;
+        temp.text = item.content_unescape;
+        temp.font = contentTextFont;
+        temp.numberOfLines = 6 ;
+        item.textContainer = [temp createTextContainerWithTextWidth:(UIDeviceScreenWidth - 2 * kkPaddingNormal)];
     }
 }
 
@@ -298,10 +293,10 @@ static CGFloat splitViewHeight = 5 ;
     return _moreBtn;
 }
 
-- (UILabel *)titleLabel{
+- (TYAttributedLabel *)titleLabel{
     if(!_titleLabel){
         _titleLabel = ({
-            UILabel *view = [UILabel new];
+            TYAttributedLabel *view = [TYAttributedLabel new];
             view.textColor = [UIColor blackColor];
             view.textAlignment = NSTextAlignmentLeft;
             view.lineBreakMode = NSLineBreakByCharWrapping;
@@ -348,13 +343,13 @@ static CGFloat splitViewHeight = 5 ;
     return _playBtn;
 }
 
-- (UILabel *)newsSummaryLabel{
+- (TYAttributedLabel *)newsSummaryLabel{
     if(!_newsSummaryLabel){
         _newsSummaryLabel = ({
-            UILabel *view = [UILabel new];
+            TYAttributedLabel *view = [TYAttributedLabel new];
             view.textColor = [UIColor blackColor];
             view.textAlignment = NSTextAlignmentLeft;
-            view.lineBreakMode = NSLineBreakByWordWrapping;
+            view.lineBreakMode = NSLineBreakByTruncatingTail;
             view.numberOfLines = 0 ;
             view.font = [UIFont systemFontOfSize:14];
             view ;

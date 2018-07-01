@@ -7,13 +7,14 @@
 //
 
 #import "KKImageDescView.h"
+#import "TYAttributedLabel.h"
 
 static CGFloat topPadding = 44 ;
 static CGFloat defaultHeight = 120 ;
 
 @interface KKImageDescView ()<UIGestureRecognizerDelegate>
 @property(nonatomic,strong)UIView *contentView;
-@property(nonatomic,strong)UILabel *descLabel;
+@property(nonatomic,strong)TYAttributedLabel *descLabel;
 @property(nonatomic,strong)UIPanGestureRecognizer *panRecognizer;//拖动视图的手势
 @end
 
@@ -57,8 +58,8 @@ static CGFloat defaultHeight = 120 ;
 
 #pragma mark -- 界面刷新
 
-- (void)refreshViewAttriData:(KKAttriTextData *)data{
-    self.descLabel.attributedText = data.attriText;
+- (void)refreshViewAttriData:(TYTextContainer *)data{
+    self.descLabel.textContainer = data;
     
     CGFloat contentHeight = data.attriTextHeight + 2 * kkPaddingNormal ;
     
@@ -150,10 +151,10 @@ static CGFloat defaultHeight = 120 ;
     return _contentView;
 }
 
-- (UILabel *)descLabel{
+- (TYAttributedLabel *)descLabel{
     if(!_descLabel){
         _descLabel = ({
-            UILabel *view = [UILabel new];
+            TYAttributedLabel *view = [TYAttributedLabel new];
             view.numberOfLines = 0;
             view.textAlignment = NSTextAlignmentLeft;
             view.lineBreakMode = NSLineBreakByWordWrapping;

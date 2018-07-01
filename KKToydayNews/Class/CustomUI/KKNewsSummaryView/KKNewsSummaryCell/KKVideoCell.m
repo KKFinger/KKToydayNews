@@ -7,6 +7,7 @@
 //
 
 #import "KKVideoCell.h"
+#import "TYAttributedLabel.h"
 
 #define UserHeaderHeight 30
 #define SplitViewHeight 8
@@ -20,7 +21,7 @@ static UIFont *titleFont = nil ;
 @property(nonatomic,strong,readwrite)UIView *contentMaskView;
 @property(nonatomic,strong)UIImageView *largeImgView;
 @property(nonatomic,strong)UIImageView *userHeader;
-@property(nonatomic,strong)UILabel *titleLabel;
+@property(nonatomic,strong)TYAttributedLabel *titleLabel;
 @property(nonatomic,strong)UILabel *playCountLabel;
 @property(nonatomic,strong)UILabel *userNameLabel;
 @property(nonatomic,strong)UIButton *concernBtn;
@@ -183,10 +184,9 @@ static UIFont *titleFont = nil ;
     }];
     
     
-    self.titleLabel.attributedText = item.attriTextData.attriText;
-    self.titleLabel.lineBreakMode = item.attriTextData.lineBreak;
+    self.titleLabel.textContainer = item.textContainer;
     [self.titleLabel mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.height.mas_equalTo(item.attriTextData.attriTextHeight);
+        make.height.mas_equalTo(item.textContainer.attriTextHeight);
     }];
     
     NSString *playCount = [[NSNumber numberWithLong:item.video_detail_info.video_watch_count.longLongValue]convert];
@@ -236,14 +236,14 @@ static UIFont *titleFont = nil ;
 #pragma mark -- 初始化标题文本
 
 + (void)initAttriTextData:(KKSummaryContent *)item{
-    if(item.attriTextData == nil ){
-        item.attriTextData = [KKAttriTextData new];
-        item.attriTextData.lineSpace = 1 ;
-        item.attriTextData.textColor = [UIColor whiteColor];
-        item.attriTextData.lineBreak = NSLineBreakByWordWrapping;
-        item.attriTextData.originalText = item.title;
-        item.attriTextData.maxAttriTextWidth = [UIScreen mainScreen].bounds.size.width - 2 * kkPaddingNormal ;
-        item.attriTextData.textFont = titleFont ;
+    if(item.textContainer == nil ){
+        TYTextContainer *temp = [TYTextContainer new];
+        temp.linesSpacing = 1 ;
+        temp.textColor = [UIColor whiteColor];
+        temp.lineBreakMode = NSLineBreakByWordWrapping;
+        temp.text = item.title;
+        temp.font = titleFont ;
+        item.textContainer = [temp createTextContainerWithTextWidth:[UIScreen mainScreen].bounds.size.width - 2 * kkPaddingNormal];
     }
 }
 
@@ -281,10 +281,10 @@ static UIFont *titleFont = nil ;
     return _contentMaskView;
 }
 
-- (UILabel *)titleLabel{
+- (TYAttributedLabel *)titleLabel{
     if(!_titleLabel){
         _titleLabel = ({
-            UILabel *view = [UILabel new];
+            TYAttributedLabel *view = [TYAttributedLabel new];
             view.textColor = [UIColor whiteColor];
             view.font = KKTitleFont;
             view.lineBreakMode = NSLineBreakByWordWrapping;

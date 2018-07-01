@@ -7,9 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "KKAttriTextData.h"
+#import "TYTextContainer.h"
 
 @interface KKImageDescView : UIScrollView
-- (void)refreshViewAttriData:(KKAttriTextData *)data;
+- (void)refreshViewAttriData:(TYTextContainer *)data;
 + (CGFloat)descTextWidth;
 @end

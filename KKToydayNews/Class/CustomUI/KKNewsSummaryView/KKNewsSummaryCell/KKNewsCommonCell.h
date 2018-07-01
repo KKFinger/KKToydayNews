@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "KKSummaryDataModel.h"
+#import "TYAttributedLabel.h"
 
 #define newsTipBtnHeight 15
 #define descLabelHeight 20
@@ -15,7 +16,7 @@
 
 @interface KKNewsCommonCell : UITableViewCell
 @property(nonatomic,strong)UIView *bgView;
-@property(nonatomic,strong)UILabel *titleLabel;
+@property(nonatomic,strong)TYAttributedLabel *titleLabel;
 @property(nonatomic,strong)UIButton *leftBtn;
 @property(nonatomic,strong)UIButton *newsTipBtn;
 @property(nonatomic,strong)UILabel *descLabel;

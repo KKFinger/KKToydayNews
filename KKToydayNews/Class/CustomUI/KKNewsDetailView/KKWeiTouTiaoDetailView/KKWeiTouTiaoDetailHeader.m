@@ -19,16 +19,17 @@
 #import "KKAuthorInfoView.h"
 #import "KKImageBrowser.h"
 #import "KKPersonalInfoView.h"
+#import "TYAttributedLabel.h"
 
 @interface KKWeiTouTiaoDetailHeader()<KKCommonDelegate,KKAuthorInfoViewDelegate>
 @property(nonatomic)UIView *bgView ;
-@property(nonatomic)UILabel *contentTextView;
+@property(nonatomic)TYAttributedLabel *contentTextView;
 @property(nonatomic)UILabel *posAndReadCountLabel;
 @property(nonatomic)UIImageView *positionView ;
 
 @property(nonatomic)NSMutableArray<UIImageView *> *imageViewArray ;
 @property(nonatomic,weak)KKSummaryContent *item ;
-@property(nonatomic)KKAttriTextData *attriTextData;
+@property(nonatomic)TYTextContainer *textContainer;
 @end
 
 @implementation KKWeiTouTiaoDetailHeader
@@ -144,10 +145,9 @@
     self.authorView.detail = item.user.verified_content;
     self.authorView.userId = item.user.user_id;
     
-    self.contentTextView.attributedText = self.attriTextData.attriText ;
-    self.contentTextView.lineBreakMode = self.attriTextData.lineBreak;
+    self.contentTextView.textContainer = self.textContainer ;
     [self.contentTextView mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.height.mas_equalTo(self.attriTextData.attriTextHeight);
+        make.height.mas_equalTo(self.textContainer.attriTextHeight);
     }];
     
     NSInteger imageCount = item.thumb_image_list.count;
@@ -248,12 +248,12 @@
 - (CGFloat)fetchViewHeight{
     NSInteger imageCont = self.item.thumb_image_list.count;
     if(imageCont == 0){
-        return HeadViewHeight + self.attriTextData.attriTextHeight + descLabelHeight + 4 * vInterval + space;
+        return HeadViewHeight + self.textContainer.attriTextHeight + descLabelHeight + 4 * vInterval + space;
     }else if(imageCont == 1){
         KKImageItem *imageItem = self.item.ugc_cut_image_list.firstObject;
         CGFloat width = [UIScreen mainScreen].bounds.size.width - 2 * kkPaddingNormal ;
         CGFloat height = width / (imageItem.width / imageItem.height) ;
-        return HeadViewHeight + self.attriTextData.attriTextHeight + descLabelHeight + space + height + 5 * vInterval;
+        return HeadViewHeight + self.textContainer.attriTextHeight + descLabelHeight + space + height + 5 * vInterval;
     }
     
     NSInteger row = 0;
@@ -262,7 +262,7 @@
     }else{
         row = self.item.thumb_image_list.count / perRowImages;
     }
-    return HeadViewHeight + self.attriTextData.attriTextHeight + descLabelHeight + 5 * vInterval + row * imageWidthHeight + row * space;
+    return HeadViewHeight + self.textContainer.attriTextHeight + descLabelHeight + 5 * vInterval + row * imageWidthHeight + row * space;
 }
 
 #pragma mark -- KKUserBarViewDelegate
@@ -298,14 +298,14 @@
 #pragma mark -- 初始化标题文本
 
 - (void)initAttriTextData:(KKSummaryContent *)item{
-    if(self.attriTextData == nil ){
-        self.attriTextData = [KKAttriTextData new];
-        self.attriTextData.lineSpace = 3 ;
-        self.attriTextData.textColor = [UIColor kkColorBlack];
-        self.attriTextData.lineBreak = NSLineBreakByCharWrapping;
-        self.attriTextData.originalText = item.content;
-        self.attriTextData.maxAttriTextWidth = [UIScreen mainScreen].bounds.size.width - 2 * kkPaddingNormal ;
-        self.attriTextData.textFont = ContentTextFont ;
+    if(self.textContainer == nil ){
+        TYTextContainer *temp = [TYTextContainer new];
+        temp.linesSpacing = 3 ;
+        temp.textColor = [UIColor kkColorBlack];
+        temp.lineBreakMode = NSLineBreakByCharWrapping;
+        temp.text = item.content;
+        temp.font = ContentTextFont ;
+        self.textContainer = [temp createTextContainerWithTextWidth:[UIScreen mainScreen].bounds.size.width - 2 * kkPaddingNormal];
     }
 }
 
@@ -391,10 +391,10 @@
     return _authorView;
 }
 
-- (UILabel *)contentTextView{
+- (TYAttributedLabel *)contentTextView{
     if(!_contentTextView){
         _contentTextView = ({
-            UILabel *view = [UILabel new];
+            TYAttributedLabel *view = [TYAttributedLabel new];
             view.textColor = [UIColor blackColor];
             view.font = ContentTextFont;
             view.textAlignment = NSTextAlignmentLeft;

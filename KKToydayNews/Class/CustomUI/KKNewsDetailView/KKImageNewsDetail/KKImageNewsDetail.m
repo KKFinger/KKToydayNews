@@ -160,21 +160,25 @@ static NSString *cellReuseIdentifier = @"cellReuseIdentifier";
     NSInteger index = 0 ;
     NSInteger count = self.imageArray.count;
     for(KKImageItem *item in self.imageArray){
-        if(!item.attriTextData){
-            item.attriTextData = [KKAttriTextData new];
-            item.attriTextData.textFont = (iPhone5)?[UIFont systemFontOfSize:15]:[UIFont systemFontOfSize:16];
-            item.attriTextData.lineSpace = 2 ;
-            item.attriTextData.textColor = [UIColor whiteColor];
-            item.attriTextData.maxAttriTextWidth = [KKImageDescView descTextWidth];
-            item.attriTextData.originalText = [NSString stringWithFormat:@"%ld/%ld %@",index+1,count,item.desc];
-            item.attriTextData.alignment = NSTextAlignmentLeft;
-            [item.attriTextData setSubstringAttribute:[NSString stringWithFormat:@"/%ld",count] attributed:@{NSFontAttributeName:[UIFont systemFontOfSize:13]}];
-            item.attriTextData.attriTextHeight += 5 ;//文字偏移，否则会显示不完整
+        if(!item.textContainer){
+            TYTextContainer *temp = [TYTextContainer new];
+            temp.font = (iPhone5)?[UIFont systemFontOfSize:15]:[UIFont systemFontOfSize:16];
+            temp.linesSpacing = 2 ;
+            temp.textColor = [UIColor whiteColor];
+            temp.text = [NSString stringWithFormat:@"%ld/%ld %@",index+1,count,item.desc];
+            temp.textAlignment = NSTextAlignmentLeft;
+            
+            TYTextStorage *textStorage = [[TYTextStorage alloc]init];
+            textStorage.range = [temp.text rangeOfString:[NSString stringWithFormat:@"/%ld",count]];
+            textStorage.font = [UIFont systemFontOfSize:13];
+            [temp addTextStorage:textStorage];
+            
+            item.textContainer = [temp createTextContainerWithTextWidth:[KKImageDescView descTextWidth]];
         }
         index ++;
     }
     
-    KKAttriTextData *data = ((KKImageItem *)(self.imageArray.firstObject)).attriTextData;
+    TYTextContainer *data = ((KKImageItem *)(self.imageArray.firstObject)).textContainer;
     [self.descView refreshViewAttriData:data];
     
     [self.collectView reloadData];
@@ -276,7 +280,7 @@ static NSString *cellReuseIdentifier = @"cellReuseIdentifier";
         return ;
     }
     KKImageItem *item = [self.imageArray safeObjectAtIndex:index];
-    [self.descView refreshViewAttriData:item.attriTextData];
+    [self.descView refreshViewAttriData:item.textContainer];
 }
 
 //完全停止滚动
@@ -298,7 +302,7 @@ static NSString *cellReuseIdentifier = @"cellReuseIdentifier";
     
     KKImageItem *item = [self.imageArray safeObjectAtIndex:index];
     
-    [self.descView refreshViewAttriData:item.attriTextData];
+    [self.descView refreshViewAttriData:item.textContainer];
     
     KKGalleryPreviewCell *cell = (KKGalleryPreviewCell *)[self.collectView cellForItemAtIndexPath:[NSIndexPath indexPathForRow:self.selIndex inSection:0]];
     [cell setAlpha:1.0];

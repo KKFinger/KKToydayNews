@@ -9,11 +9,12 @@
 #import "KKTextImageDetailHeadView.h"
 #import "KKButton.h"
 #import "KKImageBrowser.h"
+#import "TYAttributedLabel.h"
 
 #define TextViewWidth (UIDeviceScreenWidth - 2 * kkPaddingNormal)
 
 @interface KKTextImageDetailHeadView ()
-@property(nonatomic)UILabel *textLabel;
+@property(nonatomic)TYAttributedLabel *textLabel;
 @property(nonatomic)UIButton *diggBtn;
 @property(nonatomic)UIButton *disDiggBtn;
 @property(nonatomic)UILabel *label;
@@ -125,10 +126,9 @@
 - (void)refreshWithItem:(KKSummaryContent *)item{
     self.item = item;
     
-    self.textLabel.attributedText = item.attriTextData.attriText;
-    self.textLabel.lineBreakMode = NSLineBreakByCharWrapping;
+    self.textLabel.textContainer = item.textContainer;
     [self.textLabel mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.height.mas_equalTo(item.attriTextData.attriTextHeight);
+        make.height.mas_equalTo(item.textContainer.attriTextHeight);
     }];
     
     NSString *diggCount = [[NSNumber numberWithLong:item.digg_count.longLongValue]convert];
@@ -155,13 +155,13 @@
             make.top.mas_equalTo(self.textLabel.mas_bottom).mas_offset(5);
             make.height.mas_equalTo(imageH);
         }];
-        self.frame = CGRectMake(0, 0, UIDeviceScreenWidth, item.attriTextData.attriTextHeight + imageH + 130);
+        self.frame = CGRectMake(0, 0, UIDeviceScreenWidth, item.textContainer.attriTextHeight + imageH + 130);
     }else{
         [self.contentImageView mas_updateConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(self.textLabel.mas_bottom).mas_offset(0);
             make.height.mas_equalTo(0);
         }];
-        self.frame = CGRectMake(0, 0, UIDeviceScreenWidth, item.attriTextData.attriTextHeight + 130);
+        self.frame = CGRectMake(0, 0, UIDeviceScreenWidth, item.textContainer.attriTextHeight + 130);
     }
     
 }
@@ -225,10 +225,10 @@
 
 #pragma mark -- @property
 
-- (UILabel *)textLabel{
+- (TYAttributedLabel *)textLabel{
     if(!_textLabel){
         _textLabel = ({
-            UILabel *view = [UILabel new];
+            TYAttributedLabel *view = [TYAttributedLabel new];
             view.textColor = [UIColor blackColor];
             view.font = [UIFont systemFontOfSize:16];
             view.textAlignment = NSTextAlignmentLeft;

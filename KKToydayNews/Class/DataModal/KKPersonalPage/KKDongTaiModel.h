@@ -8,7 +8,7 @@
 
 #import "KKModalBase.h"
 #import "KKWTTDetailModel.h"
-#import "KKAttriTextData.h"
+#import "TYTextContainer.h"
 
 @interface KKDongTaiGroup : KKModalBase
 //@property(nonatomic,copy)NSString *open_url;
@@ -27,7 +27,7 @@
 //@property(nonatomic,copy)NSString *group_id_str;
 @property(nonatomic,copy)NSString *isDelete;//delete
 
-@property(nonatomic)KKAttriTextData *attriTextData;
+@property(nonatomic)TYTextContainer *textContainer;
 
 @end
 
@@ -84,7 +84,7 @@
 //@property(nonatomic,copy)NSString *modify_time;
 @property(nonatomic)KKPositionInfo *position;
 
-@property(nonatomic)KKAttriTextData *attriTextData;
+@property(nonatomic)TYTextContainer *textContainer;
 @property(nonatomic,assign)CGFloat itemCellHeight;//cell的高度
 
 @end

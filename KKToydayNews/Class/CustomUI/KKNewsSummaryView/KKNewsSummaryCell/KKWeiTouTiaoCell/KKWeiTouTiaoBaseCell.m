@@ -12,7 +12,7 @@
 @property(nonatomic,readwrite)UIView *bgView ;
 @property(nonatomic,readwrite)KKWeiTouTiaoHeadView *header ;
 @property(nonatomic,readwrite)KKWeiTouTiaoBarView *barView ;
-@property(nonatomic,readwrite)UILabel *contentTextView;
+@property(nonatomic,readwrite)TYAttributedLabel *contentTextView;
 @property(nonatomic,readwrite)UILabel *posAndReadCountLabel;
 @property(nonatomic,readwrite)UIImageView *positionView ;
 @end
@@ -89,10 +89,10 @@
     return _barView;
 }
 
-- (UILabel *)contentTextView{
+- (TYAttributedLabel *)contentTextView{
     if(!_contentTextView){
         _contentTextView = ({
-            UILabel *view = [UILabel new];
+            TYAttributedLabel *view = [TYAttributedLabel new];
             view.textColor = [UIColor blackColor];
             view.textAlignment = NSTextAlignmentLeft;
             view.lineBreakMode = NSLineBreakByTruncatingTail;

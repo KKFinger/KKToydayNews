@@ -58,10 +58,10 @@
     return _bgView;
 }
 
-- (UILabel *)titleLabel{
+- (TYAttributedLabel *)titleLabel{
     if(!_titleLabel){
         _titleLabel = ({
-            UILabel *view = [UILabel new];
+            TYAttributedLabel *view = [TYAttributedLabel new];
             view.textColor = [UIColor kkColorBlack];
             view.font = KKTitleFont;
             view.lineBreakMode = NSLineBreakByTruncatingTail;

@@ -137,9 +137,8 @@
     self.header.desc = item.user.verified_content;
     self.header.isFollow = [item.user.is_following boolValue];
     
-    CGFloat textHeight = item.attriTextData.attriTextHeight;
-    self.contentTextView.attributedText = item.attriTextData.attriText ;
-    self.contentTextView.lineBreakMode = NSLineBreakByTruncatingTail;
+    CGFloat textHeight = item.textContainer.attriTextHeight;
+    self.contentTextView.textContainer = item.textContainer ;
     [self.contentTextView mas_updateConstraints:^(MASConstraintMaker *make) {
         make.height.mas_equalTo(textHeight);
     }];
@@ -192,7 +191,7 @@
 + (CGFloat)fetchHeightWithItem:(KKSummaryContent *)item{
     [KKWeiTouTiaoCellNine initAttriTextData:item];
     if(item.itemCellHeight <= 0){
-        item.itemCellHeight = HeadViewHeight + item.attriTextData.attriTextHeight + descLabelHeight + BarViewHeight + 3 * space + 3 * imageWidthHeight + 5 * vInterval ;
+        item.itemCellHeight = HeadViewHeight + item.textContainer.attriTextHeight + descLabelHeight + BarViewHeight + 3 * space + 3 * imageWidthHeight + 5 * vInterval ;
     }
     return item.itemCellHeight;
 }
@@ -200,20 +199,18 @@
 #pragma mark -- 初始化标题文本
 
 + (void)initAttriTextData:(KKSummaryContent *)item{
-    if(item.attriTextData == nil ){
+    if(item.textContainer == nil ){
         if(!contentTextFont){
             contentTextFont = [UIFont systemFontOfSize:(iPhone5)?15:17];
         }
-        item.attriTextData = [KKAttriTextData new];
-        item.attriTextData.lineSpace = 3 ;
-        item.attriTextData.textColor = [UIColor kkColorBlack];
-        item.attriTextData.lineBreak = NSLineBreakByCharWrapping;
-        item.attriTextData.originalText = item.content;
-        item.attriTextData.maxAttriTextWidth = [UIScreen mainScreen].bounds.size.width - 2 * kkPaddingNormal ;
-        item.attriTextData.textFont = contentTextFont ;
-        if(item.attriTextData.attriTextHeight >= 6 * contentTextFont.lineHeight + 6 * item.attriTextData.lineSpace){
-            item.attriTextData.attriTextHeight = 6 * contentTextFont.lineHeight + 6 * item.attriTextData.lineSpace;
-        }
+        TYTextContainer *temp = [TYTextContainer new];
+        temp.linesSpacing = 3 ;
+        temp.textColor = [UIColor kkColorBlack];
+        temp.lineBreakMode = NSLineBreakByTruncatingTail;
+        temp.text = item.content;
+        temp.font = contentTextFont ;
+        temp.numberOfLines = 6 ;
+        item.textContainer = [temp createTextContainerWithTextWidth:[UIScreen mainScreen].bounds.size.width - 2 * kkPaddingNormal];
     }
 }
 

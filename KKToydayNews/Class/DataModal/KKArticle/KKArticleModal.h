@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "TYTextContainer.h"
 
 @interface KKNewsBaseInfo:NSObject
 @property(nonatomic,copy)NSString *groupId;
@@ -21,7 +22,7 @@
 @property(nonatomic,copy)NSString *diggCount;
 @property(nonatomic,copy)NSString *buryCount;
 @property(nonatomic)KKUserInfo *userInfo;
-@property(nonatomic)KKAttriTextData *attriTextData;
+@property(nonatomic)TYTextContainer *textContainer;
 @end
 
 @interface KKRelatedNews : KKModalBase

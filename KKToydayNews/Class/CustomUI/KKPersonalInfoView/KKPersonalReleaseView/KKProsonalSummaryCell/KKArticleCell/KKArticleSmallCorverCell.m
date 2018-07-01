@@ -145,10 +145,9 @@
     NSString *readCount = [[NSNumber numberWithLong:summary.total_read_count.longLongValue]convert];
     self.descLabel.text = [NSString stringWithFormat:@"%@ 阅读",readCount];
     
-    self.titleLabel.attributedText = summary.attriTextData.attriText;
-    self.titleLabel.lineBreakMode = summary.attriTextData.lineBreak;
+    self.titleLabel.textContainer = summary.textContainer;
     [self.titleLabel mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.height.mas_equalTo(summary.attriTextData.attriTextHeight);
+        make.height.mas_equalTo(summary.textContainer.attriTextHeight);
     }];
     
     BOOL gallaryStyle = [summary.has_gallery boolValue] ;
@@ -167,20 +166,20 @@
 
 + (CGFloat)fetchHeightWithSummary:(KKPersonalSummary *)summary{
     [KKArticleSmallCorverCell initAttriTextData:summary];
-    return 2 * kkPaddingLarge + 2 * space + imageHeight + summary.attriTextData.attriTextHeight + descLabelHeight + splitViewHeight;
+    return 2 * kkPaddingLarge + 2 * space + imageHeight + summary.textContainer.attriTextHeight + descLabelHeight + splitViewHeight;
 }
 
 #pragma mark -- 初始化标题文本
 
 + (void)initAttriTextData:(KKPersonalSummary *)summary{
-    if(summary.attriTextData == nil ){
-        summary.attriTextData = [KKAttriTextData new];
-        summary.attriTextData.lineSpace = 3 ;
-        summary.attriTextData.textColor = [UIColor kkColorBlack];
-        summary.attriTextData.lineBreak = NSLineBreakByTruncatingTail;
-        summary.attriTextData.originalText = summary.title;
-        summary.attriTextData.maxAttriTextWidth = KKTitleWidth ;
-        summary.attriTextData.textFont = KKTitleFont ;
+    if(summary.textContainer == nil ){
+        TYTextContainer *temp = [TYTextContainer new];
+        temp.linesSpacing = 3 ;
+        temp.textColor = [UIColor kkColorBlack];
+        temp.lineBreakMode = NSLineBreakByTruncatingTail;
+        temp.text = summary.title;
+        temp.font = KKTitleFont ;
+        summary.textContainer = [temp createTextContainerWithTextWidth:KKTitleWidth];
     }
 }
 

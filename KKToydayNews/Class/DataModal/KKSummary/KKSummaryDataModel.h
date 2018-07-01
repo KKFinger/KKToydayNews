@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "KKModalBase.h"
-#import "KKAttriTextData.h"
+#import "TYTextContainer.h"
 
 //过滤词汇
 @interface KKFilterWords : KKModalBase
@@ -33,7 +33,7 @@
 @property(nonatomic)UIImage *image;
 @property(nonatomic,copy)NSArray<KKUrlList *> *url_list;//只有一个键值对，key值为url
 
-@property(nonatomic)KKAttriTextData *attriTextData;
+@property(nonatomic)TYTextContainer *textContainer;
 
 @end
 
@@ -228,7 +228,7 @@
 @property(nonatomic,copy)NSString *group_id;
 @property(nonatomic,copy)NSArray<KKImageItem *>*thumb_image_list;
 
-@property(nonatomic)KKAttriTextData *attriTextData;
+@property(nonatomic)TYTextContainer *textContainer;
 
 @end
 
@@ -331,7 +331,7 @@ middle_image 不为空，large_image_list为空 ,左边标题和描述，右边�
 //@property(nonatomic,copy)NSString *source_icon_style;
 
 //标题富文本
-@property(nonatomic)KKAttriTextData *attriTextData;
+@property(nonatomic)TYTextContainer *textContainer;
 //视频长度字符、图片个数字符等宽度
 @property(nonatomic,assign)CGFloat newsTipWidth;
 //item对应的cell的高度

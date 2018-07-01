@@ -7,6 +7,7 @@
 //
 
 #import "KKWenDaImageCell.h"
+#import "TYAttributedLabel.h"
 
 #define space 5.0
 #define KKAnswerTextWidth ([UIScreen mainScreen].bounds.size.width - 2 * kkPaddingNormal)
@@ -17,9 +18,9 @@
 #define KKAnswerFont [UIFont systemFontOfSize:14]
 
 @interface KKWenDaImageCell()
-@property(nonatomic,strong)UILabel *titleLabel;
+@property(nonatomic,strong)TYAttributedLabel *titleLabel;
 @property(nonatomic,strong)UIImageView *answerImageView;
-@property(nonatomic,strong)UILabel *answerLabel;
+@property(nonatomic,strong)TYAttributedLabel *answerLabel;
 @property(nonatomic,strong)UILabel *detailLabel;
 @property(nonatomic,strong)UIView *splitView;
 @property(nonatomic,weak)KKPersonalQAModel *qaModal;
@@ -104,56 +105,52 @@
     NSString *browcount = [[NSNumber numberWithInteger:modal.answer.brow_count.longLongValue]convert];
     self.detailLabel.text = [NSString stringWithFormat:@"%@赞 • %@阅读",diggCount,browcount];
     
-    self.titleLabel.attributedText = modal.question.attriTextData.attriText;
-    self.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    self.titleLabel.textContainer = modal.question.textContainer;
     [self.titleLabel mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.height.mas_equalTo(modal.question.attriTextData.attriTextHeight);
+        make.height.mas_equalTo(modal.question.textContainer.attriTextHeight);
     }];
     
-    self.answerLabel.attributedText = modal.answer.attriTextData.attriText;
-    self.answerLabel.lineBreakMode = NSLineBreakByTruncatingTail;
+    self.answerLabel.textContainer = modal.answer.textContainer;
     [self.answerLabel mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.height.mas_equalTo(modal.answer.attriTextData.attriTextHeight);
+        make.height.mas_equalTo(modal.answer.textContainer.attriTextHeight);
     }];
 }
 
 + (CGFloat)fetchHeightWithQAModal:(KKPersonalQAModel *)modal{
     [KKWenDaImageCell initAttriTextData:modal];
-    return 2 * kkPaddingLarge + 2 * space + MAX(modal.question.attriTextData.attriTextHeight,imageHeight) + modal.answer.attriTextData.attriTextHeight + + KKAnswerFont.lineHeight + splitViewHeight;
+    return 2 * kkPaddingLarge + 2 * space + MAX(modal.question.textContainer.attriTextHeight,imageHeight) + modal.answer.textContainer.attriTextHeight + + KKAnswerFont.lineHeight + splitViewHeight;
 }
 
 #pragma mark -- 初始化标题文本
 
 + (void)initAttriTextData:(KKPersonalQAModel *)modal{
-    if(modal.question.attriTextData == nil ){
-        modal.question.attriTextData = [KKAttriTextData new];
-        modal.question.attriTextData.lineSpace = 3 ;
-        modal.question.attriTextData.textColor = [UIColor kkColorBlack];
-        modal.question.attriTextData.lineBreak = NSLineBreakByWordWrapping;
-        modal.question.attriTextData.originalText = modal.question.title;
-        modal.question.attriTextData.maxAttriTextWidth = KKQuestionTextWidth ;
-        modal.question.attriTextData.textFont = KKTitleFont ;
+    if(modal.question.textContainer == nil ){
+        TYTextContainer *temp = [TYTextContainer new];
+        temp.linesSpacing = 3 ;
+        temp.textColor = [UIColor kkColorBlack];
+        temp.lineBreakMode = NSLineBreakByWordWrapping;
+        temp.text = modal.question.title;
+        temp.font = KKTitleFont ;
+        modal.question.textContainer = [temp createTextContainerWithTextWidth:KKQuestionTextWidth];
     }
-    if(modal.answer.attriTextData == nil ){
-        modal.answer.attriTextData = [KKAttriTextData new];
-        modal.answer.attriTextData.lineSpace = 3 ;
-        modal.answer.attriTextData.textColor = [UIColor grayColor];
-        modal.answer.attriTextData.lineBreak = NSLineBreakByWordWrapping;
-        modal.answer.attriTextData.originalText = modal.answer.content_abstract.text;
-        modal.answer.attriTextData.maxAttriTextWidth = KKAnswerTextWidth ;
-        modal.answer.attriTextData.textFont = KKAnswerFont ;
-        if(modal.answer.attriTextData.attriTextHeight > 2 * KKAnswerFont.lineHeight + 2 * modal.answer.attriTextData.lineSpace){
-            modal.answer.attriTextData.attriTextHeight = 2 * KKAnswerFont.lineHeight + 2 * modal.answer.attriTextData.lineSpace;
-        }
+    if(modal.answer.textContainer == nil ){
+        TYTextContainer *temp = [TYTextContainer new];
+        temp.linesSpacing = 3 ;
+        temp.textColor = [UIColor grayColor];
+        temp.lineBreakMode = NSLineBreakByTruncatingTail;
+        temp.text = modal.answer.content_abstract.text;
+        temp.font = KKAnswerFont ;
+        temp.numberOfLines = 2 ;
+        modal.answer.textContainer = [temp createTextContainerWithTextWidth:KKAnswerTextWidth];
     }
 }
 
 #pragma mark -- @property
 
-- (UILabel *)titleLabel{
+- (TYAttributedLabel *)titleLabel{
     if(!_titleLabel){
         _titleLabel = ({
-            UILabel *view = [UILabel new];
+            TYAttributedLabel *view = [TYAttributedLabel new];
             view.textColor = [UIColor kkColorBlack];
             view.font = KKTitleFont;
             view.lineBreakMode = NSLineBreakByWordWrapping;
@@ -177,10 +174,10 @@
     return _answerImageView;
 }
 
-- (UILabel *)answerLabel{
+- (TYAttributedLabel *)answerLabel{
     if(!_answerLabel){
         _answerLabel = ({
-            UILabel *view = [UILabel new];
+            TYAttributedLabel *view = [TYAttributedLabel new];
             view.textColor = [UIColor grayColor];
             view.font = KKAnswerFont;
             view.lineBreakMode = NSLineBreakByTruncatingTail;

@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "KKAttriTextData.h"
+#import "TYTextContainer.h"
 
 @interface KKCommentObj : KKModalBase
 @property(nonatomic,copy)NSString *Id;
@@ -40,7 +40,7 @@
 @property(nonatomic)KKUserInfoNew *user;
 @property(nonatomic,copy)NSString *platform;
 
-@property(nonatomic)KKAttriTextData *attriTextData;
+@property(nonatomic)TYTextContainer *textContainer;
 
 @end
 

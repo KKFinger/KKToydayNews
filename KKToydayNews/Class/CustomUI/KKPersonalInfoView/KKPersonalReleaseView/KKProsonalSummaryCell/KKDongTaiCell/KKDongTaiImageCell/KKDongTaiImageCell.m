@@ -8,6 +8,7 @@
 
 #import "KKDongTaiImageCell.h"
 #import "KKDongTaiBarView.h"
+#import "TYAttributedLabel.h"
 
 #define maxImageCount 9 //最大的图片个数
 #define perRowImages 3 //每行
@@ -25,7 +26,7 @@
 @property(nonatomic)UILabel *dateLabel;
 @property(nonatomic)UIButton *moreBtn;
 @property(nonatomic)KKDongTaiBarView *barView ;
-@property(nonatomic)UILabel *contentTextView;
+@property(nonatomic)TYAttributedLabel *contentTextView;
 @property(nonatomic)UILabel *posAndReadCountLabel;
 @property(nonatomic)UIButton *moreImageView;
 @property(nonatomic)UIImageView *positionView ;
@@ -191,9 +192,8 @@
     self.nameLabel.text = item.user.screen_name;
     self.dateLabel.text = [NSString stringIntervalSince1970RuleTwo:item.create_time.longLongValue];
     
-    CGFloat textHeight = item.attriTextData.attriTextHeight;
-    self.contentTextView.attributedText = item.attriTextData.attriText ;
-    self.contentTextView.lineBreakMode = NSLineBreakByTruncatingTail;
+    CGFloat textHeight = item.textContainer.attriTextHeight;
+    self.contentTextView.textContainer = item.textContainer ;
     [self.contentTextView mas_updateConstraints:^(MASConstraintMaker *make) {
         make.height.mas_equalTo(textHeight);
     }];
@@ -332,32 +332,30 @@
     
     NSInteger imageCont = item.thumb_image_list.count;
     if(imageCont == 0){
-        return headViewWH + item.attriTextData.attriTextHeight + detailFont.lineHeight + BarViewHeight + 4 * vInterval + space;
+        return headViewWH + item.textContainer.attriTextHeight + detailFont.lineHeight + BarViewHeight + 4 * vInterval + space;
     }else if(imageCont == 1){
         KKImageItem *imageItem = item.ugc_cut_image_list.firstObject;
         CGFloat width = [UIScreen mainScreen].bounds.size.width / 2.0 ;
         CGFloat height = width / (imageItem.width / imageItem.height ) ;
-        return headViewWH + item.attriTextData.attriTextHeight + detailFont.lineHeight + BarViewHeight + space + height + 5 * vInterval;
+        return headViewWH + item.textContainer.attriTextHeight + detailFont.lineHeight + BarViewHeight + space + height + 5 * vInterval;
     }else if(imageCont == maxImageCount){
-        return headViewWH + item.attriTextData.attriTextHeight + detailFont.lineHeight + BarViewHeight + 3 * space + 3 * imageWidthHeight + 5 * vInterval;
+        return headViewWH + item.textContainer.attriTextHeight + detailFont.lineHeight + BarViewHeight + 3 * space + 3 * imageWidthHeight + 5 * vInterval;
     }
-    return headViewWH + item.attriTextData.attriTextHeight + detailFont.lineHeight + BarViewHeight + space + imageWidthHeight + 5 * vInterval;
+    return headViewWH + item.textContainer.attriTextHeight + detailFont.lineHeight + BarViewHeight + space + imageWidthHeight + 5 * vInterval;
 }
 
 #pragma mark -- 初始化标题文本
 
 + (void)initAttriTextData:(KKDongTaiObject *)item{
-    if(item.attriTextData == nil ){
-        item.attriTextData = [KKAttriTextData new];
-        item.attriTextData.lineSpace = 3 ;
-        item.attriTextData.textColor = contentTextColor;
-        item.attriTextData.lineBreak = NSLineBreakByWordWrapping;
-        item.attriTextData.originalText = item.content_unescape;
-        item.attriTextData.maxAttriTextWidth = contentTextWidth ;
-        item.attriTextData.textFont = contentTextFont ;
-        if(item.attriTextData.attriTextHeight >= 6 * contentTextFont.lineHeight + 6 * item.attriTextData.lineSpace){
-            item.attriTextData.attriTextHeight = 6 * contentTextFont.lineHeight + 6 * item.attriTextData.lineSpace;
-        }
+    if(item.textContainer == nil ){
+        TYTextContainer *temp = [TYTextContainer new];
+        temp.linesSpacing = 3 ;
+        temp.textColor = contentTextColor;
+        temp.lineBreakMode = NSLineBreakByWordWrapping;
+        temp.text = item.content_unescape;
+        temp.font = contentTextFont ;
+        temp.numberOfLines = 6 ;
+        item.textContainer = [temp createTextContainerWithTextWidth:contentTextWidth];
     }
 }
 
@@ -534,10 +532,10 @@
     return _barView;
 }
 
-- (UILabel *)contentTextView{
+- (TYAttributedLabel *)contentTextView{
     if(!_contentTextView){
         _contentTextView = ({
-            UILabel *view = [UILabel new];
+            TYAttributedLabel *view = [TYAttributedLabel new];
             view.textColor = contentTextColor;
             view.font = contentTextFont;
             view.textAlignment = NSTextAlignmentLeft;

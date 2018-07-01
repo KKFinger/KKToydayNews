@@ -127,7 +127,7 @@
 //@property(nonatomic,copy)NSString *external_visit_count_format;
 
 //标题富文本
-@property(nonatomic)KKAttriTextData *attriTextData;
+@property(nonatomic)TYTextContainer *textContainer;
 
 @property(nonatomic,assign)CGFloat newsTipWidth;
 

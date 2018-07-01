@@ -10,6 +10,7 @@
 #import "KKSummaryDataModel.h"
 #import "KKWeiTouTiaoHeadView.h"
 #import "KKWeiTouTiaoBarView.h"
+#import "TYAttributedLabel.h"
 
 #define maxImageCount 9 //最大的图片个数
 #define perRowImages 3 //每行
@@ -32,7 +33,7 @@ static UIFont *contentTextFont = nil ;
 @property(nonatomic,readonly)UIView *bgView ;
 @property(nonatomic,readonly)KKWeiTouTiaoHeadView *header ;
 @property(nonatomic,readonly)KKWeiTouTiaoBarView *barView ;
-@property(nonatomic,readonly)UILabel *contentTextView;
+@property(nonatomic,readonly)TYAttributedLabel *contentTextView;
 @property(nonatomic,readonly)UILabel *posAndReadCountLabel;
 @property(nonatomic,readonly)UIImageView *positionView ;
 + (CGFloat)fetchHeightWithItem:(KKSummaryContent *)item ;

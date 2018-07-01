@@ -72,7 +72,7 @@
 @property(nonatomic,copy)NSString *dongtai_id;
 @property(nonatomic,copy)NSString *delete_;
 
-@property(nonatomic)KKAttriTextData *attriTextData;
+@property(nonatomic)TYTextContainer *textContainer;
 
 @end
 

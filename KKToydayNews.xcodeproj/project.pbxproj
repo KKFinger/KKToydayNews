@@ -160,10 +160,19 @@
 		5197BF731F37595800E67828 /* UIView+GestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5197BF721F37595800E67828 /* UIView+GestureRecognizer.m */; };
 		5197BF761F375ACC00E67828 /* UIView+Geometry.m in Sources */ = {isa = PBXBuildFile; fileRef = 5197BF751F375ACC00E67828 /* UIView+Geometry.m */; };
 		5197BF7A1F37706D00E67828 /* UISearchBar+Custom.m in Sources */ = {isa = PBXBuildFile; fileRef = 5197BF791F37706D00E67828 /* UISearchBar+Custom.m */; };
+		51AD794D20E7538B00350481 /* TYImageStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = 51AD793920E7538900350481 /* TYImageStorage.m */; };
+		51AD794E20E7538B00350481 /* TYDrawStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = 51AD793A20E7538900350481 /* TYDrawStorage.m */; };
+		51AD794F20E7538B00350481 /* NSMutableAttributedString+TY.m in Sources */ = {isa = PBXBuildFile; fileRef = 51AD794020E7538A00350481 /* NSMutableAttributedString+TY.m */; };
+		51AD795020E7538B00350481 /* TYImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 51AD794220E7538A00350481 /* TYImageCache.m */; };
+		51AD795120E7538B00350481 /* TYLinkTextStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = 51AD794320E7538A00350481 /* TYLinkTextStorage.m */; };
+		51AD795220E7538B00350481 /* TYTextContainer+Extended.m in Sources */ = {isa = PBXBuildFile; fileRef = 51AD794420E7538A00350481 /* TYTextContainer+Extended.m */; };
+		51AD795320E7538B00350481 /* TYTextStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = 51AD794620E7538A00350481 /* TYTextStorage.m */; };
+		51AD795420E7538B00350481 /* TYViewStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = 51AD794920E7538B00350481 /* TYViewStorage.m */; };
+		51AD795520E7538B00350481 /* TYAttributedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 51AD794B20E7538B00350481 /* TYAttributedLabel.m */; };
+		51AD795620E7538B00350481 /* TYTextContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 51AD794C20E7538B00350481 /* TYTextContainer.m */; };
 		51B929291F92396B00BB4467 /* Photos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 51B929281F92396B00BB4467 /* Photos.framework */; };
 		51B9293B1F926BF000BB4467 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 51B9293A1F926BF000BB4467 /* AssetsLibrary.framework */; };
 		51C4FB941F5BF3DA00E21F87 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 51C4FB931F5BF3DA00E21F87 /* CoreLocation.framework */; };
-		51D941C4205AC481002F9004 /* KKAttriTextData.m in Sources */ = {isa = PBXBuildFile; fileRef = 51D9417C205AC47F002F9004 /* KKAttriTextData.m */; };
 		51D941C5205AC481002F9004 /* KKApplePayTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 51D9417F205AC480002F9004 /* KKApplePayTool.m */; };
 		51D941C6205AC481002F9004 /* KKFetchNewsTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 51D94182205AC480002F9004 /* KKFetchNewsTool.m */; };
 		51D941C7205AC481002F9004 /* KKNewsAnalyzeTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 51D94185205AC480002F9004 /* KKNewsAnalyzeTool.m */; };
@@ -518,11 +527,29 @@
 		5197BF751F375ACC00E67828 /* UIView+Geometry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Geometry.m"; sourceTree = "<group>"; };
 		5197BF781F37706D00E67828 /* UISearchBar+Custom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UISearchBar+Custom.h"; sourceTree = "<group>"; };
 		5197BF791F37706D00E67828 /* UISearchBar+Custom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UISearchBar+Custom.m"; sourceTree = "<group>"; };
+		51AD793920E7538900350481 /* TYImageStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TYImageStorage.m; sourceTree = "<group>"; };
+		51AD793A20E7538900350481 /* TYDrawStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TYDrawStorage.m; sourceTree = "<group>"; };
+		51AD793B20E7538900350481 /* TYImageStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TYImageStorage.h; sourceTree = "<group>"; };
+		51AD793C20E7538900350481 /* TYLinkTextStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TYLinkTextStorage.h; sourceTree = "<group>"; };
+		51AD793D20E7538900350481 /* TYTextContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TYTextContainer.h; sourceTree = "<group>"; };
+		51AD793E20E7538A00350481 /* TYAttributedLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TYAttributedLabel.h; sourceTree = "<group>"; };
+		51AD793F20E7538A00350481 /* TYImageCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TYImageCache.h; sourceTree = "<group>"; };
+		51AD794020E7538A00350481 /* NSMutableAttributedString+TY.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableAttributedString+TY.m"; sourceTree = "<group>"; };
+		51AD794120E7538A00350481 /* TYDrawStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TYDrawStorage.h; sourceTree = "<group>"; };
+		51AD794220E7538A00350481 /* TYImageCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TYImageCache.m; sourceTree = "<group>"; };
+		51AD794320E7538A00350481 /* TYLinkTextStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TYLinkTextStorage.m; sourceTree = "<group>"; };
+		51AD794420E7538A00350481 /* TYTextContainer+Extended.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "TYTextContainer+Extended.m"; sourceTree = "<group>"; };
+		51AD794520E7538A00350481 /* TYTextStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TYTextStorage.h; sourceTree = "<group>"; };
+		51AD794620E7538A00350481 /* TYTextStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TYTextStorage.m; sourceTree = "<group>"; };
+		51AD794720E7538B00350481 /* TYTextStorageProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TYTextStorageProtocol.h; sourceTree = "<group>"; };
+		51AD794820E7538B00350481 /* TYViewStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TYViewStorage.h; sourceTree = "<group>"; };
+		51AD794920E7538B00350481 /* TYViewStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TYViewStorage.m; sourceTree = "<group>"; };
+		51AD794A20E7538B00350481 /* NSMutableAttributedString+TY.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableAttributedString+TY.h"; sourceTree = "<group>"; };
+		51AD794B20E7538B00350481 /* TYAttributedLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TYAttributedLabel.m; sourceTree = "<group>"; };
+		51AD794C20E7538B00350481 /* TYTextContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TYTextContainer.m; sourceTree = "<group>"; };
 		51B929281F92396B00BB4467 /* Photos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Photos.framework; path = System/Library/Frameworks/Photos.framework; sourceTree = SDKROOT; };
 		51B9293A1F926BF000BB4467 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		51C4FB931F5BF3DA00E21F87 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
-		51D9417B205AC47F002F9004 /* KKAttriTextData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KKAttriTextData.h; sourceTree = "<group>"; };
-		51D9417C205AC47F002F9004 /* KKAttriTextData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KKAttriTextData.m; sourceTree = "<group>"; };
 		51D9417E205AC480002F9004 /* KKApplePayTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KKApplePayTool.h; sourceTree = "<group>"; };
 		51D9417F205AC480002F9004 /* KKApplePayTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KKApplePayTool.m; sourceTree = "<group>"; };
 		51D94181205AC480002F9004 /* KKFetchNewsTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KKFetchNewsTool.h; sourceTree = "<group>"; };
@@ -746,6 +773,7 @@
 		14645B481FE35E89007E06B3 /* CustomUI */ = {
 			isa = PBXGroup;
 			children = (
+				51AD791A20E7536900350481 /* TYAttributedLabel */,
 				14337AE41FE89EDB003AE321 /* KKUserCenterView */,
 				14645CB11FE35FD0007E06B3 /* KKActionSheetView */,
 				14645B491FE35E89007E06B3 /* KKAttributeTextView */,
@@ -1666,7 +1694,6 @@
 			children = (
 				51D9417D205AC480002F9004 /* KKApplePayTool */,
 				51D941C1205AC481002F9004 /* KKAppTools */,
-				51D9417A205AC47F002F9004 /* KKAttriTextData */,
 				51D9419D205AC480002F9004 /* KKAVPlayer */,
 				51D94186205AC480002F9004 /* KKCommonDevice */,
 				51D941B9205AC481002F9004 /* KKContactManager */,
@@ -1747,13 +1774,31 @@
 			path = UISearchBar;
 			sourceTree = "<group>";
 		};
-		51D9417A205AC47F002F9004 /* KKAttriTextData */ = {
+		51AD791A20E7536900350481 /* TYAttributedLabel */ = {
 			isa = PBXGroup;
 			children = (
-				51D9417B205AC47F002F9004 /* KKAttriTextData.h */,
-				51D9417C205AC47F002F9004 /* KKAttriTextData.m */,
+				51AD794A20E7538B00350481 /* NSMutableAttributedString+TY.h */,
+				51AD794020E7538A00350481 /* NSMutableAttributedString+TY.m */,
+				51AD793E20E7538A00350481 /* TYAttributedLabel.h */,
+				51AD794B20E7538B00350481 /* TYAttributedLabel.m */,
+				51AD794120E7538A00350481 /* TYDrawStorage.h */,
+				51AD793A20E7538900350481 /* TYDrawStorage.m */,
+				51AD793F20E7538A00350481 /* TYImageCache.h */,
+				51AD794220E7538A00350481 /* TYImageCache.m */,
+				51AD793B20E7538900350481 /* TYImageStorage.h */,
+				51AD793920E7538900350481 /* TYImageStorage.m */,
+				51AD793C20E7538900350481 /* TYLinkTextStorage.h */,
+				51AD794320E7538A00350481 /* TYLinkTextStorage.m */,
+				51AD793D20E7538900350481 /* TYTextContainer.h */,
+				51AD794C20E7538B00350481 /* TYTextContainer.m */,
+				51AD794420E7538A00350481 /* TYTextContainer+Extended.m */,
+				51AD794520E7538A00350481 /* TYTextStorage.h */,
+				51AD794620E7538A00350481 /* TYTextStorage.m */,
+				51AD794720E7538B00350481 /* TYTextStorageProtocol.h */,
+				51AD794820E7538B00350481 /* TYViewStorage.h */,
+				51AD794920E7538B00350481 /* TYViewStorage.m */,
 			);
-			path = KKAttriTextData;
+			path = TYAttributedLabel;
 			sourceTree = "<group>";
 		};
 		51D9417D205AC480002F9004 /* KKApplePayTool */ = {
@@ -2330,14 +2375,16 @@
 				14645C791FE35E89007E06B3 /* KKVideoNewsDetail.m in Sources */,
 				14645C6C1FE35E89007E06B3 /* KKNewsCommentView.m in Sources */,
 				51D941D3205AC481002F9004 /* KKRecordEncoder.m in Sources */,
+				51AD794D20E7538B00350481 /* TYImageStorage.m in Sources */,
 				51D941CD205AC481002F9004 /* KKVideoInfo.m in Sources */,
+				51AD795020E7538B00350481 /* TYImageCache.m in Sources */,
 				5197BF701F3754A700E67828 /* UIView+ActivityIndicatorView.m in Sources */,
 				510100DF2083779A00706704 /* KKWeiTouTiaoCellOne.m in Sources */,
 				14645C941FE35E89007E06B3 /* KKDongTaiOriginalCell.m in Sources */,
-				51D941C4205AC481002F9004 /* KKAttriTextData.m in Sources */,
 				51D941D7205AC481002F9004 /* KKNetworkTool.m in Sources */,
 				518D47B5203DD7A200EB891C /* AppDelegate+KKPush.m in Sources */,
 				14645C821FE35E89007E06B3 /* KKTextImageCell.m in Sources */,
+				51AD795220E7538B00350481 /* TYTextContainer+Extended.m in Sources */,
 				14645CAA1FE35E89007E06B3 /* KKUserDiggView.m in Sources */,
 				14645CA31FE35E89007E06B3 /* KKShareItem.m in Sources */,
 				14645CBA1FE35FD0007E06B3 /* KKActionSheetView.m in Sources */,
@@ -2374,6 +2421,7 @@
 				14645C7D1FE35E89007E06B3 /* KKLargeCorverCell.m in Sources */,
 				51D941D5205AC481002F9004 /* KKVideoCompressTool.m in Sources */,
 				14645CA41FE35E89007E06B3 /* KKShareView.m in Sources */,
+				51AD794F20E7538B00350481 /* NSMutableAttributedString+TY.m in Sources */,
 				14645C571FE35E89007E06B3 /* KKImagePickCtrl.m in Sources */,
 				51D941DB205AC481002F9004 /* KKAppTools.m in Sources */,
 				51477AE31FC0184100E6E296 /* KKSummaryDataModel.m in Sources */,
@@ -2387,11 +2435,13 @@
 				1439E4AC1F67B25D00DBF24D /* UIButton+KK.m in Sources */,
 				14645CA91FE35E89007E06B3 /* KKUserDiggCell.m in Sources */,
 				51D941CC205AC481002F9004 /* KKPhotoManager.m in Sources */,
+				51AD794E20E7538B00350481 /* TYDrawStorage.m in Sources */,
 				51D941D2205AC481002F9004 /* KKFetchVideoCorverTool.m in Sources */,
 				14645C9F1FE35E89007E06B3 /* KKSectionPanelView.m in Sources */,
 				14645C701FE35E89007E06B3 /* KKBottomBar.m in Sources */,
 				14645C551FE35E89007E06B3 /* KKNavTitleView.m in Sources */,
 				51DA1C8A1F6D656E00D7D53B /* UIFont+Standard.m in Sources */,
+				51AD795320E7538B00350481 /* TYTextStorage.m in Sources */,
 				14645C8D1FE35E89007E06B3 /* KKPersonalReleaseView.m in Sources */,
 				14645C9E1FE35E89007E06B3 /* KKSectionItemView.m in Sources */,
 				0ECC1ABD20AABCC000F0A3B6 /* UIImageView+URL.m in Sources */,
@@ -2431,12 +2481,14 @@
 				14645C771FE35E89007E06B3 /* KKRelateVideoCell.m in Sources */,
 				14645C5D1FE35E89007E06B3 /* KKAlbumCell.m in Sources */,
 				14645C531FE35E89007E06B3 /* KKDragableBaseView.m in Sources */,
+				51AD795520E7538B00350481 /* TYAttributedLabel.m in Sources */,
 				51477ADF1FC0184100E6E296 /* KKCommentModal.m in Sources */,
 				14645CA51FE35E89007E06B3 /* KKTabBar.m in Sources */,
 				14645C811FE35E89007E06B3 /* KKSmallCorverCell.m in Sources */,
 				51477AEA1FC021D900E6E296 /* KKPersonalArticalModel.m in Sources */,
 				14645C761FE35E89007E06B3 /* KKTextImageDetailView.m in Sources */,
 				149AB8FB1F94950A00379511 /* KKHomeSectionManager.m in Sources */,
+				51AD795120E7538B00350481 /* TYLinkTextStorage.m in Sources */,
 				14645C8E1FE35E89007E06B3 /* KKArticleMiddleCorverCell.m in Sources */,
 				51DA1C921F6D837400D7D53B /* NSDate+KK.m in Sources */,
 				51D941CB205AC481002F9004 /* KKPhotoInfo.m in Sources */,
@@ -2449,6 +2501,7 @@
 				5126FD0D1F94F2A100A93D5F /* KKXiGuaViewCtrl.m in Sources */,
 				51477AE71FC0187100E6E296 /* KKDongTaiModel.m in Sources */,
 				14645C8C1FE35E89007E06B3 /* KKPersonalInfoView.m in Sources */,
+				51AD795620E7538B00350481 /* TYTextContainer.m in Sources */,
 				510100E5208380D100706704 /* KKWeiTouTiaoCellThree.m in Sources */,
 				51E3D4352036E09C004BE111 /* KKShareObject.m in Sources */,
 				51477AE41FC0184100E6E296 /* KKWTTDetailModel.m in Sources */,
@@ -2467,6 +2520,7 @@
 				14645C741FE35E89007E06B3 /* KKNormalNewsDetailView.m in Sources */,
 				14645C691FE35E89007E06B3 /* KKNavigationController.m in Sources */,
 				14645C861FE35E89007E06B3 /* KKWeiTouTiaoHeadView.m in Sources */,
+				51AD795420E7538B00350481 /* TYViewStorage.m in Sources */,
 				51477ADE1FC0184100E6E296 /* KKSectionItem.m in Sources */,
 				14645C901FE35E89007E06B3 /* KKDongTaiBarView.m in Sources */,
 				14645C7A1FE35E89007E06B3 /* KKWeiTouTiaoDetailHeader.m in Sources */,
@@ -2509,6 +2563,7 @@
 /* Begin XCBuildConfiguration section */
 		51DFEE6E1F370E3700339C7B /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BD71007EF73901B3A05E7789 /* Pods-KKToydayNews.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -2557,6 +2612,7 @@
 		};
 		51DFEE6F1F370E3700339C7B /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 406BC8EAF47A4E8C6276602F /* Pods-KKToydayNews.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -2601,6 +2657,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BD71007EF73901B3A05E7789 /* Pods-KKToydayNews.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -2620,7 +2677,6 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"${PODS_ROOT}/Headers/Public\"",
-					"\"${PODS_ROOT}/Headers/Public/Masonry\"",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/KKToydayNews/SupportFile/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -2683,6 +2739,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				USER_HEADER_SEARCH_PATHS = "$(inherited) $(SRCROOT)/libwebp/src";
 			};
 			name = Debug;
 		};
@@ -2690,6 +2747,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 406BC8EAF47A4E8C6276602F /* Pods-KKToydayNews.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
@@ -2709,7 +2767,6 @@
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"${PODS_ROOT}/Headers/Public\"",
-					"\"${PODS_ROOT}/Headers/Public/Masonry\"",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/KKToydayNews/SupportFile/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -2772,6 +2829,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				USER_HEADER_SEARCH_PATHS = "$(inherited) $(SRCROOT)/libwebp/src";
 			};
 			name = Release;
 		};

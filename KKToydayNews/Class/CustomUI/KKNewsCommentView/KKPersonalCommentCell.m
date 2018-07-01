@@ -7,6 +7,7 @@
 //
 
 #import "KKPersonalCommentCell.h"
+#import "TYAttributedLabel.h"
 
 #define HorizSpace 8
 #define VeritSpace 5
@@ -26,7 +27,7 @@
 @property(nonatomic)UIImageView *headImageView;
 @property(nonatomic)UILabel *nameLabel;
 @property(nonatomic)UILabel *concernLabel;
-@property(nonatomic)UILabel *commentTexyView;
+@property(nonatomic)TYAttributedLabel *commentTexyView;
 @property(nonatomic)UILabel *createTimeLabel;
 @property(nonatomic)UILabel *reportLabel;
 @property(nonatomic)UILabel *diggNumberLabel;
@@ -159,12 +160,12 @@
 - (void)refreshWithUserComment:(KKUserCommentDetail *)userComment userDigg:(KKCommentDigg *)userDigg{
     self.userComment = userComment ;
     self.userDigg = userDigg;
-    if(!userComment.detail.attriTextData){
-        userComment.detail.attriTextData = [KKPersonalCommentCell createCommentData:userComment];
+    if(!userComment.detail.textContainer){
+        userComment.detail.textContainer = [KKPersonalCommentCell createCommentData:userComment];
     }
-    self.commentTexyView.attributedText = userComment.detail.attriTextData.attriText;
+    self.commentTexyView.textContainer = userComment.detail.textContainer;
     [self.commentTexyView mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.height.mas_equalTo(userComment.detail.attriTextData.attriTextHeight);
+        make.height.mas_equalTo(userComment.detail.textContainer.attriTextHeight);
     }];
     
     NSString *headUrl = userComment.detail.user.avatar_url;
@@ -292,24 +293,24 @@
     
     CGFloat totalHeight = 0 ;
     
-    if(!item.detail.attriTextData){
-        item.detail.attriTextData = [KKPersonalCommentCell createCommentData:item];
+    if(!item.detail.textContainer){
+        item.detail.textContainer = [KKPersonalCommentCell createCommentData:item];
     }
     
-    totalHeight += item.detail.attriTextData.attriTextHeight ;
+    totalHeight += item.detail.textContainer.attriTextHeight ;
     
     return totalHeight + 2 * kkPaddingNormal + 3 * VeritSpace + 2 * LabelHeight + SmallImageWH;
 }
 
 #pragma mark -- 创建评论文本数据
 
-+ (KKAttriTextData *)createCommentData:(KKUserCommentDetail *)item{
-    KKAttriTextData *data = [KKAttriTextData new];
-    data.maxAttriTextWidth = TextViewWidth;
-    data.textFont = commentTextFont;
-    data.lineSpace = LineSpace ;
++ (TYTextContainer *)createCommentData:(KKUserCommentDetail *)item{
+    TYTextContainer *data = [TYTextContainer new];
+    data.font = commentTextFont;
+    data.linesSpacing = LineSpace ;
     data.textColor = [UIColor blackColor];
-    data.originalText = item.detail.text;
+    data.text = item.detail.text;
+    data = [data createTextContainerWithTextWidth:TextViewWidth];
     
     return data;
 }
@@ -399,10 +400,10 @@
     return _diggBtn;
 }
 
-- (UILabel *)commentTexyView{
+- (TYAttributedLabel *)commentTexyView{
     if(!_commentTexyView){
         _commentTexyView = ({
-            UILabel *view = [UILabel new];
+            TYAttributedLabel *view = [TYAttributedLabel new];
             view.textColor = KKColor(140, 140, 140, 1.0);
             view.font = commentTextFont;
             view.numberOfLines = 0 ;

@@ -148,10 +148,9 @@
     NSString *commentCnt = [[NSNumber numberWithLong:item.comment_count.longLongValue]convert];
     self.descLabel.text = [NSString stringWithFormat:@"%@  %@评论  %@",item.source,commentCnt,publishTime];
     
-    self.titleLabel.attributedText = item.attriTextData.attriText;
-    self.titleLabel.lineBreakMode = item.attriTextData.lineBreak;
+    self.titleLabel.textContainer = item.textContainer;
     [self.titleLabel mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.height.mas_equalTo(self.item.attriTextData.attriTextHeight);
+        make.height.mas_equalTo(self.item.textContainer.attriTextHeight);
     }];
     
     self.newsTipBtn.hidden = YES ;
@@ -222,7 +221,7 @@
         imgViewH = 0 ;
     }
     if (item.itemCellHeight <= 0) {
-        item.itemCellHeight = 2 * kkPaddingLarge + 2 * space + imgViewH + item.attriTextData.attriTextHeight + descLabelHeight ;
+        item.itemCellHeight = 2 * kkPaddingLarge + 2 * space + imgViewH + item.textContainer.attriTextHeight + descLabelHeight ;
     }
     return item.itemCellHeight;
 }
@@ -230,14 +229,15 @@
 #pragma mark -- 初始化标题文本
 
 + (void)initAttriTextData:(KKSummaryContent *)item{
-    if(item.attriTextData == nil ){
-        item.attriTextData = [KKAttriTextData new];
-        item.attriTextData.lineSpace = 3 ;
-        item.attriTextData.textColor = [UIColor kkColorBlack];
-        item.attriTextData.lineBreak = NSLineBreakByTruncatingTail;
-        item.attriTextData.originalText = item.title;
-        item.attriTextData.maxAttriTextWidth = KKTitleWidth ;
-        item.attriTextData.textFont = KKTitleFont ;
+    if(item.textContainer == nil ){
+        TYTextContainer *temp = [TYTextContainer new];
+        temp.linesSpacing = 3 ;
+        temp.textColor = [UIColor kkColorBlack];
+        temp.lineBreakMode = NSLineBreakByTruncatingTail;
+        temp.text = item.title;
+        temp.font = KKTitleFont ;
+        temp.numberOfLines = 2 ;
+        item.textContainer = [temp createTextContainerWithTextWidth:KKTitleWidth];
     }
 }
 

@@ -7,11 +7,12 @@
 //
 
 #import "KKXiaoShiPingCell.h"
+#import "TYAttributedLabel.h"
 
 @interface KKXiaoShiPingCell ()
 @property(nonatomic,readwrite)UIView *contentBgView;
 @property(nonatomic,readwrite)UIImageView *corverView;
-@property(nonatomic)UILabel *titleLabel;
+@property(nonatomic)TYAttributedLabel *titleLabel;
 @property(nonatomic)UILabel *playIcon;
 @property(nonatomic)UILabel *playCountLabel;
 @property(nonatomic)UILabel *diggLabel;
@@ -65,7 +66,6 @@
         make.bottom.mas_equalTo(self.playIcon.mas_top).mas_offset(-5);
         make.left.mas_equalTo(self.contentBgView).mas_offset(kkPaddingNormal);
         make.width.mas_equalTo(self.contentBgView).mas_offset(-2*kkPaddingNormal);
-        make.height.mas_equalTo(0);
     }];
     
     [self.playIcon mas_updateConstraints:^(MASConstraintMaker *make) {
@@ -93,8 +93,8 @@
     
     self.contentBgView.alpha = 1.0 ;
     
-    if(!item.smallVideo.attriTextData){
-        item.smallVideo.attriTextData = [self createAttriDataWithText:item.smallVideo.title];
+    if(!item.smallVideo.textContainer){
+        item.smallVideo.textContainer = [self createAttriDataWithText:item.smallVideo.title];
     }
     
     NSString *url = item.smallVideo.first_frame_image_list.firstObject.url ;
@@ -109,10 +109,9 @@
     }
     [self.corverView setImageWithUrl:url placeholder:[UIImage imageWithColor:[UIColor grayColor]] circleImage:NO completed:nil];
 
-    self.titleLabel.attributedText = item.smallVideo.attriTextData.attriText;
-    self.titleLabel.lineBreakMode = item.smallVideo.attriTextData.lineBreak;
+    self.titleLabel.textContainer = item.smallVideo.textContainer;
     [self.titleLabel mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.height.mas_equalTo(item.smallVideo.attriTextData.attriTextHeight);
+        make.height.mas_equalTo(item.smallVideo.textContainer.attriTextHeight);
     }];
     
     NSString *playCount = [NSString stringWithFormat:@"%@次播放",[[NSNumber numberWithInteger:[item.smallVideo.action.play_count integerValue]]convert]];
@@ -124,19 +123,16 @@
 
 #pragma mark -- 创建文本数据
 
-- (KKAttriTextData *)createAttriDataWithText:(NSString *)text{
-    KKAttriTextData *data = [KKAttriTextData new];
-    data.maxAttriTextWidth = self.titleLabel.width;
-    data.textFont = self.titleLabel.font;
-    data.lineSpace = 3 ;
-    data.textColor = self.titleLabel.textColor;
-    data.originalText = text;
-    data.alignment = self.titleLabel.textAlignment;
-    data.lineBreak = self.titleLabel.lineBreakMode;
-    if(data.attriTextHeight > 2 * self.titleLabel.font.lineHeight + 3 * data.lineSpace){
-        data.attriTextHeight = 2 * self.titleLabel.font.lineHeight + 3 * data.lineSpace;
-    }
-    return data;
+- (TYTextContainer *)createAttriDataWithText:(NSString *)text{
+    TYTextContainer *data = [TYTextContainer new];
+    data.font = [UIFont systemFontOfSize:17];
+    data.linesSpacing = 2 ;
+    data.textColor = [UIColor whiteColor];
+    data.text = text;
+    data.textAlignment = NSTextAlignmentLeft;
+    data.lineBreakMode = NSLineBreakByTruncatingTail;
+    data.numberOfLines = 2 ;
+    return [data createTextContainerWithTextWidth:UIDeviceScreenWidth/2.0 - 2 * kkPaddingNormal];
 }
 
 #pragma mark -- @property
@@ -166,15 +162,16 @@
     return _corverView;
 }
 
-- (UILabel *)titleLabel{
+- (TYAttributedLabel *)titleLabel{
     if(!_titleLabel){
         _titleLabel = ({
-            UILabel *view = [UILabel new];
+            TYAttributedLabel *view = [TYAttributedLabel new];
             view.numberOfLines = 0 ;
             view.textAlignment = NSTextAlignmentLeft;
             view.lineBreakMode = NSLineBreakByTruncatingTail;
             view.textColor = [UIColor whiteColor];
             view.font = [UIFont systemFontOfSize:17];
+            view.backgroundColor = [UIColor clearColor];
             view ;
         });
     }

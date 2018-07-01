@@ -124,10 +124,9 @@
     NSString *commentCnt = [[NSNumber numberWithLong:item.comment_count.longLongValue]convert];
     self.descLabel.text = [NSString stringWithFormat:@"%@  %@评论",item.source,commentCnt];
     
-    self.titleLabel.attributedText = item.attriTextData.attriText;
-    self.titleLabel.lineBreakMode = item.attriTextData.lineBreak;
+    self.titleLabel.textContainer = item.textContainer;
     [self.titleLabel mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.height.mas_equalTo(item.attriTextData.attriTextHeight);
+        make.height.mas_equalTo(item.textContainer.attriTextHeight);
     }];
     
     NSInteger picCnt = [item.gallary_image_count integerValue];
@@ -143,20 +142,21 @@
 + (CGFloat)fetchHeightWithItem:(KKSummaryContent *)item{
     [KKPictureCell initAttriTextData:item];
     if(item.itemCellHeight <= 0){
-        item.itemCellHeight = kkPaddingLarge + 2 * space + imageHeight + item.attriTextData.attriTextHeight + descLabelHeight + SplitViewHeight ;
+        item.itemCellHeight = kkPaddingLarge + 2 * space + imageHeight + item.textContainer.attriTextHeight + descLabelHeight + SplitViewHeight ;
     }
     return item.itemCellHeight;
 }
 
-+ (void)initAttriTextData:(KKSummaryContent *)item{
-    if(item.attriTextData == nil ){
-        item.attriTextData = [KKAttriTextData new];
-        item.attriTextData.lineSpace = 3 ;
-        item.attriTextData.textColor = [UIColor kkColorBlack];
-        item.attriTextData.lineBreak = NSLineBreakByTruncatingTail;
-        item.attriTextData.originalText = item.title;
-        item.attriTextData.maxAttriTextWidth = KKTitleWidth ;
-        item.attriTextData.textFont = KKTitleFont ;
++ (void)initAttriTextData:(KKSummaryContent *)content{
+    if(content.textContainer == nil ){
+        TYTextContainer *item = [TYTextContainer new];
+        item.linesSpacing = 3 ;
+        item.textColor = [UIColor kkColorBlack];
+        item.lineBreakMode = NSLineBreakByTruncatingTail;
+        item.text = content.title;
+        item.font = KKTitleFont ;
+        item.numberOfLines = 2 ;
+        content.textContainer = [item createTextContainerWithTextWidth:KKTitleWidth];
     }
 }
 

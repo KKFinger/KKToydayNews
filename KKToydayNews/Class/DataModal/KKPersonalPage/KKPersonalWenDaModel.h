@@ -28,7 +28,7 @@
 @property(nonatomic,copy)NSDictionary *fold_reason;
 
 //标题富文本
-@property(nonatomic)KKAttriTextData *attriTextData;
+@property(nonatomic)TYTextContainer *textContainer;
 
 @end
 
@@ -51,7 +51,7 @@
 @property(nonatomic,copy)NSString *schema;
 
 //标题富文本
-@property(nonatomic)KKAttriTextData *attriTextData;
+@property(nonatomic)TYTextContainer *textContainer;
 
 @end
 

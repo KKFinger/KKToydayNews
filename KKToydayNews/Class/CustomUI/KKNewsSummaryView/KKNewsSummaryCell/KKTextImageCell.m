@@ -7,6 +7,7 @@
 //
 
 #import "KKTextImageCell.h"
+#import "TYAttributedLabel.h"
 
 #define ContentTextFont [UIFont systemFontOfSize:17]
 #define space 5.0
@@ -17,7 +18,7 @@
 
 @interface KKTextImageCell ()
 @property(nonatomic)UIView *bgView ;
-@property(nonatomic)UILabel *contentLabel ;
+@property(nonatomic)TYAttributedLabel *contentLabel ;
 @property(nonatomic)UIButton *upvoteBtn;
 @property(nonatomic)UIButton *buryBtn;
 @property(nonatomic)UIButton *favoriteBtn;
@@ -124,10 +125,9 @@
     
     [KKTextImageCell initAttriTextData:item];
     
-    self.contentLabel.attributedText = item.attriTextData.attriText;
-    self.contentLabel.lineBreakMode = item.attriTextData.lineBreak;
+    self.contentLabel.textContainer = item.textContainer;
     [self.contentLabel mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.height.mas_equalTo(self.item.attriTextData.attriTextHeight);
+        make.height.mas_equalTo(self.item.textContainer.attriTextHeight);
     }];
     
     if(item.large_image.url.length){
@@ -181,9 +181,9 @@
         if(item.large_image.url.length){
             CGFloat imageW = ContentTextWidth ;
             CGFloat imageH = imageW / (item.large_image.width / item.large_image.height);
-            item.itemCellHeight = 3 * kkPaddingNormal + item.attriTextData.attriTextHeight + ButtonHeight + SplitViewHeight + imageH + space;
+            item.itemCellHeight = 3 * kkPaddingNormal + item.textContainer.attriTextHeight + ButtonHeight + SplitViewHeight + imageH + space;
         }else{
-            item.itemCellHeight = 3 * kkPaddingNormal + item.attriTextData.attriTextHeight + ButtonHeight + SplitViewHeight  ;
+            item.itemCellHeight = 3 * kkPaddingNormal + item.textContainer.attriTextHeight + ButtonHeight + SplitViewHeight  ;
         }
     }
     return item.itemCellHeight;
@@ -192,14 +192,14 @@
 #pragma mark -- 初始化标题文本
 
 + (void)initAttriTextData:(KKSummaryContent *)item{
-    if(item.attriTextData == nil ){
-        item.attriTextData = [KKAttriTextData new];
-        item.attriTextData.lineSpace = 3 ;
-        item.attriTextData.textColor = [UIColor kkColorBlack];
-        item.attriTextData.lineBreak = NSLineBreakByCharWrapping;
-        item.attriTextData.originalText = item.content;
-        item.attriTextData.maxAttriTextWidth = ContentTextWidth ;
-        item.attriTextData.textFont = ContentTextFont ;
+    if(item.textContainer == nil ){
+        TYTextContainer *temp = [TYTextContainer new];
+        temp.linesSpacing = 3 ;
+        temp.textColor = [UIColor kkColorBlack];
+        temp.lineBreakMode = NSLineBreakByCharWrapping;
+        temp.text = item.content;
+        temp.font = ContentTextFont ;
+        item.textContainer = [temp createTextContainerWithTextWidth:ContentTextWidth];
     }
 }
 
@@ -225,10 +225,10 @@
     return _bgView;
 }
 
-- (UILabel *)contentLabel{
+- (TYAttributedLabel *)contentLabel{
     if(!_contentLabel){
         _contentLabel = ({
-            UILabel *view = [UILabel new];
+            TYAttributedLabel *view = [TYAttributedLabel new];
             view.textColor = [UIColor blackColor];
             view.font = ContentTextFont;
             view.textAlignment = NSTextAlignmentLeft;

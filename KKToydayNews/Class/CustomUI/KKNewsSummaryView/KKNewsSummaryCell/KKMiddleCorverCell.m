@@ -11,6 +11,7 @@
 #define space 5.0
 #define imageWidth ((([UIScreen mainScreen].bounds.size.width - 2 * kkPaddingNormal) - 2 * space) / 3.0)
 #define KKTitleWidth ([UIScreen mainScreen].bounds.size.width - 3 * kkPaddingNormal - imageWidth)
+#define LineSpace 3
 
 @interface KKMiddleCorverCell ()
 @property(nonatomic,strong)UIImageView *smallImgView ;
@@ -57,7 +58,7 @@
         make.top.mas_equalTo(self.bgView).mas_offset(kkPaddingLarge);
         make.right.mas_equalTo(self.bgView).mas_offset(-kkPaddingNormal);
         make.width.mas_equalTo(imageWidth);
-        make.height.mas_equalTo(3 * KKTitleFont.lineHeight + 4);
+        make.height.mas_equalTo(3 * KKTitleFont.lineHeight + 4 * LineSpace);
     }];
     
     [self.shieldBtn mas_updateConstraints:^(MASConstraintMaker *make) {
@@ -123,23 +124,18 @@
         }
     }];
     
-    [self.smallImgView mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.height.mas_equalTo(3 * KKTitleFont.lineHeight + 4 * item.attriTextData.lineSpace);
-    }];
-    
     NSString *publishTime = [NSString stringIntervalSince1970RuleOne:item.publish_time.longLongValue];
     NSString *commentCnt = [[NSNumber numberWithLong:item.comment_count.longLongValue]convert];
     self.descLabel.text = [NSString stringWithFormat:@"%@  %@评论  %@",item.source,commentCnt,publishTime];
     
-    CGFloat titleHeight = item.attriTextData.attriTextHeight;
-    self.titleLabel.attributedText = item.attriTextData.attriText;
-    self.titleLabel.lineBreakMode = item.attriTextData.lineBreak;
+    CGFloat titleHeight = item.textContainer.attriTextHeight;
+    self.titleLabel.textContainer = item.textContainer;
     
-    if(titleHeight >= 3 * KKTitleFont.lineHeight + 3 * item.attriTextData.lineSpace){
+    if(titleHeight >= 3 * KKTitleFont.lineHeight + 3 * item.textContainer.linesSpacing){
         
         [self.titleLabel mas_updateConstraints:^(MASConstraintMaker *make) {
             make.centerY.mas_equalTo(self.smallImgView).mas_offset(0);
-            make.height.mas_equalTo(3 * KKTitleFont.lineHeight + 3 * item.attriTextData.lineSpace);
+            make.height.mas_equalTo(3 * KKTitleFont.lineHeight + 3 * item.textContainer.linesSpacing);
         }];
         
         [self.shieldBtn mas_updateConstraints:^(MASConstraintMaker *make) {
@@ -150,7 +146,7 @@
     }else{
         
         [self.titleLabel mas_updateConstraints:^(MASConstraintMaker *make) {
-            make.centerY.mas_equalTo(self.smallImgView).mas_offset(-descLabelHeight/2.0);
+            make.centerY.mas_equalTo(self.smallImgView).mas_offset(-descLabelHeight/2.0-3);
             make.height.mas_equalTo(titleHeight);
         }];
         
@@ -216,10 +212,10 @@
     [KKMiddleCorverCell initAttriTextData:item];
     
     if(item.itemCellHeight <= 0){
-        if(item.attriTextData.attriTextHeight >= 3 * KKTitleFont.lineHeight + 3 * item.attriTextData.lineSpace){
-            item.itemCellHeight = 2 * kkPaddingLarge + 3 * KKTitleFont.lineHeight + 3 * item.attriTextData.lineSpace + descLabelHeight + 5;
+        if(item.textContainer.attriTextHeight >= 3 * KKTitleFont.lineHeight + 3 * item.textContainer.linesSpacing){
+            item.itemCellHeight = 2 * kkPaddingLarge + 3 * KKTitleFont.lineHeight + 3 * item.textContainer.linesSpacing + descLabelHeight + 5;
         }else{
-            item.itemCellHeight = 2 * kkPaddingLarge + 3 * KKTitleFont.lineHeight + 4 * item.attriTextData.lineSpace + 5 ;
+            item.itemCellHeight = 2 * kkPaddingLarge + 3 * KKTitleFont.lineHeight + 4 * item.textContainer.linesSpacing + 5 ;
         }
     }
     return item.itemCellHeight;
@@ -227,15 +223,16 @@
 
 #pragma mark -- 初始化标题富文本
 
-+ (void)initAttriTextData:(KKSummaryContent *)item{
-    if(item.attriTextData == nil ){
-        item.attriTextData = [KKAttriTextData new];
-        item.attriTextData.lineSpace = 3 ;
-        item.attriTextData.textColor = [UIColor kkColorBlack];
-        item.attriTextData.lineBreak = NSLineBreakByTruncatingTail;
-        item.attriTextData.originalText = item.title;
-        item.attriTextData.maxAttriTextWidth = KKTitleWidth ;
-        item.attriTextData.textFont = KKTitleFont ;
++ (void)initAttriTextData:(KKSummaryContent *)content{
+    if(content.textContainer == nil ){
+        TYTextContainer *item = [TYTextContainer new];
+        item.linesSpacing = LineSpace ;
+        item.textColor = [UIColor kkColorBlack];
+        item.lineBreakMode = NSLineBreakByTruncatingTail;
+        item.text = content.title;
+        item.font = KKTitleFont ;
+        item.numberOfLines = 3;
+        content.textContainer = [item createTextContainerWithTextWidth:KKTitleWidth];
     }
 }
 

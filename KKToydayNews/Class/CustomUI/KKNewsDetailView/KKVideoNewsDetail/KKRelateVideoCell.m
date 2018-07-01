@@ -88,23 +88,22 @@
     }
     
     [self.smallImgView mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.height.mas_equalTo(3 * KKTitleFont.lineHeight + 3 * item.attriTextData.lineSpace);
+        make.height.mas_equalTo(3 * KKTitleFont.lineHeight + 3 * item.textContainer.linesSpacing);
     }];
     
     NSString *userName = item.user_info.name;
     NSString *playCount = [[NSNumber numberWithLong:item.video_detail_info.video_watch_count.longLongValue]convert];
     self.descLabel.text = [NSString stringWithFormat:@"%@  %@次播放",userName,playCount];
     
-    self.titleLabel.attributedText = item.attriTextData.attriText;
-    self.titleLabel.lineBreakMode = item.attriTextData.lineBreak;
+    self.titleLabel.textContainer = item.textContainer;
     
-    CGFloat titleHeight = item.attriTextData.attriTextHeight;
-    if(titleHeight >= 2 * KKTitleFont.lineHeight + 2 * item.attriTextData.lineSpace){
+    CGFloat titleHeight = item.textContainer.attriTextHeight;
+    if(titleHeight >= 2 * KKTitleFont.lineHeight + 2 * item.textContainer.linesSpacing){
         [self.titleLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.top.mas_equalTo(self.smallImgView).mas_offset(space-5);
             make.left.mas_equalTo(self.bgView).mas_offset(kkPaddingNormal);
             make.width.mas_equalTo(KKTitleWidth);
-            make.height.mas_equalTo(2 * KKTitleFont.lineHeight + 2 * item.attriTextData.lineSpace);
+            make.height.mas_equalTo(2 * KKTitleFont.lineHeight + 2 * item.textContainer.linesSpacing);
         }];
         [self.descLabel mas_remakeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_equalTo(self.titleLabel);
@@ -141,20 +140,21 @@
 
 + (CGFloat)fetchHeightWithItem:(KKSummaryContent *)item{
     [KKRelateVideoCell initAttriTextData:item];
-    return 2 * kkPaddingLarge + 3 * KKTitleFont.lineHeight + 3 * item.attriTextData.lineSpace;
+    return 2 * kkPaddingLarge + 3 * KKTitleFont.lineHeight + 3 * item.textContainer.linesSpacing;
 }
 
 #pragma mark -- 初始化标题文本
 
-+ (void)initAttriTextData:(KKSummaryContent *)item{
-    if(item.attriTextData == nil ){
-        item.attriTextData = [KKAttriTextData new];
-        item.attriTextData.lineSpace = 2 ;
-        item.attriTextData.textColor = [UIColor kkColorBlack];
-        item.attriTextData.lineBreak = NSLineBreakByTruncatingTail;
-        item.attriTextData.originalText = item.title;
-        item.attriTextData.maxAttriTextWidth = KKTitleWidth ;
-        item.attriTextData.textFont = KKTitleFont ;
++ (void)initAttriTextData:(KKSummaryContent *)content{
+    if(content.textContainer == nil ){
+        TYTextContainer *item = [TYTextContainer new];
+        item.linesSpacing = 2 ;
+        item.textColor = [UIColor kkColorBlack];
+        item.lineBreakMode = NSLineBreakByTruncatingTail;
+        item.text = content.title;
+        item.font = KKTitleFont ;
+        item.numberOfLines = 2;
+        content.textContainer = [item createTextContainerWithTextWidth:KKTitleWidth];
     }
 }
 

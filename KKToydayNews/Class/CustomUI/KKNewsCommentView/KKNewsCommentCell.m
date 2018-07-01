@@ -8,6 +8,7 @@
 
 #import "KKNewsCommentCell.h"
 #import "KKAttributeTextView.h"
+#import "TYAttributedLabel.h"
 
 #define HorizSpace 8
 #define VeritSpace 5
@@ -23,12 +24,12 @@
 
 #define MaxReplyCount 5
 
-@interface KKNewsCommentCell()
+@interface KKNewsCommentCell()<TYAttributedLabelDelegate>
 @property(nonatomic)UIView *bgView;
 @property(nonatomic)UIImageView *headImageView;
 @property(nonatomic)UILabel *nameLabel;
 @property(nonatomic)UIButton *diggBtn;
-@property(nonatomic)UILabel *commentTexyView;
+@property(nonatomic)TYAttributedLabel *commentTexyView;
 @property(nonatomic)UILabel *createTimeLabel;
 @property(nonatomic)UILabel *totalCommentLabel;
 @property(nonatomic)UIView *replayView;
@@ -125,9 +126,9 @@
         make.height.mas_equalTo(0);
     }];
     
-    UILabel *lastView = nil ;
+    TYAttributedLabel *lastView = nil ;
     for(NSInteger i = 0 ; i < MaxReplyCount ; i ++){
-        UILabel *label = [UILabel new];
+        TYAttributedLabel *label = [TYAttributedLabel new];
         label.numberOfLines = 0 ;
         label.lineBreakMode = NSLineBreakByTruncatingTail;
         label.tag = 1000 + i ;
@@ -146,7 +147,7 @@
         lastView = label ;
     }
     
-    UILabel *label = [self createShowAllLabel];
+    TYAttributedLabel *label = [self createShowAllLabel];
     label.tag = 1000 + MaxReplyCount ;
     label.userInteractionEnabled = YES ;
     [self.replayView addSubview:label];
@@ -156,28 +157,13 @@
 
 - (void)refreshWithItem:(KKCommentItem *)item{
     self.item = item ;
-    if(!item.comment.attriTextData){
-        item.comment.attriTextData = [KKNewsCommentCell createCommentData:item];
+    if(!item.comment.textContainer){
+        item.comment.textContainer = [KKNewsCommentCell createCommentData:item];
     }
-    self.commentTexyView.attributedText = item.comment.attriTextData.attriText;
-    self.commentTexyView.lineBreakMode = item.comment.attriTextData.lineBreak;//设置attributedText之后lineBreakMode失效，必须重新设置
+    self.commentTexyView.textContainer = item.comment.textContainer;
     [self.commentTexyView mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.height.mas_equalTo(item.comment.attriTextData.attriTextHeight);
+        make.height.mas_equalTo(item.comment.textContainer.attriTextHeight);
     }];
-    if(item.comment.reply_to_comment){
-        NSString *toUser = item.comment.reply_to_comment.user_name;
-        @weakify(self);
-        [self.commentTexyView addAttributeTapActionWithStrings:@[toUser] tapClicked:^(NSString *string, NSRange range, NSInteger index) {
-            @strongify(self);
-            if(self.delegate && [self.delegate respondsToSelector:@selector(jumpToUserPage:)]){
-                NSString *userId = self.item.comment.reply_to_comment.user_id;
-                if(!userId.length){
-                    userId = self.obj.reply_to_comment.user_id;
-                }
-                [self.delegate jumpToUserPage:userId];
-            }
-        }];
-    }
     
     NSString *headUrl = item.comment.user_profile_image_url;
     if(!headUrl){
@@ -228,42 +214,28 @@
 
 - (void)checkReplyList{
     
-    UILabel *lastView = nil ;
+    TYAttributedLabel *lastView = nil ;
     
     __block CGFloat totalHeight = 0 ;
     NSInteger count = self.item.comment.reply_list.count;
     for(NSInteger i = 0 ; i <= MaxReplyCount ; i ++){
         if(i >= count){
-            UILabel *label = [self.replayView viewWithTag:1000 + i];
+            TYAttributedLabel *label = [self.replayView viewWithTag:1000 + i];
             label.hidden = YES ;
             continue ;
         }
         KKCommentObj *obj = [self.item.comment.reply_list safeObjectAtIndex:i];
-        if(!obj.attriTextData){
-            obj.attriTextData = [KKNewsCommentCell createReplyCommentData:obj];
+        if(!obj.textContainer){
+            obj.textContainer = [KKNewsCommentCell createReplyCommentData:obj];
         }
         
-        totalHeight += obj.attriTextData.attriTextHeight ;
+        totalHeight += obj.textContainer.attriTextHeight ;
         
-        UILabel *label = [self.replayView viewWithTag:1000 + i];
+        TYAttributedLabel *label = [self.replayView viewWithTag:1000 + i];
         label.hidden = NO ;
-        label.attributedText = obj.attriTextData.attriText;
-        label.userData = @{@"userId":obj.user_id,@"mediaId":obj.media_info.media_id.length ? obj.media_info.media_id : @""};
-        label.lineBreakMode = obj.attriTextData.lineBreak;
-        
-        @weakify(label);
-        @weakify(self);
-        [label addAttributeTapActionWithStrings:@[obj.user_name] tapClicked:^(NSString *string, NSRange range, NSInteger index) {
-            @strongify(label);
-            @strongify(self);
-            if(self.delegate && [self.delegate respondsToSelector:@selector(jumpToUserPage:)]){
-                NSDictionary *dic = (NSDictionary *)label.userData;
-                NSString *userId = dic[@"userId"];
-                [self.delegate jumpToUserPage:userId];
-            }
-        }];
+        label.textContainer = obj.textContainer;
         [label mas_updateConstraints:^(MASConstraintMaker *make) {
-            make.height.mas_equalTo(obj.attriTextData.attriTextHeight);
+            make.height.mas_equalTo(obj.textContainer.attriTextHeight);
         }];
         lastView = label ;
     }
@@ -290,8 +262,8 @@
     }];
 }
 
-- (UILabel *)createShowAllLabel{
-    UILabel *view = [UILabel new];
+- (TYAttributedLabel *)createShowAllLabel{
+    TYAttributedLabel *view = [TYAttributedLabel new];
     view.font = replyFont;
     view.textColor = KKColor(25, 93, 157, 1);;
     view.lineBreakMode = NSLineBreakByTruncatingTail;
@@ -311,27 +283,13 @@
 
 - (void)refreshWithObj:(KKCommentObj *)obj{
     self.obj = obj ;
-    if(!self.obj.attriTextData){
-        self.obj.attriTextData = [KKNewsCommentCell createCommentWithObj:obj];
+    if(!self.obj.textContainer){
+        self.obj.textContainer = [KKNewsCommentCell createCommentWithObj:obj];
     }
-    self.commentTexyView.attributedText = self.obj.attriTextData.attriText;
+    self.commentTexyView.textContainer = self.obj.textContainer;
     [self.commentTexyView mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.height.mas_equalTo(self.obj.attriTextData.attriTextHeight);
+        make.height.mas_equalTo(self.obj.textContainer.attriTextHeight);
     }];
-    if(self.obj.reply_to_comment){
-        @weakify(self);
-        NSString *toUser = self.obj.reply_to_comment.user_name;
-        [self.commentTexyView addAttributeTapActionWithStrings:@[toUser] tapClicked:^(NSString *string, NSRange range, NSInteger index) {
-            @strongify(self);
-            if(self.delegate && [self.delegate respondsToSelector:@selector(jumpToUserPage:)]){
-                NSString *userId = self.obj.reply_to_comment.user_id;
-                if(!userId.length){
-                    userId = self.obj.user.user_id;
-                }
-                [self.delegate jumpToUserPage:userId];
-            }
-        }];
-    }
     
     NSString *headUrl = self.obj.user.avatar_url;
     if(!headUrl){
@@ -391,20 +349,20 @@
     
     CGFloat totalHeight = 0 ;
 
-    if(!item.comment.attriTextData){
-        item.comment.attriTextData = [KKNewsCommentCell createCommentData:item];
+    if(!item.comment.textContainer){
+        item.comment.textContainer = [KKNewsCommentCell createCommentData:item];
     }
     
-    totalHeight += item.comment.attriTextData.attriTextHeight ;
+    totalHeight += item.comment.textContainer.attriTextHeight ;
     
     NSInteger count = item.comment.reply_list.count;
     for(NSInteger i = 0 ; i < count ; i ++){
         KKCommentObj *obj = [item.comment.reply_list safeObjectAtIndex:i];
-        if(!obj.attriTextData){
-            obj.attriTextData = [KKNewsCommentCell createReplyCommentData:obj];
+        if(!obj.textContainer){
+            obj.textContainer = [KKNewsCommentCell createReplyCommentData:obj];
         }
         
-        totalHeight += obj.attriTextData.attriTextHeight ;
+        totalHeight += obj.textContainer.attriTextHeight ;
     }
     
     if(count){
@@ -420,84 +378,107 @@
     
     CGFloat totalHeight = 0 ;
     
-    if(!obj.attriTextData){
-        obj.attriTextData = [KKNewsCommentCell createCommentWithObj:obj];
+    if(!obj.textContainer){
+        obj.textContainer = [KKNewsCommentCell createCommentWithObj:obj];
     }
     
-    totalHeight += obj.attriTextData.attriTextHeight ;
+    totalHeight += obj.textContainer.attriTextHeight ;
     
     return totalHeight + 2 * kkPaddingNormal + 3 * VeritSpace + 2 * LabelHeight ;
 }
 
 #pragma mark -- 创建评论文本数据
 
-+ (KKAttriTextData *)createCommentData:(KKCommentItem *)item{
-    KKAttriTextData *data = [KKAttriTextData new];
-    data.maxAttriTextWidth = TextViewWidth;
-    data.textFont = commentTextFont;
-    data.lineSpace = LineSpace ;
++ (TYTextContainer *)createCommentData:(KKCommentItem *)item{
+    TYTextContainer *data = [TYTextContainer new];
+    data.font = commentTextFont;
+    data.linesSpacing = LineSpace ;
     data.textColor = [UIColor blackColor];
-    data.originalText = item.comment.text;
+    data.text = item.comment.text;
+    data.numberOfLines = 6 ;
+    data.lineBreakMode = NSLineBreakByTruncatingTail;
     if(item.comment.reply_to_comment){
         NSString *comment = item.comment.text;
         NSString *toUser = item.comment.reply_to_comment.user_name;
         NSString *toComment = item.comment.reply_to_comment.text;
         NSString *format = [NSString stringWithFormat:@"%@//@%@ : %@",comment,toUser,toComment];
-        [data setOriginalText:format];
-        [data setSubstringAttribute:toUser attributed:@{NSForegroundColorAttributeName:KKColor(25, 93, 157, 1)}];
+        [data setText:format];
+        
+        TYLinkTextStorage *linkTextStorage = [[TYLinkTextStorage alloc]init];
+        linkTextStorage.range = [format rangeOfString:toUser];
+        linkTextStorage.textColor = KKColor(25, 93, 157, 1);
+        linkTextStorage.linkData = item.comment.reply_to_comment.user_id;
+        linkTextStorage.underLineStyle = kCTUnderlineStyleNone;
+        [data addTextStorage:linkTextStorage];
     }
     
-    CGFloat textHeight = data.attriTextHeight ;
-    if(textHeight >= 6 * commentTextFont.lineHeight + 7 * data.lineSpace){
-        textHeight =  6 * commentTextFont.lineHeight + 7 * data.lineSpace;
-        data.lineBreak = NSLineBreakByTruncatingTail;
-    }else{
-        data.lineBreak = NSLineBreakByWordWrapping;
-    }
-    data.attriTextHeight = textHeight;
+    data = [data createTextContainerWithTextWidth:TextViewWidth];
     
     return data;
 }
 
-+ (KKAttriTextData *)createCommentWithObj:(KKCommentObj *)obj{
-    KKAttriTextData *data = [KKAttriTextData new];
-    data.maxAttriTextWidth = TextViewWidth;
-    data.textFont = commentTextFont;
-    data.lineSpace = LineSpace ;
++ (TYTextContainer *)createCommentWithObj:(KKCommentObj *)obj{
+    TYTextContainer *data = [TYTextContainer new];
+    data.font = commentTextFont;
+    data.linesSpacing = LineSpace ;
     data.textColor = [UIColor blackColor];
-    data.originalText = obj.text;
+    data.text = obj.text;
     if(obj.reply_to_comment){
         NSString *comment = obj.text;
         NSString *toUser = obj.reply_to_comment.user_name;
         NSString *toComment = obj.reply_to_comment.text;
         NSString *format = [NSString stringWithFormat:@"%@//@%@ : %@",comment,toUser,toComment];
-        [data setOriginalText:format];
-        [data setSubstringAttribute:toUser attributed:@{NSForegroundColorAttributeName:KKColor(25, 93, 157, 1)}];
+        
+        [data setText:format];
+        
+        TYLinkTextStorage *linkTextStorage = [[TYLinkTextStorage alloc]init];
+        linkTextStorage.range = [format rangeOfString:toUser];
+        linkTextStorage.textColor = KKColor(25, 93, 157, 1);
+        linkTextStorage.linkData = obj.reply_to_comment.user_id;
+        linkTextStorage.underLineStyle = kCTUnderlineStyleNone;
+        [data addTextStorage:linkTextStorage];
     }
+    
+    data = [data createTextContainerWithTextWidth:TextViewWidth];
     
     return data;
 }
 
-+ (KKAttriTextData *)createReplyCommentData:(KKCommentObj *)obj{
++ (TYTextContainer *)createReplyCommentData:(KKCommentObj *)obj{
     NSString *userName = obj.user_name;
     NSString *commentText = obj.text;
     NSString *comment = [NSString stringWithFormat:@"%@ : %@",userName,commentText];
     
-    KKAttriTextData *data = [KKAttriTextData new];
-    data.originalText = comment;
-    data.maxAttriTextWidth = replayTextWidth;
-    data.textFont = replyFont;
-    data.lineSpace = LineSpace ;
-    if(data.attriTextHeight >= 2 * data.textFont.lineHeight + 3 * data.lineSpace){
-        data.attriTextHeight =  2 * data.textFont.lineHeight + 3 * data.lineSpace;
-        data.lineBreak = NSLineBreakByTruncatingTail;
-    }else{
-        data.lineBreak = NSLineBreakByCharWrapping;
+    TYTextContainer *data = [TYTextContainer new];
+    data.text = comment;
+    data.font = replyFont;
+    data.linesSpacing = LineSpace ;
+    data.numberOfLines = 2 ;
+    data.lineBreakMode = NSLineBreakByTruncatingTail;
+    
+    TYLinkTextStorage *linkTextStorage = [[TYLinkTextStorage alloc]init];
+    linkTextStorage.range = [data.text rangeOfString:userName];
+    linkTextStorage.textColor = KKColor(25, 93, 157, 1);
+    linkTextStorage.linkData = obj.user_id;
+    linkTextStorage.underLineStyle = kCTUnderlineStyleNone;
+    [data addTextStorage:linkTextStorage];
+    
+    data = [data createTextContainerWithTextWidth:replayTextWidth];
+    
+    return data ;
+}
+
+#pragma mark -- TYAttributedLabelDelegate
+
+- (void)attributedLabel:(TYAttributedLabel *)attributedLabel textStorageClicked:(id<TYTextStorageProtocol>)TextRun atPoint:(CGPoint)point{
+    if ([TextRun isKindOfClass:[TYLinkTextStorage class]]) {
+        id linkStr = ((TYLinkTextStorage*)TextRun).linkData;
+        if ([linkStr isKindOfClass:[NSString class]]) {
+            if(self.delegate && [self.delegate respondsToSelector:@selector(jumpToUserPage:)]){
+                [self.delegate jumpToUserPage:linkStr];
+            }
+        }
     }
-    
-    [data setSubstringAttribute:userName attributed:@{NSForegroundColorAttributeName:KKColor(25, 93, 157, 1)}];
-    
-    return data;
 }
 
 #pragma mark -- @property getter
@@ -601,16 +582,17 @@
     return _diggBtn;
 }
 
-- (UILabel *)commentTexyView{
+- (TYAttributedLabel *)commentTexyView{
     if(!_commentTexyView){
         _commentTexyView = ({
-            UILabel *view = [UILabel new];
+            TYAttributedLabel *view = [TYAttributedLabel new];
             view.textColor = KKColor(140, 140, 140, 1.0);
             view.font = commentTextFont;
             view.numberOfLines = 0 ;
             view.lineBreakMode = NSLineBreakByTruncatingTail;
             view.textAlignment = NSTextAlignmentLeft;
             view.backgroundColor = [UIColor clearColor];
+            view.delegate = self ;
             view ;
         });
     }
