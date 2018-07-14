@@ -24,6 +24,7 @@
 @property(nonatomic,assign)BOOL isDigg;//是否已经点赞
 @property(nonatomic,readonly)UIView *splitView;
 @property(nonatomic,readonly)KKTextView *textView;
+@property(nonatomic,readonly)CGFloat offsetY;
 - (instancetype)initWithBarType:(KKBottomBarType)barType;
 
 @end

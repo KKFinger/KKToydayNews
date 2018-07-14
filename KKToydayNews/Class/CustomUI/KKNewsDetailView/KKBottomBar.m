@@ -196,7 +196,16 @@
     self.commentView.badge = commentCount;
 }
 
-#pragma mark -- @property
+#pragma mark -- @property setter
+
+- (void)setOffsetY:(CGFloat)offsetY{
+    _offsetY = offsetY;
+    [self.shareView mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.centerY.mas_equalTo(self).mas_offset(offsetY);
+    }];
+}
+
+#pragma mark -- @property getter
 
 - (KKTextView *)textView{
     if(!_textView){

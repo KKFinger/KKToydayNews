@@ -10,6 +10,7 @@
 		0ECC1ABD20AABCC000F0A3B6 /* UIImageView+URL.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ECC1ABB20AABCC000F0A3B6 /* UIImageView+URL.m */; };
 		0ECC1AC020AABE5000F0A3B6 /* UIImageView+YYURL.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ECC1ABE20AABE5000F0A3B6 /* UIImageView+YYURL.m */; };
 		0ED10B79206F87A2005D7B35 /* UITableViewCell+Animate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ED10B78206F87A2005D7B35 /* UITableViewCell+Animate.m */; };
+		0ED8A63A20E9C2C300EEDD8B /* UIView+Masonry.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ED8A63920E9C2C300EEDD8B /* UIView+Masonry.m */; };
 		143200EA1F7E01E400A1CCA4 /* UILabel+KKClickable.m in Sources */ = {isa = PBXBuildFile; fileRef = 143200E91F7E01E400A1CCA4 /* UILabel+KKClickable.m */; };
 		14337AE71FE89EF0003AE321 /* KKUserCenterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 14337AE61FE89EF0003AE321 /* KKUserCenterView.m */; };
 		14337AEC1FE89FB6003AE321 /* KKUserHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 14337AE91FE89FB6003AE321 /* KKUserHeaderView.m */; };
@@ -226,6 +227,8 @@
 		0ECC1ABF20AABE5000F0A3B6 /* UIImageView+YYURL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+YYURL.h"; sourceTree = "<group>"; };
 		0ED10B77206F87A2005D7B35 /* UITableViewCell+Animate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UITableViewCell+Animate.h"; sourceTree = "<group>"; };
 		0ED10B78206F87A2005D7B35 /* UITableViewCell+Animate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UITableViewCell+Animate.m"; sourceTree = "<group>"; };
+		0ED8A63820E9C2C300EEDD8B /* UIView+Masonry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Masonry.h"; sourceTree = "<group>"; };
+		0ED8A63920E9C2C300EEDD8B /* UIView+Masonry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Masonry.m"; sourceTree = "<group>"; };
 		142911F61F39501A00658E87 /* KKCommonVariable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KKCommonVariable.h; sourceTree = "<group>"; };
 		143200E81F7E01E400A1CCA4 /* UILabel+KKClickable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+KKClickable.h"; sourceTree = "<group>"; };
 		143200E91F7E01E400A1CCA4 /* UILabel+KKClickable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILabel+KKClickable.m"; sourceTree = "<group>"; };
@@ -1753,6 +1756,8 @@
 		5197BF6D1F3754A700E67828 /* UIView */ = {
 			isa = PBXGroup;
 			children = (
+				0ED8A63820E9C2C300EEDD8B /* UIView+Masonry.h */,
+				0ED8A63920E9C2C300EEDD8B /* UIView+Masonry.m */,
 				1446A39A1F9848FF00C1F640 /* UIView+Border.h */,
 				1446A39B1F9848FF00C1F640 /* UIView+Border.m */,
 				5197BF6E1F3754A700E67828 /* UIView+ActivityIndicatorView.h */,
@@ -2527,6 +2532,7 @@
 				14645CAD1FE35E89007E06B3 /* KKRecordPreview.m in Sources */,
 				14645C5E1FE35E89007E06B3 /* KKGalleryBarView.m in Sources */,
 				14645C5A1FE35E89007E06B3 /* KKInputView.m in Sources */,
+				0ED8A63A20E9C2C300EEDD8B /* UIView+Masonry.m in Sources */,
 				14645CA21FE35E89007E06B3 /* KKSectionTopBarView.m in Sources */,
 				14645CAE1FE35E89007E06B3 /* KKVideoShareView.m in Sources */,
 				14645C5F1FE35E89007E06B3 /* KKGalleryImageCell.m in Sources */,

@@ -47,6 +47,10 @@ static NSString *cellWithIdentifier = @"cellWithIdentifier";
 #pragma mark -- 设置UI
 
 - (void)setupUI{
+    //导航栏遮挡视图的问题
+    self.extendedLayoutIncludesOpaqueBars = NO;
+    self.edgesForExtendedLayout = UIRectEdgeNone;
+    
     [self.view addSubview:self.tableView];
     self.navigationItem.leftBarButtonItem = [self createLeftItemWithTitle:@"取消"];
     self.navigationItem.rightBarButtonItem = [self createRightItemWithTitle:@"发布"];

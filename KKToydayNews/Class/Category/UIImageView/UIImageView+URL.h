@@ -10,5 +10,5 @@
 #import <UIKit/UIKit.h>
 
 @interface UIImageView(URL) 
-- (void)setImageWithUrl:(NSString *)url placeholder:(UIImage *)placeholder circleImage:(BOOL)circleImage completed:(nullable SDExternalCompletionBlock)completedBlock;
+- (void)setImageWithUrl:(NSString *)url placeholder:(UIImage *)placeholder circleImage:(BOOL)circleImage completed:(SDExternalCompletionBlock)completedBlock;
 @end

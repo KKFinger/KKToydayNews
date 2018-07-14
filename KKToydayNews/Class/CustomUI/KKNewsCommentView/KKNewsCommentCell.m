@@ -262,8 +262,8 @@
     }];
 }
 
-- (TYAttributedLabel *)createShowAllLabel{
-    TYAttributedLabel *view = [TYAttributedLabel new];
+- (UILabel *)createShowAllLabel{
+    UILabel *view = [UILabel new];
     view.font = replyFont;
     view.textColor = KKColor(25, 93, 157, 1);;
     view.lineBreakMode = NSLineBreakByTruncatingTail;

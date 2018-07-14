@@ -45,5 +45,6 @@
 #import "UIImageView+URL.h"
 #import "UIImageView+YYURL.h"
 #import <Bugly/Bugly.h>
+#import "UIView+Masonry.h"
 
 #endif /* KKPublicHeader_h */
