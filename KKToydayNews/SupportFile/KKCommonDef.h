@@ -173,7 +173,7 @@ objc_setAssociatedObject(self, @selector( propertyGetter ), valueObj, OBJC_ASSOC
 #define KKNewsFeed  @"api/news/feed/v65/"//获取新闻接口
 #define KKFavSecFeed @"article/category/get_subscribed/v2/"//获取感兴趣的section
 #define KKRecommonSecFeed @"article/category/get_extra/v1/"//获取推荐的section
-#define KKXiGuaCatagoryFeed  @"video_api/get_category/"//西瓜视频分类
+#define KKXiGuaCatagoryFeed  @"video_api/get_category/v3"//西瓜视频分类
 #define KKArticleFeed @"2/article/information/v23/"//查看文章详情
 #define KKCommentFeedV2 @"article/v2/tab_comments/"//文章评论
 #define KKUserCommentFeed @"2/comment/v1/detail/"//个人评论详情
