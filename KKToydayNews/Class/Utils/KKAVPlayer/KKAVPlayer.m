@@ -494,11 +494,17 @@
         }
             break;
         case AVAudioSessionRouteChangeReasonOldDeviceUnavailable:{
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_global_queue(0, 0), ^{
-                if(![self playFinish]){
-                    [self play];
-                }
-            });
+            //获取上一线路描述信息并获取上一线路的输出设备类型
+            AVAudioSessionRouteDescription *previousRoute = interuptionDict[AVAudioSessionRouteChangePreviousRouteKey];
+            AVAudioSessionPortDescription *previousOutput = previousRoute.outputs[0];
+            NSString *portType = previousOutput.portType;
+            if ([portType isEqualToString:AVAudioSessionPortHeadphones]) {
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_global_queue(0, 0), ^{
+                    if(![self playFinish]){
+                        [self play];
+                    }
+                });
+            }
         }
             break;
         case AVAudioSessionRouteChangeReasonCategoryChange:
