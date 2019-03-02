@@ -69,3 +69,7 @@ Pods/Pods.xcodeproj/xcuserdata/finger.xcuserdatad/xcschemes/YYCache.xcscheme
 Pods/Pods.xcodeproj/xcuserdata/finger.xcuserdatad/xcschemes/YYImage.xcscheme
 
 Pods/Pods.xcodeproj/xcuserdata/finger.xcuserdatad/xcschemes/YYWebImage.xcscheme
+
+Build/
+DerivedData/
+Index/
