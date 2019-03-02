@@ -17,7 +17,7 @@
 @property (nonatomic, readonly) NSString *writePath;
 
 /**
- *  WCLRecordEncoder遍历构造器的
+ *  KKRecordEncoder遍历构造器的
  *
  *  @param path 媒体存发路径
  *  @param pixHeight   视频分辨率的高
@@ -38,7 +38,7 @@
  *  @param ch   音频通道
  *  @param rate 音频的采样率
  *
- *  @return WCLRecordEncoder的实体
+ *  @return KKRecordEncoder的实体
  */
 - (instancetype)initPath:(NSString*)path pixHeight:(NSInteger)pixHeight pixWidth:(NSInteger)pixWidth channels:(NSInteger)ch samples:(Float64) rate;
 

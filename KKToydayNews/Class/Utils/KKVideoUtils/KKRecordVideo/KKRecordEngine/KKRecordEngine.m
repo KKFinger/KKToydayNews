@@ -227,6 +227,7 @@
 }
 
 #pragma mark -- 摄像头相关
+
 //返回前置摄像头
 - (AVCaptureDevice *)frontCamera {
     return [self cameraWithPosition:AVCaptureDevicePositionFront];
@@ -296,11 +297,16 @@
 - (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer fromConnection:(AVCaptureConnection *)connection {
     BOOL isVideo = YES;
     @synchronized(self) {
-        if (!self.isCapturing  || self.isPaused) {
-            return;
-        }
         if (captureOutput != self.videoOutput) {
             isVideo = NO;
+        }
+        if(self.previewWithOpenGL && isVideo){
+            UIImage *image = [UIImage imageFromSampleBuffer:sampleBuffer];
+            CIImage *ciimage = [[CIImage alloc] initWithImage:image];
+            [self.glkView drawCIImage:ciimage];
+        }
+        if (!self.isCapturing  || self.isPaused) {
+            return;
         }
         //初始化编码器，当有音频和视频参数时创建编码器
         if ((self.recordEncoder == nil) && !isVideo) {
@@ -372,12 +378,6 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.delegate recordProgress:self.currentRecordTime/self.maxRecordTime];
         });
-    }
-    
-    if(self.previewWithOpenGL && isVideo){
-        UIImage *image = [UIImage imageFromSampleBuffer:sampleBuffer];
-        CIImage *ciimage = [[CIImage alloc] initWithImage:image];
-        [self.glkView drawCIImage:ciimage];
     }
     
     //数据保存

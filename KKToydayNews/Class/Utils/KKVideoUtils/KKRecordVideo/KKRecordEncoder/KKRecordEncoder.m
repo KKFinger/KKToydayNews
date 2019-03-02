@@ -54,11 +54,16 @@
 
 //初始化视频输入
 - (void)initVideoInputHeight:(NSInteger)cy width:(NSInteger)cx {
+    //注意：如果宽和高不是16的倍数，则会出现绿边
+    cx = ceil(cx / 16) * 16 ;
+    cy = ceil(cy / 16) * 16 ;
+    
     //写入视频大小
     NSInteger numPixels = cy * cx;
     //每像素比特
     CGFloat bitsPerPixel = 12.0;
     NSInteger bitsPerSecond = numPixels * bitsPerPixel;
+    
     // 码率和帧率设置
     NSDictionary *compressionProperties = @{ AVVideoAverageBitRateKey : @(bitsPerSecond),
                                              AVVideoExpectedSourceFrameRateKey : @(15),
@@ -68,8 +73,8 @@
     //视频属性
     NSDictionary *videoCompressionSettings = @{ AVVideoCodecKey : AVVideoCodecH264,
                                                 AVVideoScalingModeKey : AVVideoScalingModeResizeAspectFill,
-                                                AVVideoWidthKey : @(cx),
-                                                AVVideoHeightKey : @(cy),
+                                                AVVideoWidthKey : @(cx * 2),
+                                                AVVideoHeightKey : @(cy * 2),
                                                 AVVideoCompressionPropertiesKey : compressionProperties};
     //初始化视频写入类
     self.videoWriterInput = [AVAssetWriterInput assetWriterInputWithMediaType:AVMediaTypeVideo outputSettings:videoCompressionSettings];

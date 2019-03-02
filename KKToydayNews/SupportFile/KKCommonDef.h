@@ -64,12 +64,15 @@
 #define iPhone6 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? (CGSizeEqualToSize(CGSizeMake(750, 1334), [[UIScreen mainScreen] currentMode].size)) : NO)
 #define iPhonePlus ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? (CGSizeEqualToSize(CGSizeMake(1125, 2001), [[UIScreen mainScreen] currentMode].size) || CGSizeEqualToSize(CGSizeMake(1242, 2208), [[UIScreen mainScreen] currentMode].size)) : NO)
 #define iPhoneX ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1125, 2436), [[UIScreen mainScreen] currentMode].size) : NO)
+#define iPhoneXs ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1125, 2436), [[UIScreen mainScreen] currentMode].size) : NO)
+#define iPhoneXsMax ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1242, 2688), [[UIScreen mainScreen] currentMode].size) : NO)
+#define iPhoneXr ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(750, 1624), [[UIScreen mainScreen] currentMode].size) : NO)
 
-//iPhoneX适配
-#define KKStatusBarHeight (iPhoneX ? 44 : 20)
-#define KKNavBarHeight (iPhoneX ? 88 : 64)
-#define KKSafeAreaBottomHeight (iPhoneX ? 34 : 0)
-#define KKTabbarHeight (iPhoneX ? 83 : 49)
+//iPhoneX、iPhoneXS、iPhoneXsMax、iPhoneXR适配
+#define KKStatusBarHeight ((iPhoneX || iPhoneXs || iPhoneXsMax || iPhoneXr) ? 44 : 20)
+#define KKNavBarHeight ((iPhoneX || iPhoneXs || iPhoneXsMax || iPhoneXr) ? 88 : 64)
+#define KKSafeAreaBottomHeight ((iPhoneX || iPhoneXs || iPhoneXsMax || iPhoneXr) ? 34 : 0)
+#define KKTabbarHeight ((iPhoneX || iPhoneXs || iPhoneXsMax || iPhoneXr) ? 83 : 49)
 
 #define KKAdjustsScrollViewInsets(scrollView)\
 do {\
