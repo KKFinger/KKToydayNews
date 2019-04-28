@@ -12,6 +12,7 @@
 #import "SDWebImageCoderHelper.h"
 #import "NSImage+WebCache.h"
 #import "UIImage+MultiFormat.h"
+#import "SDWebImageImageIOCoder.h"
 #if __has_include(<webp/decode.h>) && __has_include(<webp/encode.h>) && __has_include(<webp/demux.h>) && __has_include(<webp/mux.h>)
 #import <webp/decode.h>
 #import <webp/encode.h>
@@ -23,6 +24,8 @@
 #import "webp/demux.h"
 #import "webp/mux.h"
 #endif
+#import <Accelerate/Accelerate.h>
+
 
 @implementation SDWebImageWebPCoder {
     WebPIDecoder *_idec;
@@ -68,41 +71,36 @@
     }
     
     uint32_t flags = WebPDemuxGetI(demuxer, WEBP_FF_FORMAT_FLAGS);
+    
+    CGColorSpaceRef colorSpace = [self sd_colorSpaceWithDemuxer:demuxer];
+    
+    if (!(flags & ANIMATION_FLAG)) {
+        // for static single webp image
+        UIImage *staticImage = [self sd_rawWebpImageWithData:webpData colorSpace:colorSpace];
+        WebPDemuxDelete(demuxer);
+        CGColorSpaceRelease(colorSpace);
+        staticImage.sd_imageFormat = SDImageFormatWebP;
+        return staticImage;
+    }
+    
     int loopCount = WebPDemuxGetI(demuxer, WEBP_FF_LOOP_COUNT);
     int canvasWidth = WebPDemuxGetI(demuxer, WEBP_FF_CANVAS_WIDTH);
     int canvasHeight = WebPDemuxGetI(demuxer, WEBP_FF_CANVAS_HEIGHT);
     CGBitmapInfo bitmapInfo;
+    // `CGBitmapContextCreate` does not support RGB888 on iOS. Where `CGImageCreate` supports.
     if (!(flags & ALPHA_FLAG)) {
+        // RGBX8888
         bitmapInfo = kCGBitmapByteOrder32Big | kCGImageAlphaNoneSkipLast;
     } else {
+        // RGBA8888
         bitmapInfo = kCGBitmapByteOrder32Big | kCGImageAlphaPremultipliedLast;
     }
+    
     CGContextRef canvas = CGBitmapContextCreate(NULL, canvasWidth, canvasHeight, 8, 0, SDCGColorSpaceGetDeviceRGB(), bitmapInfo);
     if (!canvas) {
         WebPDemuxDelete(demuxer);
+        CGColorSpaceRelease(colorSpace);
         return nil;
-    }
-    
-    if (!(flags & ANIMATION_FLAG)) {
-        // for static single webp image
-        UIImage *staticImage = [self sd_rawWebpImageWithData:webpData];
-        if (staticImage) {
-            // draw on CGBitmapContext can reduce memory usage
-            CGImageRef imageRef = staticImage.CGImage;
-            size_t width = CGImageGetWidth(imageRef);
-            size_t height = CGImageGetHeight(imageRef);
-            CGContextDrawImage(canvas, CGRectMake(0, 0, width, height), imageRef);
-            CGImageRef newImageRef = CGBitmapContextCreateImage(canvas);
-#if SD_UIKIT || SD_WATCH
-            staticImage = [[UIImage alloc] initWithCGImage:newImageRef];
-#else
-            staticImage = [[UIImage alloc] initWithCGImage:newImageRef size:NSZeroSize];
-#endif
-            CGImageRelease(newImageRef);
-        }
-        WebPDemuxDelete(demuxer);
-        CGContextRelease(canvas);
-        return staticImage;
     }
     
     // for animated webp image
@@ -111,6 +109,7 @@
         WebPDemuxReleaseIterator(&iter);
         WebPDemuxDelete(demuxer);
         CGContextRelease(canvas);
+        CGColorSpaceRelease(colorSpace);
         return nil;
     }
     
@@ -118,7 +117,7 @@
     
     do {
         @autoreleasepool {
-            UIImage *image = [self sd_drawnWebpImageWithCanvas:canvas iterator:iter];
+            UIImage *image = [self sd_drawnWebpImageWithCanvas:canvas iterator:iter colorSpace:colorSpace];
             if (!image) {
                 continue;
             }
@@ -138,9 +137,11 @@
     WebPDemuxReleaseIterator(&iter);
     WebPDemuxDelete(demuxer);
     CGContextRelease(canvas);
+    CGColorSpaceRelease(colorSpace);
     
     UIImage *animatedImage = [SDWebImageCoderHelper animatedImageWithFrames:frames];
     animatedImage.sd_imageLoopCount = loopCount;
+    animatedImage.sd_imageFormat = SDImageFormatWebP;
     
     return animatedImage;
 }
@@ -211,6 +212,7 @@
 #else
         image = [[UIImage alloc] initWithCGImage:newImageRef size:NSZeroSize];
 #endif
+        image.sd_imageFormat = SDImageFormatWebP;
         CGImageRelease(newImageRef);
         CGContextRelease(canvas);
     }
@@ -228,12 +230,19 @@
 - (UIImage *)decompressedImageWithImage:(UIImage *)image
                                    data:(NSData *__autoreleasing  _Nullable *)data
                                 options:(nullable NSDictionary<NSString*, NSObject*>*)optionsDict {
-    // WebP do not decompress
-    return image;
+    UIImage *decompressedImage = [[SDWebImageImageIOCoder sharedCoder] decompressedImageWithImage:image data:data options:optionsDict];
+    // if the image is scaled down, need to modify the data pointer as well
+    if (decompressedImage && !CGSizeEqualToSize(decompressedImage.size, image.size) && [NSData sd_imageFormatForImageData:*data] == SDImageFormatWebP) {
+        NSData *imageData = [self encodedDataWithImage:decompressedImage format:SDImageFormatWebP];
+        if (imageData) {
+            *data = imageData;
+        }
+    }
+    return decompressedImage;
 }
 
-- (nullable UIImage *)sd_drawnWebpImageWithCanvas:(CGContextRef)canvas iterator:(WebPIterator)iter {
-    UIImage *image = [self sd_rawWebpImageWithData:iter.fragment];
+- (nullable UIImage *)sd_drawnWebpImageWithCanvas:(CGContextRef)canvas iterator:(WebPIterator)iter colorSpace:(nonnull CGColorSpaceRef)colorSpaceRef {
+    UIImage *image = [self sd_rawWebpImageWithData:iter.fragment colorSpace:colorSpaceRef];
     if (!image) {
         return nil;
     }
@@ -268,7 +277,7 @@
     return image;
 }
 
-- (nullable UIImage *)sd_rawWebpImageWithData:(WebPData)webpData {
+- (nullable UIImage *)sd_rawWebpImageWithData:(WebPData)webpData colorSpace:(nonnull CGColorSpaceRef)colorSpaceRef {
     WebPDecoderConfig config;
     if (!WebPInitDecoderConfig(&config)) {
         return nil;
@@ -296,8 +305,15 @@
     // Construct a UIImage from the decoded RGBA value array
     CGDataProviderRef provider =
     CGDataProviderCreateWithData(NULL, config.output.u.RGBA.rgba, config.output.u.RGBA.size, FreeImageData);
-    CGColorSpaceRef colorSpaceRef = SDCGColorSpaceGetDeviceRGB();
-    CGBitmapInfo bitmapInfo = config.input.has_alpha ? kCGBitmapByteOrder32Big | kCGImageAlphaPremultipliedLast : kCGBitmapByteOrder32Big | kCGImageAlphaNoneSkipLast;
+    CGBitmapInfo bitmapInfo;
+    // `CGBitmapContextCreate` does not support RGB888 on iOS. Where `CGImageCreate` supports.
+    if (!config.input.has_alpha) {
+        // RGB888
+        bitmapInfo = kCGBitmapByteOrder32Big | kCGImageAlphaNone;
+    } else {
+        // RGBA8888
+        bitmapInfo = kCGBitmapByteOrder32Big | kCGImageAlphaPremultipliedLast;
+    }
     size_t components = config.input.has_alpha ? 4 : 3;
     CGColorRenderingIntent renderingIntent = kCGRenderingIntentDefault;
     CGImageRef imageRef = CGImageCreate(width, height, 8, components * 8, components * width, colorSpaceRef, bitmapInfo, provider, NULL, NO, renderingIntent);
@@ -312,6 +328,42 @@
     CGImageRelease(imageRef);
     
     return image;
+}
+
+// Create and return the correct colorspace by checking the ICC Profile
+- (nonnull CGColorSpaceRef)sd_colorSpaceWithDemuxer:(nonnull WebPDemuxer *)demuxer CF_RETURNS_RETAINED {
+    // WebP contains ICC Profile should use the desired colorspace, instead of default device colorspace
+    // See: https://developers.google.com/speed/webp/docs/riff_container#color_profile
+    
+    CGColorSpaceRef colorSpaceRef = NULL;
+    uint32_t flags = WebPDemuxGetI(demuxer, WEBP_FF_FORMAT_FLAGS);
+    
+    if (flags & ICCP_FLAG) {
+        WebPChunkIterator chunk_iter;
+        int result = WebPDemuxGetChunk(demuxer, "ICCP", 1, &chunk_iter);
+        if (result) {
+            // See #2618, the `CGColorSpaceCreateWithICCProfile` does not copy ICC Profile data, it only retain `CFDataRef`.
+            // When the libwebp `WebPDemuxer` dealloc, all chunks will be freed. So we must copy the ICC data (really cheap, less than 10KB)
+            NSData *profileData = [NSData dataWithBytes:chunk_iter.chunk.bytes length:chunk_iter.chunk.size];
+            colorSpaceRef = CGColorSpaceCreateWithICCProfile((__bridge CFDataRef)profileData);
+            WebPDemuxReleaseChunkIterator(&chunk_iter);
+            if (colorSpaceRef) {
+                // `CGImageCreate` does not support colorSpace other than RGB (such as Monochrome), we must filter the colorSpace mode
+                CGColorSpaceModel model = CGColorSpaceGetModel(colorSpaceRef);
+                if (model != kCGColorSpaceModelRGB) {
+                    CGColorSpaceRelease(colorSpaceRef);
+                    colorSpaceRef = NULL;
+                }
+            }
+        }
+    }
+    
+    if (!colorSpaceRef) {
+        colorSpaceRef = SDCGColorSpaceGetDeviceRGB();
+        CGColorSpaceRetain(colorSpaceRef);
+    }
+    
+    return colorSpaceRef;
 }
 
 #pragma mark - Encode
@@ -393,18 +445,106 @@
     }
     
     size_t bytesPerRow = CGImageGetBytesPerRow(imageRef);
+    CGBitmapInfo bitmapInfo = CGImageGetBitmapInfo(imageRef);
+    CGImageAlphaInfo alphaInfo = bitmapInfo & kCGBitmapAlphaInfoMask;
+    CGBitmapInfo byteOrderInfo = bitmapInfo & kCGBitmapByteOrderMask;
+    BOOL hasAlpha = !(alphaInfo == kCGImageAlphaNone ||
+                      alphaInfo == kCGImageAlphaNoneSkipFirst ||
+                      alphaInfo == kCGImageAlphaNoneSkipLast);
+    BOOL byteOrderNormal = NO;
+    switch (byteOrderInfo) {
+        case kCGBitmapByteOrderDefault: {
+            byteOrderNormal = YES;
+        } break;
+        case kCGBitmapByteOrder32Little: {
+        } break;
+        case kCGBitmapByteOrder32Big: {
+            byteOrderNormal = YES;
+        } break;
+        default: break;
+    }
+    // If we can not get bitmap buffer, early return
     CGDataProviderRef dataProvider = CGImageGetDataProvider(imageRef);
     if (!dataProvider) {
         return nil;
     }
     CFDataRef dataRef = CGDataProviderCopyData(dataProvider);
-    uint8_t *rgba = (uint8_t *)CFDataGetBytePtr(dataRef);
+    if (!dataRef) {
+        return nil;
+    }
     
-    uint8_t *data = NULL;
-    float quality = 100.0;
-    size_t size = WebPEncodeRGBA(rgba, (int)width, (int)height, (int)bytesPerRow, quality, &data);
-    CFRelease(dataRef);
-    rgba = NULL;
+    uint8_t *rgba = NULL;
+    // We could not assume that input CGImage's color mode is always RGB888/RGBA8888. Convert all other cases to target color mode using vImage
+    if (byteOrderNormal && ((alphaInfo == kCGImageAlphaNone) || (alphaInfo == kCGImageAlphaLast))) {
+        // If the input CGImage is already RGB888/RGBA8888
+        rgba = (uint8_t *)CFDataGetBytePtr(dataRef);
+    } else {
+        // Convert all other cases to target color mode using vImage
+        vImageConverterRef convertor = NULL;
+        vImage_Error error = kvImageNoError;
+        
+        vImage_CGImageFormat srcFormat = {
+            .bitsPerComponent = (uint32_t)CGImageGetBitsPerComponent(imageRef),
+            .bitsPerPixel = (uint32_t)CGImageGetBitsPerPixel(imageRef),
+            .colorSpace = CGImageGetColorSpace(imageRef),
+            .bitmapInfo = bitmapInfo
+        };
+        vImage_CGImageFormat destFormat = {
+            .bitsPerComponent = 8,
+            .bitsPerPixel = hasAlpha ? 32 : 24,
+            .colorSpace = SDCGColorSpaceGetDeviceRGB(),
+            .bitmapInfo = hasAlpha ? kCGImageAlphaLast | kCGBitmapByteOrderDefault : kCGImageAlphaNone | kCGBitmapByteOrderDefault // RGB888/RGBA8888 (Non-premultiplied to works for libwebp)
+        };
+        
+        convertor = vImageConverter_CreateWithCGImageFormat(&srcFormat, &destFormat, NULL, kvImageNoFlags, &error);
+        if (error != kvImageNoError) {
+            CFRelease(dataRef);
+            return nil;
+        }
+        
+        vImage_Buffer src = {
+            .data = (uint8_t *)CFDataGetBytePtr(dataRef),
+            .width = width,
+            .height = height,
+            .rowBytes = bytesPerRow
+        };
+        vImage_Buffer dest;
+        
+        error = vImageBuffer_Init(&dest, height, width, destFormat.bitsPerPixel, kvImageNoFlags);
+        if (error != kvImageNoError) {
+            CFRelease(dataRef);
+            return nil;
+        }
+        
+        // Convert input color mode to RGB888/RGBA8888
+        error = vImageConvert_AnyToAny(convertor, &src, &dest, NULL, kvImageNoFlags);
+        if (error != kvImageNoError) {
+            CFRelease(dataRef);
+            return nil;
+        }
+        
+        rgba = dest.data; // Converted buffer
+        bytesPerRow = dest.rowBytes; // Converted bytePerRow
+        CFRelease(dataRef);
+        dataRef = NULL;
+    }
+    
+    uint8_t *data = NULL; // Output WebP data
+    float qualityFactor = 100; // WebP quality is 0-100
+    // Encode RGB888/RGBA8888 buffer to WebP data
+    size_t size;
+    if (hasAlpha) {
+        size = WebPEncodeRGBA(rgba, (int)width, (int)height, (int)bytesPerRow, qualityFactor, &data);
+    } else {
+        size = WebPEncodeRGB(rgba, (int)width, (int)height, (int)bytesPerRow, qualityFactor, &data);
+    }
+    if (dataRef) {
+        CFRelease(dataRef); // free non-converted rgba buffer
+        dataRef = NULL;
+    } else {
+        free(rgba); // free converted rgba buffer
+        rgba = NULL;
+    }
     
     if (size) {
         // success

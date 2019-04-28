@@ -9,6 +9,6 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-@interface UIImageView(URL) 
+@interface UIImageView(YYURL) 
 - (void)YYSetImageWithUrl:(NSString *_Nullable)url placeholder:(UIImage *)placeholder circleImage:(BOOL)circleImage completed:(nullable SDExternalCompletionBlock)completedBlock;
 @end

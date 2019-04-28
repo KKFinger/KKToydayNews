@@ -8,7 +8,7 @@
 
 #import "UIImageView+URL.h"
 
-@implementation UIImageView(URL)
+@implementation UIImageView(YYURL)
 
 - (void)YYSetImageWithUrl:(NSString *)url placeholder:(UIImage *)placeholder circleImage:(BOOL)circleImage completed:(YYWebImageCompletionBlock)completedBlock{
     if(!url.length){
