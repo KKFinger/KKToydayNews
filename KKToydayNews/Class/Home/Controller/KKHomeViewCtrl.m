@@ -25,11 +25,8 @@
 @property(nonatomic,strong)KKNavTitleView *navTitleView;
 @property(nonatomic,strong)KKSectionTopBarView *sectionBarView;
 @property(nonatomic,copy)NSString *preSelCatagory;
-
 @property(nonatomic)NSMutableArray<KKBaseSummaryView *> *viewArray;
-
 @property(nonatomic,assign)CGFloat offsetX ;
-
 @end
 
 @implementation KKHomeViewCtrl
@@ -37,6 +34,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupUI];
+    [self setupNewsCatagorys];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -90,7 +88,11 @@
         make.top.mas_equalTo(self.sectionBarView.mas_bottom);
         make.left.right.bottom.mas_equalTo(self.view);
     }];
-    
+}
+
+#pragma mark -- 初始化新闻频道
+
+- (void)setupNewsCatagorys{
     [[KKHomeSectionManager shareInstance]fetchFavSectionWithComplete:^(NSArray<KKSectionItem *> *array) {
         if(!array.count){
             return  ;
@@ -100,7 +102,7 @@
             [view removeFromSuperview];
         }
         [self.viewArray removeAllObjects];
-
+        
         for(UIView *view in self.contentView.subviews){
             if([view isKindOfClass:[KKBaseSummaryView class]]){
                 [(KKBaseSummaryView *)view stopVideoIfNeed];
