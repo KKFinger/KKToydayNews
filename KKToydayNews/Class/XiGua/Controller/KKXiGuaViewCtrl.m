@@ -25,6 +25,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupUI];
+    [self setupNewsCatagorys];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -73,7 +74,11 @@
         make.top.mas_equalTo(self.sectionBarView.mas_bottom);
         make.left.right.bottom.mas_equalTo(self.view);
     }];
-    
+}
+
+#pragma mark -- 初始化新闻频道
+
+- (void)setupNewsCatagorys{
     [[KKXiGuaSectionManager shareInstance]fetchSectionWithComplete:^(NSArray<KKSectionItem *> *array) {
         NSInteger index = 0 ;
         for(KKSectionItem * item in array){
@@ -95,7 +100,6 @@
         self.sectionBarView.curtSelCatagory = @"video";//默认，对应推荐标签
         
         [self refreshData];
-        
     }];
 }
 

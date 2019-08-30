@@ -221,6 +221,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0EB333B5228D0FE400BAAA75 /* KKNetWorkConstant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KKNetWorkConstant.h; sourceTree = "<group>"; };
 		0ECC1ABB20AABCC000F0A3B6 /* UIImageView+URL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+URL.m"; sourceTree = "<group>"; };
 		0ECC1ABC20AABCC000F0A3B6 /* UIImageView+URL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+URL.h"; sourceTree = "<group>"; };
 		0ECC1ABE20AABE5000F0A3B6 /* UIImageView+YYURL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+YYURL.m"; sourceTree = "<group>"; };
@@ -1149,10 +1150,10 @@
 				14645BCD1FE35E89007E06B3 /* KKMiddleCorverCell.m */,
 				14645BCE1FE35E89007E06B3 /* KKNewsCommonCell.h */,
 				14645BCF1FE35E89007E06B3 /* KKNewsCommonCell.m */,
-				14645BD01FE35E89007E06B3 /* KKPictureCell.h */,
-				14645BD11FE35E89007E06B3 /* KKPictureCell.m */,
 				14645BD21FE35E89007E06B3 /* KKSmallCorverCell.h */,
 				14645BD31FE35E89007E06B3 /* KKSmallCorverCell.m */,
+				14645BD01FE35E89007E06B3 /* KKPictureCell.h */,
+				14645BD11FE35E89007E06B3 /* KKPictureCell.m */,
 				14645BD41FE35E89007E06B3 /* KKTextImageCell.h */,
 				14645BD51FE35E89007E06B3 /* KKTextImageCell.m */,
 				14645BD61FE35E89007E06B3 /* KKVideoCell.h */,
@@ -1749,6 +1750,7 @@
 				5197BE6A1F374AE000E67828 /* KKCommonDef.h */,
 				142911F61F39501A00658E87 /* KKCommonVariable.h */,
 				1482DA181F70C62C00F98599 /* KKTestData.h */,
+				0EB333B5228D0FE400BAAA75 /* KKNetWorkConstant.h */,
 			);
 			path = SupportFile;
 			sourceTree = "<group>";
@@ -2247,7 +2249,7 @@
 				TargetAttributes = {
 					51DFEE581F370E3700339C7B = {
 						CreatedOnToolsVersion = 8.3;
-						DevelopmentTeam = 8X732W9RQ2;
+						DevelopmentTeam = MGYGD4CE23;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.ApplePay = {
@@ -2271,6 +2273,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -2669,7 +2672,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 8X732W9RQ2;
+				DEVELOPMENT_TEAM = MGYGD4CE23;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/KKToydayNews/Class/Utils/KKThirdTools/KKThirdLibrary/TencentOpenApi",
@@ -2759,7 +2762,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 8X732W9RQ2;
+				DEVELOPMENT_TEAM = MGYGD4CE23;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/KKToydayNews/Class/Utils/KKThirdTools/KKThirdLibrary/TencentOpenApi",
